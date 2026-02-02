@@ -42,7 +42,7 @@ collections:
       - label: "👤 作者"
         name: "author"
         widget: "string"
-        default: "张工程师"
+        default: "小欧Jacory"
         required: true
         
       - label: "🏷️ 分类"
