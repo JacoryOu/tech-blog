@@ -1,7 +1,7 @@
 ---
 title: "OpenClaw：你的个人 AI 助手框架"
 date: 2026-02-02T18:00:00.000Z
-author: "张工程师"
+author: "小欧Jacory"
 category: "AI"
 tags: ["OpenClaw", "AI", "自动化", "工具"]
 readTime: 5
