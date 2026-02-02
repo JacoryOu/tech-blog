@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我 - TechBlog</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">&lt;/&gt;</span>
+                <span class="logo-text">TechBlog</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">首页</a></li>
+                <li><a href="posts.html" class="nav-link">文章</a></li>
+                <li><a href="about.html" class="nav-link active">关于</a></li>
+                <li><a href="contact.html" class="nav-link">联系</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面标题 -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">关于我</h1>
+            <p class="page-description">一个热爱技术的开发者，记录学习与成长</p>
+        </div>
+    </header>
+
+    <!-- 关于内容 -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="about-avatar">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop" alt="头像">
+            </div>
+            
+            <div class="about-content">
+                <p>
+                    你好！我是一名全栈开发工程师，热爱探索新技术，享受用代码解决问题的过程。
+                    这个博客是我记录技术心得、分享开发经验的地方。
+                </p>
+                
+                <p>
+                    从事软件开发工作多年，主要专注于 Web 前端开发、Node.js 后端开发以及云原生技术。
+                    我相信持续学习和分享是技术成长的最佳途径。
+                </p>
+                
+                <p>
+                    除了编程，我还喜欢阅读技术书籍、参与开源项目、撰写技术博客。
+                    希望这里的内容能对你有所帮助，也欢迎与我交流讨论！
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技能展示 -->
+    <section class="tech-stack-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">技术栈</h2>
+                <p class="section-subtitle">我使用的技术和工具</p>
+            </div>
+            
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fab fa-js"></i>
+                    </div>
+                    <h3>JavaScript/TypeScript</h3>
+                    <p>ES6+, 类型安全, 异步编程</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fab fa-react"></i>
+                    </div>
+                    <h3>React 生态系统</h3>
+                    <p>React, Next.js, Redux, Hooks</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fab fa-node-js"></i>
+                    </div>
+                    <h3>Node.js 后端</h3>
+                    <p>Express, NestJS, GraphQL</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fab fa-docker"></i>
+                    </div>
+                    <h3>云原生</h3>
+                    <p>Docker, Kubernetes, AWS</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 时间线 -->
+    <section class="featured-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">我的旅程</h2>
+                <p class="section-subtitle">技术成长的时间线</p>
+            </div>
+            
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div style="border-left: 2px solid var(--primary); padding-left: 2rem; position: relative;">
+                    <div style="margin-bottom: 2rem; position: relative;">
+                        <div style="position: absolute; left: -2.4rem; width: 12px; height: 12px; background: var(--primary); border-radius: 50%;"></div>
+                        <span style="color: var(--primary); font-weight: 600;">2024</span>
+                        <h3 style="margin: 0.5rem 0;">专注于 AI 应用开发</h3>
+                        <p style="color: var(--text-secondary);">探索 LLM 应用开发，将 AI 能力集成到实际项目中</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem; position: relative;">
+                        <div style="position: absolute; left: -2.4rem; width: 12px; height: 12px; background: var(--primary); border-radius: 50%;"></div>
+                        <span style="color: var(--primary); font-weight: 600;">2022</span>
+                        <h3 style="margin: 0.5rem 0;">全栈转型</h3>
+                        <p style="color: var(--text-secondary);">深入学习后端开发和云原生技术，成为全栈工程师</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem; position: relative;">
+                        <div style="position: absolute; left: -2.4rem; width: 12px; height: 12px; background: var(--primary); border-radius: 50%;"></div>
+                        <span style="color: var(--primary); font-weight: 600;">2020</span>
+                        <h3 style="margin: 0.5rem 0;">前端深耕</h3>
+                        <p style="color: var(--text-secondary);">专注 React 生态系统，参与多个大型前端项目开发</p>
+                    </div>
+                    
+                    <div style="position: relative;">
+                        <div style="position: absolute; left: -2.4rem; width: 12px; height: 12px; background: var(--primary); border-radius: 50%;"></div>
+                        <span style="color: var(--primary); font-weight: 600;">2018</span>
+                        <h3 style="margin: 0.5rem 0;">编程起步</h3>
+                        <p style="color: var(--text-secondary);">大学期间开始自学编程，开启技术探索之旅</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">&lt;/&gt;</span>
+                        <span class="logo-text">TechBlog</span>
+                    </a>
+                    <p class="footer-description">
+                        记录技术成长的每一步，分享编程的乐趣与思考。
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fas fa-rss"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="posts.html">文章</a></li>
+                        <li><a href="about.html">关于</a></li>
+                        <li><a href="contact.html">联系</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>技术标签</h4>
+                    <ul>
+                        <li><a href="#">React</a></li>
+                        <li><a href="#">TypeScript</a></li>
+                        <li><a href="#">Node.js</a></li>
+                        <li><a href="#">云原生</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechBlog. All rights reserved.</p>
+                <p>Made with <i class="fas fa-heart"></i> and lots of <i class="fas fa-coffee"></i></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章列表 - TechBlog</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-logo"><span class="logo-icon">&lt;/&gt;</span><span class="logo-text">TechBlog</span></a>
+            <ul class="nav-menu">
+                <li><a href="/index.html" class="nav-link">首页</a></li>
+                <li><a href="/posts.html" class="nav-link active">文章</a></li>
+                <li><a href="/about.html" class="nav-link">关于</a></li>
+                <li><a href="/contact.html" class="nav-link">联系</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">所有文章</h1>
+            <p class="page-description">共 1 篇技术文章</p>
+        </div>
+    </header>
+
+    <section class="featured-section">
+        <div class="container">
+            <div class="featured-grid">
+                <article class="post-card">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=400&fit=crop" alt="欢迎使用 TechBlog">
+                        <div class="post-overlay">
+                            <span class="read-time"><i class="far fa-clock"></i> 3 分钟</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-tags"><span class="tag">博客</span><span class="tag">教程</span></div>
+                        <h3 class="post-title"><a href="/posts/2026-02-02-welcome.html">欢迎使用 TechBlog</a></h3>
+                        <p class="post-excerpt">这是一篇示例文章，展示了 TechBlog 的所有功能特性。</p>
+                        <div class="post-meta">
+                            <div class="author">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="作者" class="author-avatar">
+                                <span class="author-name">张工程师</span>
+                            </div>
+                            <span class="post-date">2026/2/2</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 TechBlog. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

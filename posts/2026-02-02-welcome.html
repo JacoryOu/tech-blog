@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢迎使用 TechBlog - TechBlog</title>
+    <meta name="description" content="这是一篇示例文章，展示了 TechBlog 的所有功能特性。">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="nav-logo">
+                <span class="logo-icon">&lt;/&gt;</span>
+                <span class="logo-text">TechBlog</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="/index.html" class="nav-link">首页</a></li>
+                <li><a href="/posts.html" class="nav-link">文章</a></li>
+                <li><a href="/about.html" class="nav-link">关于</a></li>
+                <li><a href="/contact.html" class="nav-link">联系</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <article>
+        <header class="article-header">
+            <div class="container">
+                <div class="article-meta">
+                    <div class="post-tags"><span class="tag">博客</span><span class="tag">教程</span></div>
+                    <span class="read-time"><i class="far fa-clock"></i> 3 分钟阅读</span>
+                </div>
+                <h1 class="article-title">欢迎使用 TechBlog</h1>
+                <div class="post-meta" style="justify-content: flex-start; gap: 2rem;">
+                    <div class="author">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="作者" class="author-avatar">
+                        <div>
+                            <span class="author-name">张工程师</span><br>
+                            <span style="font-size: 0.875rem; color: var(--text-muted);">前端开发工程师</span>
+                        </div>
+                    </div>
+                    <span class="post-date">2026/2/2 · 阅读量 2216</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+        </div>
+
+        <div class="article-content">
+            <h1>欢迎来到 TechBlog</h1>
+<p>这是一个基于 <strong>Decap CMS</strong> + <strong>Markdown</strong> 的技术博客系统。</p>
+<h2>特性</h2>
+<ul>
+<li>📝 使用 Markdown 编写文章</li>
+<li>🎨 精美的响应式设计</li>
+<li>🌓 支持暗黑/亮色模式</li>
+<li>🔍 代码高亮显示</li>
+<li>📱 完美适配移动端</li>
+</ul>
+<h2>开始使用</h2>
+<ol>
+<li>访问 &quot;/admin&quot; 进入管理后台</li>
+<li>点击 &quot;New Post&quot; 创建新文章</li>
+<li>填写文章信息并保存</li>
+<li>运行 `npm run build` 生成静态页面</li>
+</ol>
+<h2>代码示例</h2>
+<pre><code class="language-javascript">function hello() {
+  console.log(&#39;Hello, TechBlog!&#39;);
+}
+</code></pre>
+<p>祝你写作愉快！</p>
+
+        </div>
+    </article>
+
+    <!-- 分享区域 -->
+    <section style="background: var(--bg-secondary); padding: 3rem 0;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h3>喜欢这篇文章？</h3>
+                    <p style="color: var(--text-secondary);">分享给更多开发者</p>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-secondary"><i class="fab fa-twitter"></i><span>Twitter</span></button>
+                    <button class="btn btn-secondary"><i class="fab fa-weixin"></i><span>微信</span></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 相关文章占位 -->
+    <section class="featured-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">更多文章</h2>
+            </div>
+            <div class="section-footer">
+                <a href="/posts.html" class="btn btn-outline"><span>查看全部文章</span><i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 TechBlog. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

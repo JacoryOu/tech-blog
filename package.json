@@ -1,0 +1,22 @@
+{
+  "name": "tech-blog-builder",
+  "version": "1.0.0",
+  "description": "TechBlog static site builder",
+  "main": "scripts/build.js",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "build:github": "node scripts/build-github.js",
+    "dev": "node scripts/dev.js",
+    "serve": "python3 -m http.server 8080",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d ."
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "marked": "^9.1.6",
+    "chokidar": "^3.5.3"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.1.1"
+  }
+}

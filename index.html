@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechBlog - 技术博客</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">&lt;/&gt;</span>
+                <span class="logo-text">TechBlog</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link active">首页</a></li>
+                <li><a href="posts.html" class="nav-link">文章</a></li>
+                <li><a href="about.html" class="nav-link">关于</a></li>
+                <li><a href="contact.html" class="nav-link">联系</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <header class="hero">
+        <div class="hero-background">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                <span>探索技术的无限可能</span>
+            </div>
+            <h1 class="hero-title">
+                分享代码与<br>
+                <span class="gradient-text">创意的世界</span>
+            </h1>
+            <p class="hero-description">
+                在这里，我记录技术探索的足迹，分享编程心得与开发经验。
+                从前端到后端，从架构到算法，与你一同成长。
+            </p>
+            <div class="hero-actions">
+                <a href="posts.html" class="btn btn-primary">
+                    <span>浏览文章</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="about.html" class="btn btn-secondary">
+                    <span>了解更多</span>
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">技术文章</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">10k+</span>
+                    <span class="stat-label">月度阅读</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">3年</span>
+                    <span class="stat-label">持续更新</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span>向下滚动</span>
+        </div>
+    </header>
+
+    <!-- 精选文章 -->
+    <section class="featured-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">精选文章</h2>
+                <p class="section-subtitle">深入探索技术的核心话题</p>
+            </div>
+            
+            <div class="featured-grid">
+                <!-- 文章卡片 1 -->
+                <article class="post-card featured">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=400&fit=crop" alt="React">
+                        <div class="post-overlay">
+                            <span class="read-time"><i class="far fa-clock"></i> 8 分钟</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-tags">
+                            <span class="tag tag-react">React</span>
+                            <span class="tag tag-frontend">前端</span>
+                        </div>
+                        <h3 class="post-title">
+                            <a href="post.html">深入理解 React 18 的并发特性</a>
+                        </h3>
+                        <p class="post-excerpt">
+                            探索 React 18 带来的革命性变化，了解并发渲染、自动批处理等新特性如何提升应用性能...
+                        </p>
+                        <div class="post-meta">
+                            <div class="author">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="作者" class="author-avatar">
+                                <span class="author-name">张工程师</span>
+                            </div>
+                            <span class="post-date">2024年1月15日</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 文章卡片 2 -->
+                <article class="post-card">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop" alt="代码">
+                        <div class="post-overlay">
+                            <span class="read-time"><i class="far fa-clock"></i> 12 分钟</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-tags">
+                            <span class="tag tag-typescript">TypeScript</span>
+                            <span class="tag tag-backend">后端</span>
+                        </div>
+                        <h3 class="post-title">
+                            <a href="post.html">TypeScript 高级类型体操指南</a>
+                        </h3>
+                        <p class="post-excerpt">
+                            从基础到进阶，全面掌握 TypeScript 类型系统的强大能力...
+                        </p>
+                        <div class="post-meta">
+                            <div class="author">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="作者" class="author-avatar">
+                                <span class="author-name">张工程师</span>
+                            </div>
+                            <span class="post-date">2024年1月10日</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 文章卡片 3 -->
+                <article class="post-card">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=800&h=400&fit=crop" alt="AI">
+                        <div class="post-overlay">
+                            <span class="read-time"><i class="far fa-clock"></i> 6 分钟</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-tags">
+                            <span class="tag tag-ai">AI</span>
+                            <span class="tag tag-tools">工具</span>
+                        </div>
+                        <h3 class="post-title">
+                            <a href="post.html">AI 辅助编程：提升效率的实用技巧</a>
+                        </h3>
+                        <p class="post-excerpt">
+                            如何有效利用 AI 工具提升开发效率，避免常见陷阱...
+                        </p>
+                        <div class="post-meta">
+                            <div class="author">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="作者" class="author-avatar">
+                                <span class="author-name">张工程师</span>
+                            </div>
+                            <span class="post-date">2024年1月8日</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 文章卡片 4 -->
+                <article class="post-card">
+                    <div class="post-image">
+                        <img src="https://images.unsplash.com/photo-1605379399642-870262d3d051?w=800&h=400&fit=crop" alt="架构">
+                        <div class="post-overlay">
+                            <span class="read-time"><i class="far fa-clock"></i> 15 分钟</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-tags">
+                            <span class="tag tag-architecture">架构</span>
+                            <span class="tag tag-microservices">微服务</span>
+                        </div>
+                        <h3 class="post-title">
+                            <a href="post.html">微服务架构设计模式与实践</a>
+                        </h3>
+                        <p class="post-excerpt">
+                            深入探讨微服务架构的核心模式，包括服务发现、负载均衡、熔断降级等...
+                        </p>
+                        <div class="post-meta">
+                            <div class="author">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="作者" class="author-avatar">
+                                <span class="author-name">张工程师</span>
+                            </div>
+                            <span class="post-date">2024年1月5日</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="section-footer">
+                <a href="posts.html" class="btn btn-outline">
+                    <span>查看全部文章</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技术栈展示 -->
+    <section class="tech-stack-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">技术领域</h2>
+                <p class="section-subtitle">涵盖全栈开发的各个方向</p>
+            </div>
+            
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fab fa-react"></i>
+                    </div>
+                    <h3>前端开发</h3>
+                    <p>React, Vue, TypeScript, 现代 CSS</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fab fa-node-js"></i>
+                    </div>
+                    <h3>后端开发</h3>
+                    <p>Node.js, Python, Go, 数据库设计</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3>云原生</h3>
+                    <p>Docker, Kubernetes, CI/CD</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>人工智能</h3>
+                    <p>机器学习, LLM, AI 应用开发</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 订阅区域 -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="newsletter-card">
+                <div class="newsletter-content">
+                    <h2>订阅更新</h2>
+                    <p>每周精选技术文章，直接送达你的邮箱</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="输入你的邮箱地址" required>
+                        <button type="submit" class="btn btn-primary">
+                            <span>订阅</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                    <p class="newsletter-note">无垃圾邮件，随时退订</p>
+                </div>
+                <div class="newsletter-decoration">
+                    <i class="fas fa-envelope-open-text"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-icon">&lt;/&gt;</span>
+                        <span class="logo-text">TechBlog</span>
+                    </a>
+                    <p class="footer-description">
+                        记录技术成长的每一步，分享编程的乐趣与思考。
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fas fa-rss"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="posts.html">文章</a></li>
+                        <li><a href="about.html">关于</a></li>
+                        <li><a href="contact.html">联系</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>技术标签</h4>
+                    <ul>
+                        <li><a href="#">React</a></li>
+                        <li><a href="#">TypeScript</a></li>
+                        <li><a href="#">Node.js</a></li>
+                        <li><a href="#">云原生</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechBlog. All rights reserved.</p>
+                <p>Made with <i class="fas fa-heart"></i> and lots of <i class="fas fa-coffee"></i></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
