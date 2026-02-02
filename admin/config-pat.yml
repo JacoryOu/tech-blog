@@ -1,0 +1,47 @@
+# ⚠️ 注意：此方案仅适合个人使用
+# 将 TOKEN 暴露在客户端有安全风险，建议仅用于私有仓库或个人博客
+
+backend:
+  name: github
+  repo: yourusername/your-blog-repo
+  branch: main
+  
+  # 使用个人访问令牌（PAT）
+  # 生成方式：GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
+  # 权限需要：repo（访问仓库）
+  # 
+  # ⚠️ 警告：这种方式 token 会暴露在浏览器中
+  # 更好的方式是用 OAuth 代理（方案 A/B）
+
+# 实际使用时，通过 JS 动态设置 token
+# 或者使用 local_backend 模式本地写作
+
+# 生产环境建议使用以下方式之一：
+# 1. 方案 A：自建 Cloudflare Worker OAuth 代理
+# 2. 方案 B：使用 Static CMS 托管代理
+# 3. 切换到 Netlify（原生支持 git-gateway）
+
+media_folder: "content/images"
+public_folder: "/content/images"
+
+site_url: https://your-blog.pages.dev
+
+collections:
+  - name: "posts"
+    label: "📄 文章"
+    folder: "content/posts"
+    create: true
+    delete: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    
+    fields:
+      - {label: "📝 标题", name: "title", widget: "string", required: true}
+      - {label: "📅 发布日期", name: "date", widget: "datetime", format: "YYYY-MM-DD HH:mm:ss"}
+      - {label: "👤 作者", name: "author", widget: "string", default: "张工程师"}
+      - {label: "🏷️ 分类", name: "category", widget: "select", options: ["React", "TypeScript", "Node.js", "AI", "架构", "前端", "后端", "云原生", "工具"]}
+      - {label: "🔖 标签", name: "tags", widget: "list", allow_add: true}
+      - {label: "⏱️ 阅读时间", name: "readTime", widget: "number", default: 5}
+      - {label: "🖼️ 封面", name: "cover", widget: "image", required: false}
+      - {label: "📋 摘要", name: "excerpt", widget: "text"}
+      - {label: "✨ 特色", name: "featured", widget: "boolean", default: false}
+      - {label: "✍️ 内容", name: "body", widget: "markdown"}

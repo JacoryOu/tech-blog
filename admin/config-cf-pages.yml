@@ -1,0 +1,44 @@
+backend:
+  name: github
+  repo: yourusername/your-blog-repo    # 替换为你的仓库
+  branch: main
+  
+  # 使用 Static CMS 的公共 OAuth 代理（开源项目提供）
+  # 或者使用你自己的 Worker 地址
+  base_url: https://static-cms-oauth.vercel.app
+  
+  # 如需认证更严格，使用以下之一：
+  # base_url: https://decap-oauth-proxy.vercel.app
+  # base_url: https://oauth.netlify.app
+
+# 本地开发模式
+local_backend:
+  url: http://localhost:8080/api/v1
+
+# 媒体配置
+media_folder: "content/images"
+public_folder: "/content/images"
+
+# 网站
+site_url: https://your-blog.pages.dev
+
+# 文章配置
+collections:
+  - name: "posts"
+    label: "📄 文章"
+    folder: "content/posts"
+    create: true
+    delete: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    
+    fields:
+      - {label: "📝 标题", name: "title", widget: "string", required: true}
+      - {label: "📅 发布日期", name: "date", widget: "datetime", format: "YYYY-MM-DD HH:mm:ss"}
+      - {label: "👤 作者", name: "author", widget: "string", default: "张工程师"}
+      - {label: "🏷️ 分类", name: "category", widget: "select", options: ["React", "TypeScript", "Node.js", "AI", "架构", "前端", "后端", "云原生", "工具"]}
+      - {label: "🔖 标签", name: "tags", widget: "list", allow_add: true}
+      - {label: "⏱️ 阅读时间", name: "readTime", widget: "number", default: 5}
+      - {label: "🖼️ 封面", name: "cover", widget: "image", required: false}
+      - {label: "📋 摘要", name: "excerpt", widget: "text"}
+      - {label: "✨ 特色", name: "featured", widget: "boolean", default: false}
+      - {label: "✍️ 内容", name: "body", widget: "markdown"}

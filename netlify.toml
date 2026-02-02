@@ -1,0 +1,39 @@
+# Netlify 部署配置
+
+# 构建设置
+[build]
+  command = "npm run build:github"
+  publish = "."
+
+# 环境变量
+[build.environment]
+  NODE_VERSION = "18"
+
+# 重定向规则
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+# 缓存控制
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+# 开启 Git LFS（用于大文件）
+[build.processing]
+  skip_processing = false
+[build.processing.css]
+  bundle = true
+  minify = true
+[build.processing.js]
+  bundle = true
+  minify = true
+[build.processing.images]
+  compress = true

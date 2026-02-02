@@ -1,0 +1,104 @@
+backend:
+  name: git-gateway
+  repo: yourusername/your-blog-repo    # 替换为你的 GitHub 仓库
+  branch: main
+
+# 可选：本地开发模式
+# local_backend: true
+
+# 媒体文件配置
+media_folder: "content/images"
+public_folder: "/content/images"
+
+# 网站设置
+site_url: https://your-blog.netlify.app
+display_url: https://your-blog.netlify.app
+
+# 文章集合
+collections:
+  - name: "posts"
+    label: "📄 文章"
+    label_singular: "文章"
+    folder: "content/posts"
+    create: true
+    delete: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "posts/{{slug}}"
+    
+    editor:
+      preview: true
+    
+    fields:
+      - label: "📝 标题"
+        name: "title"
+        widget: "string"
+        required: true
+        
+      - label: "📅 发布日期"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD HH:mm:ss"
+        date_format: "YYYY-MM-DD"
+        time_format: "HH:mm:ss"
+        default: "{{now}}"
+        required: true
+        
+      - label: "👤 作者"
+        name: "author"
+        widget: "string"
+        default: "张工程师"
+        required: true
+        
+      - label: "🏷️ 分类"
+        name: "category"
+        widget: "select"
+        options: ["React", "TypeScript", "Node.js", "AI", "架构", "前端", "后端", "云原生", "工具"]
+        default: "前端"
+        required: true
+        
+      - label: "🔖 标签"
+        name: "tags"
+        widget: "list"
+        allow_add: true
+        default: []
+        
+      - label: "⏱️ 阅读时间（分钟）"
+        name: "readTime"
+        widget: "number"
+        default: 5
+        min: 1
+        max: 60
+        
+      - label: "🖼️ 封面图片"
+        name: "cover"
+        widget: "image"
+        required: false
+        allow_multiple: false
+        
+      - label: "📋 摘要"
+        name: "excerpt"
+        widget: "text"
+        required: true
+        
+      - label: "✨ 特色文章"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "是否在首页精选区域显示"
+        
+      - label: "✍️ 内容"
+        name: "body"
+        widget: "markdown"
+        required: true
+        buttons:
+          - bold
+          - italic
+          - code
+          - link
+          - heading-one
+          - heading-two
+          - heading-three
+          - quote
+          - bulleted-list
+          - numbered-list
+          - image

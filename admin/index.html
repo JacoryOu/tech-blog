@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>TechBlog 内容管理</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    /* 自定义 CMS 样式 */
+    [class*="SidebarContainer"] {
+      background: linear-gradient(180deg, #6366f1 0%, #4f46e5 100%) !important;
+    }
+    [class*="SidebarHeading"] {
+      color: white !important;
+    }
+    [class*="NavLink"] {
+      color: rgba(255,255,255,0.8) !important;
+    }
+    [class*="NavLink"]:hover,
+    [class*="NavLinkActive"] {
+      color: white !important;
+      background: rgba(255,255,255,0.1) !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  
+  <!-- 自定义预览样式 -->
+  <script>
+    CMS.registerPreviewStyle("/css/style.css");
+    
+    // 自定义文章预览
+    var PostPreview = createClass({
+      render: function() {
+        var entry = this.props.entry;
+        var title = entry.getIn(['data', 'title']);
+        var date = entry.getIn(['data', 'date']);
+        var author = entry.getIn(['data', 'author']);
+        var cover = entry.getIn(['data', 'cover']);
+        var body = entry.getIn(['data', 'body']);
+        
+        return h('article', {className: 'article-content'},
+          cover && h('img', {src: cover, style: {width: '100%', borderRadius: '12px', marginBottom: '2rem'}}),
+          h('h1', {style: {fontSize: '2.5rem', marginBottom: '1rem'}}, title),
+          h('div', {style: {color: '#64748b', marginBottom: '2rem'}},
+            h('span', {}, date ? new Date(date).toLocaleDateString('zh-CN') : ''),
+            ' · ',
+            h('span', {}, author)
+          ),
+          h('div', {className: 'content', dangerouslySetInnerHTML: {__html: this.props.widgetFor('body')}})
+        );
+      }
+    });
+    
+    CMS.registerPreviewTemplate("posts", PostPreview);
+  </script>
+</body>
+</html>
