@@ -86,15 +86,3 @@ collections:
         name: "body"
         widget: "markdown"
         required: true
-        buttons:
-          - bold
-          - italic
-          - code
-          - link
-          - heading-one
-          - heading-two
-          - heading-three
-          - quote
-          - bulleted-list
-          - numbered-list
-          - image
