@@ -45,6 +45,13 @@ collections:
         default: "小欧Jacory"
         required: true
         
+      - label: "🧑 作者头像"
+        name: "authorAvatar"
+        widget: "image"
+        required: false
+        allow_multiple: false
+        hint: "上传你的头像，不填则使用默认头像"
+        
       - label: "🏷️ 分类"
         name: "category"
         widget: "select"
