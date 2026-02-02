@@ -1,18 +1,14 @@
 backend:
   name: git-gateway
-  repo: yourusername/your-blog-repo    # 替换为你的 GitHub 仓库
   branch: main
-
-# 可选：本地开发模式
-# local_backend: true
 
 # 媒体文件配置
 media_folder: "content/images"
 public_folder: "/content/images"
 
 # 网站设置
-site_url: https://your-blog.netlify.app
-display_url: https://your-blog.netlify.app
+site_url: https://serene-mochi-6ec644.netlify.app
+display_url: https://serene-mochi-6ec644.netlify.app
 
 # 文章集合
 collections:
