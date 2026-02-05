@@ -96,8 +96,8 @@ def deploy_to_github():
         print(f"❌ git commit 失败: {stderr}")
         return False
     
-    # 推送到远程
-    success, stdout, stderr = run_command("git push origin main", cwd=BLOG_DIR)
+    # 推送到远程（使用当前分支）
+    success, stdout, stderr = run_command("git push origin HEAD", cwd=BLOG_DIR)
     if success:
         print("✅ 成功推送到 GitHub")
         print("🌐 GitHub Pages/Netlify 将自动部署更新")
