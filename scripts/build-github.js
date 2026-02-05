@@ -123,12 +123,31 @@ function generateFooter(depth) {
     </footer>`;
 }
 
+// 默认头像（优先使用本地头像，如果没有则使用网络图片）
+const LOCAL_AVATAR = './images/avatar.png';
+const FALLBACK_AVATAR = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop';
+
+// 检查本地头像是否存在
+function getDefaultAvatar(depth) {
+  const basePath = getBasePath(depth);
+  const localPath = basePath + 'images/avatar.png';
+  // 检查文件是否存在（构建时检查根目录）
+  const absolutePath = path.join(CONFIG.outputDir, 'images', 'avatar.png');
+  if (fs.existsSync(absolutePath)) {
+    return localPath;
+  }
+  return FALLBACK_AVATAR;
+}
+
 // 生成文章 HTML 页面
 function generatePostPage(post, allPosts) {
   const coverHtml = post.cover 
     ? `\n        <div class="container">\n            <div class="article-cover">\n                <img src="${post.cover}" alt="${post.title}">\n            </div>\n        </div>`
     : '';
     
+  const defaultAvatar = getDefaultAvatar(1);
+  const avatarUrl = post.authorAvatar || defaultAvatar;
+  
   const tagsHtml = post.tags && post.tags.length 
     ? post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')
     : `<span class="tag tag-${post.category?.toLowerCase()}">${post.category}</span>`;
@@ -180,7 +199,7 @@ ${generateNav(1)}
                 <h1 class="article-title">${post.title}</h1>
                 <div class="post-meta" style="justify-content: flex-start; gap: 2rem;">
                     <div class="author">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="作者" class="author-avatar">
+                        <img src="${avatarUrl}" alt="${post.author}" class="author-avatar">
                         <div>
                             <span class="author-name">${post.author}</span><br>
                             <span style="font-size: 0.875rem; color: var(--text-muted);">前端开发工程师</span>
@@ -234,6 +253,8 @@ ${generateFooter(1)}
 // 生成文章卡片
 function generatePostCard(post, basePath) {
   const cover = post.cover || 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=400&fit=crop';
+  const defaultAvatar = getDefaultAvatar(0);
+  const avatarUrl = post.authorAvatar || defaultAvatar;
   const tagsHtml = post.tags && post.tags.length 
     ? post.tags.slice(0, 2).map(tag => `<span class="tag">${tag}</span>`).join('')
     : `<span class="tag tag-${post.category?.toLowerCase()}">${post.category}</span>`;
@@ -251,7 +272,7 @@ function generatePostCard(post, basePath) {
                         <p class="post-excerpt">${post.excerpt}</p>
                         <div class="post-meta">
                             <div class="author">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="作者" class="author-avatar">
+                                <img src="${avatarUrl}" alt="${post.author}" class="author-avatar">
                                 <span class="author-name">${post.author}</span>
                             </div>
                             <span class="post-date">${post.dateObj.toLocaleDateString('zh-CN')}</span>

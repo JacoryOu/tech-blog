@@ -1,18 +1,14 @@
 backend:
   name: git-gateway
-  repo: yourusername/your-blog-repo    # 替换为你的 GitHub 仓库
   branch: main
-
-# 可选：本地开发模式
-# local_backend: true
 
 # 媒体文件配置
 media_folder: "content/images"
 public_folder: "/content/images"
 
 # 网站设置
-site_url: https://your-blog.netlify.app
-display_url: https://your-blog.netlify.app
+site_url: https://serene-mochi-6ec644.netlify.app
+display_url: https://serene-mochi-6ec644.netlify.app
 
 # 文章集合
 collections:
@@ -46,8 +42,15 @@ collections:
       - label: "👤 作者"
         name: "author"
         widget: "string"
-        default: "张工程师"
+        default: "小欧Jacory"
         required: true
+        
+      - label: "🧑 作者头像"
+        name: "authorAvatar"
+        widget: "image"
+        required: false
+        allow_multiple: false
+        hint: "上传你的头像，不填则使用默认头像"
         
       - label: "🏷️ 分类"
         name: "category"
@@ -90,15 +93,3 @@ collections:
         name: "body"
         widget: "markdown"
         required: true
-        buttons:
-          - bold
-          - italic
-          - code
-          - link
-          - heading-one
-          - heading-two
-          - heading-three
-          - quote
-          - bulleted-list
-          - numbered-list
-          - image

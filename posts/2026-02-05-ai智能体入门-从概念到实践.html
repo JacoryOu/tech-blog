@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>欢迎使用 TechBlog - TechBlog</title>
-    <meta name="description" content="这是一篇示例文章，展示了 TechBlog 的所有功能特性。">
+    <title>AI智能体入门：从概念到实践 - TechBlog</title>
+    <meta name="description" content="深入理解AI智能体的核心概念，学习如何使用OpenClaw框架构建你的第一个智能助手。">
     <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -34,19 +34,19 @@
         <header class="article-header">
             <div class="container">
                 <div class="article-meta">
-                    <div class="post-tags"><span class="tag">博客</span><span class="tag">教程</span></div>
-                    <span class="read-time"><i class="far fa-clock"></i> 3 分钟阅读</span>
+                    <div class="post-tags"><span class="tag">AI Agents</span><span class="tag">OpenClaw</span><span class="tag">入门</span></div>
+                    <span class="read-time"><i class="far fa-clock"></i> 10 分钟阅读</span>
                 </div>
-                <h1 class="article-title">欢迎使用 TechBlog</h1>
+                <h1 class="article-title">AI智能体入门：从概念到实践</h1>
                 <div class="post-meta" style="justify-content: flex-start; gap: 2rem;">
                     <div class="author">
                         <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="作者" class="author-avatar">
                         <div>
-                            <span class="author-name">张工程师</span><br>
+                            <span class="author-name">TechAI</span><br>
                             <span style="font-size: 0.875rem; color: var(--text-muted);">前端开发工程师</span>
                         </div>
                     </div>
-                    <span class="post-date">2026/2/2 · 阅读量 1864</span>
+                    <span class="post-date">2026/2/6 · 阅读量 1087</span>
                 </div>
             </div>
         </header>
@@ -55,29 +55,71 @@
         </div>
 
         <div class="article-content">
-            <h1>欢迎来到 TechBlog</h1>
-<p>这是一个基于 <strong>Decap CMS</strong> + <strong>Markdown</strong> 的技术博客系统。</p>
-<h2>特性</h2>
+            <h2>什么是AI智能体</h2>
+<p>AI智能体（AI Agent）是一种能够自主感知环境、做出决策并执行行动的AI系统。与传统的单次问答模型不同，智能体可以：</p>
 <ul>
-<li>📝 使用 Markdown 编写文章</li>
-<li>🎨 精美的响应式设计</li>
-<li>🌓 支持暗黑/亮色模式</li>
-<li>🔍 代码高亮显示</li>
-<li>📱 完美适配移动端</li>
+<li><strong>持续运行</strong>：7×24小时不间断工作</li>
+<li><strong>自主决策</strong>：根据环境变化调整策略</li>
+<li><strong>工具调用</strong>：使用外部API和工具完成任务</li>
+<li><strong>记忆管理</strong>：保存和检索历史信息</li>
 </ul>
-<h2>开始使用</h2>
-<ol>
-<li>访问 &quot;/admin&quot; 进入管理后台</li>
-<li>点击 &quot;New Post&quot; 创建新文章</li>
-<li>填写文章信息并保存</li>
-<li>运行 `npm run build` 生成静态页面</li>
-</ol>
-<h2>代码示例</h2>
-<pre><code class="language-javascript">function hello() {
-  console.log(&#39;Hello, TechBlog!&#39;);
-}
+<h2>核心架构</h2>
+<pre><code>感知层 → 思考层 → 行动层 → 记忆层
+  ↓        ↓        ↓        ↓
+输入处理  推理决策  工具执行  知识存储
 </code></pre>
-<p>祝你写作愉快！</p>
+<h2>实操案例：天气查询助手</h2>
+<pre><code class="language-python">import requests
+
+class WeatherAgent:
+    def __init__(self):
+        self.memory = {}
+    
+    def perceive(self, user_input):
+        # 提取城市名称
+        if &quot;天气&quot; in user_input:
+            city = user_input.replace(&quot;天气&quot;, &quot;&quot;).replace(&quot;怎么样&quot;, &quot;&quot;).strip()
+            return {&quot;intent&quot;: &quot;weather&quot;, &quot;city&quot;: city}
+        return {&quot;intent&quot;: &quot;unknown&quot;}
+    
+    def think(self, perception):
+        if perception[&quot;intent&quot;] == &quot;weather&quot;:
+            return {&quot;action&quot;: &quot;fetch_weather&quot;, &quot;params&quot;: perception[&quot;city&quot;]}
+        return {&quot;action&quot;: &quot;ask_clarification&quot;}
+    
+    def act(self, decision):
+        if decision[&quot;action&quot;] == &quot;fetch_weather&quot;:
+            return self.get_weather(decision[&quot;params&quot;])
+        return &quot;请告诉我你想查询哪个城市的天气？&quot;
+    
+    def get_weather(self, city):
+        # 模拟天气API调用
+        return f&quot;{city}今天晴朗，温度25°C，适合出行！&quot;
+
+# 使用示例
+agent = WeatherAgent()
+result = agent.act(agent.think(agent.perceive(&quot;北京天气怎么样？&quot;)))
+print(result)
+</code></pre>
+<h2>进阶：添加记忆功能</h2>
+<pre><code class="language-python">def remember(self, key, value):
+    self.memory[key] = {
+        &quot;value&quot;: value,
+        &quot;timestamp&quot;: datetime.now()
+    }
+
+def recall(self, key):
+    return self.memory.get(key, {}).get(&quot;value&quot;)
+</code></pre>
+<h2>常见问题</h2>
+<p><strong>Q: 智能体和传统程序有什么区别？</strong>
+A: 智能体具备自主性和适应性，能处理不确定性；传统程序是确定性的指令序列。</p>
+<p><strong>Q: 如何评估智能体性能？</strong>
+A: 主要指标包括任务完成率、响应时间、错误恢复能力、用户满意度。</p>
+<h2>总结</h2>
+<p>AI智能体代表了AI应用的新范式。通过合理设计感知-思考-行动-记忆架构，你可以构建出真正有用的智能助手。</p>
+<hr>
+<p><em>本文由AI自动生成，每日更新AI技术教程。如有疑问欢迎留言交流！</em></p>
 
         </div>
     </article>
