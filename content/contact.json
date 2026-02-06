@@ -7,34 +7,24 @@
     {
       "icon": "fas fa-envelope",
       "name": "邮箱",
-      "value": "hello@techblog.com"
+      "value": "oyztjacory@foxmail.com"
     },
     {
       "icon": "fab fa-github",
       "name": "GitHub",
-      "value": "@yourusername"
-    },
-    {
-      "icon": "fab fa-twitter",
-      "name": "Twitter",
-      "value": "@yourusername"
-    },
-    {
-      "icon": "fas fa-map-marker-alt",
-      "name": "位置",
-      "value": "中国 · 远程工作"
+      "value": "https://github.com/JacoryOu"
     }
   ],
   "form": {
     "enabled": true,
-    "nameLabel": "姓名",
-    "namePlaceholder": "你的名字",
-    "emailLabel": "邮箱",
-    "emailPlaceholder": "your@email.com",
-    "subjectLabel": "主题",
+    "submitText": "发送消息",
     "subjectPlaceholder": "消息主题",
-    "messageLabel": "消息",
+    "subjectLabel": "主题",
+    "namePlaceholder": "你的名字",
+    "nameLabel": "姓名",
     "messagePlaceholder": "写下你的消息...",
-    "submitText": "发送消息"
+    "messageLabel": "消息",
+    "emailPlaceholder": "your@email.com",
+    "emailLabel": "邮箱"
   }
 }
