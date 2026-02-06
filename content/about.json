@@ -1,0 +1,62 @@
+{
+  "title": "关于我",
+  "subtitle": "一个热爱技术的开发者，记录学习与成长",
+  "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop",
+  "bio": [
+    "你好！我是一名全栈开发工程师，热爱探索新技术，享受用代码解决问题的过程。这个博客是我记录技术心得、分享开发经验的地方。",
+    "从事软件开发工作多年，主要专注于 Web 前端开发、Node.js 后端开发以及云原生技术。我相信持续学习和分享是技术成长的最佳途径。",
+    "除了编程，我还喜欢阅读技术书籍、参与开源项目、撰写技术博客。希望这里的内容能对你有所帮助，也欢迎与我交流讨论！"
+  ],
+  "techStack": {
+    "title": "技术栈",
+    "subtitle": "我使用的技术和工具",
+    "skills": [
+      {
+        "icon": "fab fa-js",
+        "name": "JavaScript/TypeScript",
+        "description": "ES6+, 类型安全, 异步编程"
+      },
+      {
+        "icon": "fab fa-react",
+        "name": "React 生态系统",
+        "description": "React, Next.js, Redux, Hooks"
+      },
+      {
+        "icon": "fab fa-node-js",
+        "name": "Node.js 后端",
+        "description": "Express, NestJS, GraphQL"
+      },
+      {
+        "icon": "fab fa-docker",
+        "name": "云原生",
+        "description": "Docker, Kubernetes, AWS"
+      }
+    ]
+  },
+  "timeline": {
+    "title": "我的旅程",
+    "subtitle": "技术成长的时间线",
+    "events": [
+      {
+        "year": "2024",
+        "title": "专注于 AI 应用开发",
+        "description": "探索 LLM 应用开发，将 AI 能力集成到实际项目中"
+      },
+      {
+        "year": "2022",
+        "title": "全栈转型",
+        "description": "深入学习后端开发和云原生技术，成为全栈工程师"
+      },
+      {
+        "year": "2020",
+        "title": "前端深耕",
+        "description": "专注 React 生态系统，参与多个大型前端项目开发"
+      },
+      {
+        "year": "2018",
+        "title": "编程起步",
+        "description": "大学期间开始自学编程，开启技术探索之旅"
+      }
+    ]
+  }
+}

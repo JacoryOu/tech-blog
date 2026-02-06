@@ -1,0 +1,40 @@
+{
+  "title": "联系我",
+  "subtitle": "有问题或建议？欢迎随时与我联系",
+  "heading": "让我们开始对话",
+  "description": "无论是技术交流、合作机会，还是单纯的问候，我都很乐意收到你的消息。",
+  "contactMethods": [
+    {
+      "icon": "fas fa-envelope",
+      "name": "邮箱",
+      "value": "hello@techblog.com"
+    },
+    {
+      "icon": "fab fa-github",
+      "name": "GitHub",
+      "value": "@yourusername"
+    },
+    {
+      "icon": "fab fa-twitter",
+      "name": "Twitter",
+      "value": "@yourusername"
+    },
+    {
+      "icon": "fas fa-map-marker-alt",
+      "name": "位置",
+      "value": "中国 · 远程工作"
+    }
+  ],
+  "form": {
+    "enabled": true,
+    "nameLabel": "姓名",
+    "namePlaceholder": "你的名字",
+    "emailLabel": "邮箱",
+    "emailPlaceholder": "your@email.com",
+    "subjectLabel": "主题",
+    "subjectPlaceholder": "消息主题",
+    "messageLabel": "消息",
+    "messagePlaceholder": "写下你的消息...",
+    "submitText": "发送消息"
+  }
+}

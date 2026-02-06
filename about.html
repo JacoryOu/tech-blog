@@ -14,7 +14,7 @@
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
                 <span class="logo-icon">&lt;/&gt;</span>
-                <span class="logo-text">TechBlog</span>
+                <span class="logo-text" id="siteName">TechBlog</span>
             </a>
             
             <ul class="nav-menu">
@@ -38,8 +38,8 @@
     <!-- 页面标题 -->
     <header class="page-header">
         <div class="container">
-            <h1 class="page-title">关于我</h1>
-            <p class="page-description">一个热爱技术的开发者，记录学习与成长</p>
+            <h1 class="page-title" id="pageTitle">关于我</h1>
+            <p class="page-description" id="pageSubtitle">一个热爱技术的开发者，记录学习与成长</p>
         </div>
     </header>
 
@@ -47,24 +47,11 @@
     <section class="about-hero">
         <div class="container">
             <div class="about-avatar">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop" alt="头像">
+                <img id="avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop" alt="头像">
             </div>
             
-            <div class="about-content">
-                <p>
-                    你好！我是一名全栈开发工程师，热爱探索新技术，享受用代码解决问题的过程。
-                    这个博客是我记录技术心得、分享开发经验的地方。
-                </p>
-                
-                <p>
-                    从事软件开发工作多年，主要专注于 Web 前端开发、Node.js 后端开发以及云原生技术。
-                    我相信持续学习和分享是技术成长的最佳途径。
-                </p>
-                
-                <p>
-                    除了编程，我还喜欢阅读技术书籍、参与开源项目、撰写技术博客。
-                    希望这里的内容能对你有所帮助，也欢迎与我交流讨论！
-                </p>
+            <div class="about-content" id="bioContent">
+                <!-- 动态加载个人简介 -->
             </div>
         </div>
     </section>
@@ -73,39 +60,12 @@
     <section class="tech-stack-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">技术栈</h2>
-                <p class="section-subtitle">我使用的技术和工具</p>
+                <h2 class="section-title" id="techTitle">技术栈</h2>
+                <p class="section-subtitle" id="techSubtitle">我使用的技术和工具</p>
             </div>
             
-            <div class="tech-grid">
-                <div class="tech-card">
-                    <div class="tech-icon">
-                        <i class="fab fa-js"></i>
-                    </div>
-                    <h3>JavaScript/TypeScript</h3>
-                    <p>ES6+, 类型安全, 异步编程</p>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-icon">
-                        <i class="fab fa-react"></i>
-                    </div>
-                    <h3>React 生态系统</h3>
-                    <p>React, Next.js, Redux, Hooks</p>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-icon">
-                        <i class="fab fa-node-js"></i>
-                    </div>
-                    <h3>Node.js 后端</h3>
-                    <p>Express, NestJS, GraphQL</p>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-icon">
-                        <i class="fab fa-docker"></i>
-                    </div>
-                    <h3>云原生</h3>
-                    <p>Docker, Kubernetes, AWS</p>
-                </div>
+            <div class="tech-grid" id="techGrid">
+                <!-- 动态加载技能 -->
             </div>
         </div>
     </section>
@@ -114,40 +74,12 @@
     <section class="featured-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">我的旅程</h2>
-                <p class="section-subtitle">技术成长的时间线</p>
+                <h2 class="section-title" id="timelineTitle">我的旅程</h2>
+                <p class="section-subtitle" id="timelineSubtitle">技术成长的时间线</p>
             </div>
             
-            <div style="max-width: 800px; margin: 0 auto;">
-                <div style="border-left: 2px solid var(--primary); padding-left: 2rem; position: relative;">
-                    <div style="margin-bottom: 2rem; position: relative;">
-                        <div style="position: absolute; left: -2.4rem; width: 12px; height: 12px; background: var(--primary); border-radius: 50%;"></div>
-                        <span style="color: var(--primary); font-weight: 600;">2024</span>
-                        <h3 style="margin: 0.5rem 0;">专注于 AI 应用开发</h3>
-                        <p style="color: var(--text-secondary);">探索 LLM 应用开发，将 AI 能力集成到实际项目中</p>
-                    </div>
-                    
-                    <div style="margin-bottom: 2rem; position: relative;">
-                        <div style="position: absolute; left: -2.4rem; width: 12px; height: 12px; background: var(--primary); border-radius: 50%;"></div>
-                        <span style="color: var(--primary); font-weight: 600;">2022</span>
-                        <h3 style="margin: 0.5rem 0;">全栈转型</h3>
-                        <p style="color: var(--text-secondary);">深入学习后端开发和云原生技术，成为全栈工程师</p>
-                    </div>
-                    
-                    <div style="margin-bottom: 2rem; position: relative;">
-                        <div style="position: absolute; left: -2.4rem; width: 12px; height: 12px; background: var(--primary); border-radius: 50%;"></div>
-                        <span style="color: var(--primary); font-weight: 600;">2020</span>
-                        <h3 style="margin: 0.5rem 0;">前端深耕</h3>
-                        <p style="color: var(--text-secondary);">专注 React 生态系统，参与多个大型前端项目开发</p>
-                    </div>
-                    
-                    <div style="position: relative;">
-                        <div style="position: absolute; left: -2.4rem; width: 12px; height: 12px; background: var(--primary); border-radius: 50%;"></div>
-                        <span style="color: var(--primary); font-weight: 600;">2018</span>
-                        <h3 style="margin: 0.5rem 0;">编程起步</h3>
-                        <p style="color: var(--text-secondary);">大学期间开始自学编程，开启技术探索之旅</p>
-                    </div>
-                </div>
+            <div style="max-width: 800px; margin: 0 auto;" id="timelineContainer">
+                <!-- 动态加载时间线 -->
             </div>
         </div>
     </section>
@@ -159,16 +91,13 @@
                 <div class="footer-brand">
                     <a href="index.html" class="footer-logo">
                         <span class="logo-icon">&lt;/&gt;</span>
-                        <span class="logo-text">TechBlog</span>
+                        <span class="logo-text" id="footerSiteName">TechBlog</span>
                     </a>
-                    <p class="footer-description">
+                    <p class="footer-description" id="footerDescription">
                         记录技术成长的每一步，分享编程的乐趣与思考。
                     </p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="social-link"><i class="fas fa-rss"></i></a>
+                    <div class="social-links" id="socialLinks">
+                        <!-- 动态加载社交链接 -->
                     </div>
                 </div>
                 
@@ -194,12 +123,124 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2024 TechBlog. All rights reserved.</p>
+                <p id="copyright">&copy; 2024 TechBlog. All rights reserved.</p>
                 <p>Made with <i class="fas fa-heart"></i> and lots of <i class="fas fa-coffee"></i></p>
             </div>
         </div>
     </footer>
 
     <script src="js/main.js"></script>
+    <script>
+        // 加载关于页面配置
+        async function loadAboutConfig() {
+            try {
+                const [aboutRes, siteRes] = await Promise.all([
+                    fetch('content/about.json'),
+                    fetch('content/site.json')
+                ]);
+                
+                const about = await aboutRes.json();
+                const site = await siteRes.json();
+                
+                // 应用站点配置
+                if (site.siteName) {
+                    document.getElementById('siteName').textContent = site.siteName;
+                    document.getElementById('footerSiteName').textContent = site.siteName;
+                }
+                if (site.siteDescription) {
+                    document.getElementById('footerDescription').textContent = site.siteDescription;
+                }
+                if (site.avatar) {
+                    document.getElementById('avatar').src = site.avatar;
+                }
+                if (site.footer?.copyright) {
+                    document.getElementById('copyright').textContent = site.footer.copyright;
+                }
+                
+                // 应用关于页面配置
+                if (about.title) {
+                    document.getElementById('pageTitle').textContent = about.title;
+                    document.title = about.title + ' - ' + (site.siteName || 'TechBlog');
+                }
+                if (about.subtitle) {
+                    document.getElementById('pageSubtitle').textContent = about.subtitle;
+                }
+                if (about.avatar) {
+                    document.getElementById('avatar').src = about.avatar;
+                }
+                
+                // 渲染个人简介
+                if (about.bio && about.bio.length > 0) {
+                    const bioContent = document.getElementById('bioContent');
+                    bioContent.innerHTML = about.bio.map(p => `<p>${p}</p>`).join('');
+                }
+                
+                // 渲染技术栈
+                if (about.techStack) {
+                    document.getElementById('techTitle').textContent = about.techStack.title || '技术栈';
+                    document.getElementById('techSubtitle').textContent = about.techStack.subtitle || '我使用的技术和工具';
+                    
+                    if (about.techStack.skills && about.techStack.skills.length > 0) {
+                        const techGrid = document.getElementById('techGrid');
+                        techGrid.innerHTML = about.techStack.skills.map(skill => `
+                            <div class="tech-card">
+                                <div class="tech-icon">
+                                    <i class="${skill.icon || 'fas fa-code'}"></i>
+                                </div>
+                                <h3>${skill.name}</h3>
+                                <p>${skill.description}</p>
+                            </div>
+                        `).join('');
+                    }
+                }
+                
+                // 渲染时间线
+                if (about.timeline) {
+                    document.getElementById('timelineTitle').textContent = about.timeline.title || '我的旅程';
+                    document.getElementById('timelineSubtitle').textContent = about.timeline.subtitle || '技术成长的时间线';
+                    
+                    if (about.timeline.events && about.timeline.events.length > 0) {
+                        const timelineContainer = document.getElementById('timelineContainer');
+                        timelineContainer.innerHTML = `
+                            <div style="border-left: 2px solid var(--primary); padding-left: 2rem; position: relative;">
+                                ${about.timeline.events.map((event, index) => `
+                                    <div style="margin-bottom: ${index < about.timeline.events.length - 1 ? '2rem' : '0'}; position: relative;">
+                                        <div style="position: absolute; left: -2.4rem; width: 12px; height: 12px; background: var(--primary); border-radius: 50%;"></div>
+                                        <span style="color: var(--primary); font-weight: 600;">${event.year}</span>
+                                        <h3 style="margin: 0.5rem 0;">${event.title}</h3>
+                                        <p style="color: var(--text-secondary);">${event.description}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                    }
+                }
+                
+                // 渲染社交链接
+                if (site.contact) {
+                    const socialLinks = document.getElementById('socialLinks');
+                    const links = [];
+                    if (site.contact.github) {
+                        links.push(`<a href="${site.contact.github}" class="social-link" target="_blank"><i class="fab fa-github"></i></a>`);
+                    }
+                    if (site.contact.twitter) {
+                        links.push(`<a href="${site.contact.twitter}" class="social-link" target="_blank"><i class="fab fa-twitter"></i></a>`);
+                    }
+                    if (site.contact.email) {
+                        links.push(`<a href="mailto:${site.contact.email}" class="social-link"><i class="fas fa-envelope"></i></a>`);
+                    }
+                    if (links.length > 0) {
+                        socialLinks.innerHTML = links.join('');
+                    }
+                }
+                
+            } catch (error) {
+                console.error('加载配置失败:', error);
+            }
+        }
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', loadAboutConfig);
+    </script>
 </body>
 </html>
