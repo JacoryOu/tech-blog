@@ -12,6 +12,78 @@ display_url: https://serene-mochi-6ec644.netlify.app
 
 # 文章集合
 collections:
+  - name: "settings"
+    label: "⚙️ 网站设置"
+    files:
+      - name: "site"
+        label: "站点配置"
+        file: "content/site.json"
+        fields:
+          - label: "网站名称"
+            name: "siteName"
+            widget: "string"
+            required: true
+            
+          - label: "网站描述"
+            name: "siteDescription"
+            widget: "text"
+            required: true
+            
+          - label: "作者名称"
+            name: "author"
+            widget: "string"
+            required: true
+            
+          - label: "作者头像"
+            name: "avatar"
+            widget: "image"
+            required: false
+            hint: "上传你的头像图片，推荐尺寸 200x200"
+            
+          - label: "联系方式"
+            name: "contact"
+            widget: "object"
+            fields:
+              - label: "邮箱"
+                name: "email"
+                widget: "string"
+                required: false
+                
+              - label: "GitHub"
+                name: "github"
+                widget: "string"
+                required: false
+                hint: "GitHub个人主页链接"
+                
+              - label: "Twitter/X"
+                name: "twitter"
+                widget: "string"
+                required: false
+                
+              - label: "微信公众号"
+                name: "wechat"
+                widget: "string"
+                required: false
+                
+              - label: "Telegram"
+                name: "telegram"
+                widget: "string"
+                required: false
+                
+          - label: "页脚信息"
+            name: "footer"
+            widget: "object"
+            fields:
+              - label: "版权信息"
+                name: "copyright"
+                widget: "string"
+                required: false
+                
+              - label: "ICP备案号"
+                name: "icp"
+                widget: "string"
+                required: false
+
   - name: "posts"
     label: "📄 文章"
     label_singular: "文章"

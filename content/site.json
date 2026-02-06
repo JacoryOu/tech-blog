@@ -1,0 +1,17 @@
+{
+  "siteName": "小欧的技术博客",
+  "siteDescription": "分享AI、前端、后端技术干货",
+  "author": "小欧Jacory",
+  "avatar": "/content/images/avatar.png",
+  "contact": {
+    "email": "jacory@example.com",
+    "github": "https://github.com/JacoryOu",
+    "twitter": "",
+    "wechat": "",
+    "telegram": ""
+  },
+  "footer": {
+    "copyright": "© 2026 小欧Jacory. All rights reserved.",
+    "icp": ""
+  }
+}
