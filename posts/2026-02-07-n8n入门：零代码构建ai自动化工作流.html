@@ -66,30 +66,272 @@
 </ul>
 <h2>正文</h2>
 <h3>1. 什么是n8n</h3>
-<p>【什么是n8n的详细内容将在发布时生成】</p>
-<h3>2. n8n的核心优势</h3>
-<p>【n8n的核心优势的详细内容将在发布时生成】</p>
-<h3>3. 安装部署</h3>
-<p>【安装部署的详细内容将在发布时生成】</p>
-<h3>4. 基础概念：节点与工作流</h3>
-<p>【基础概念：节点与工作流的详细内容将在发布时生成】</p>
-<h3>5. 实操案例：RSS+AI摘要自动化</h3>
-<p>【实操案例：RSS+AI摘要自动化的详细内容将在发布时生成】</p>
-<h3>6. 进阶技巧：条件分支与错误处理</h3>
-<p>【进阶技巧：条件分支与错误处理的详细内容将在发布时生成】</p>
-<h3>7. 最佳实践</h3>
-<p>【最佳实践的详细内容将在发布时生成】</p>
-<h3>8. 总结</h3>
-<p>【总结的详细内容将在发布时生成】</p>
-<h2>总结</h2>
-<p>本篇文章详细介绍了<strong>n8n入门：零代码构建AI自动化工作流</strong>的核心概念和实践方法。</p>
-<h3>重点回顾</h3>
+<p><strong>n8n</strong> 是一款开源的自动化工作流工具，采用可视化拖拽方式让用户无需编程即可创建复杂的自动化流程。n8n 的名称来源于 &quot;nodemation&quot;（节点自动化），核心理念是通过连接各种&quot;节点&quot;来构建工作流。</p>
+<p>与 Zapier、Make(原Integromat) 等商业自动化工具相比，n8n 具有以下独特优势：</p>
 <ul>
-<li>什么是n8n</li>
-<li>n8n的核心优势</li>
-<li>安装部署</li>
-<li>基础概念：节点与工作流</li>
+<li><strong>完全开源</strong>：基于 Fair-code 协议，可自托管</li>
+<li><strong>无需编程</strong>：可视化界面，拖拽式操作</li>
+<li><strong>400+集成</strong>：支持绝大多数主流SaaS服务</li>
+<li><strong>自托管选项</strong>：数据完全掌握在自己手中</li>
+<li><strong>免费使用</strong>：社区版完全免费</li>
 </ul>
+<p>n8n 在 2019 年发布，目前已获得超过 30k GitHub Stars，被数千家企业用于生产环境的自动化工作流。</p>
+<h3>2. n8n的核心优势</h3>
+<h4>2.1 可视化工作流设计</h4>
+<p>n8n 采用节点-连线的方式设计工作流，就像画流程图一样直观。每个节点代表一个操作（如发送邮件、调用API、处理数据），节点之间的连线表示数据流向。</p>
+<h4>2.2 丰富的节点库</h4>
+<p>n8n 内置 400+ 官方节点，涵盖：</p>
+<ul>
+<li><strong>AI/LLM</strong>：OpenAI、Anthropic、Google AI</li>
+<li><strong>通讯</strong>：Slack、Discord、Telegram、邮件</li>
+<li><strong>数据库</strong>：MySQL、PostgreSQL、MongoDB、Redis</li>
+<li><strong>云服务</strong>：AWS、Azure、GCP</li>
+<li><strong>SaaS</strong>：Notion、Airtable、HubSpot、Salesforce</li>
+<li><strong>社交媒体</strong>：Twitter、LinkedIn、YouTube</li>
+<li><strong>开发工具</strong>：GitHub、GitLab、Jira</li>
+</ul>
+<h4>2.3 自托管能力</h4>
+<pre><code class="language-bash"># 使用 Docker 一键启动
+docker run -it --rm   --name n8n   -p 5678:5678   -v ~/.n8n:/home/node/.n8n   n8nio/n8n
+</code></pre>
+<p>自托管意味着：</p>
+<ul>
+<li>数据不出境，完全符合合规要求</li>
+<li>无使用限制，无配额限制</li>
+<li>可深度定制和扩展</li>
+</ul>
+<h4>2.4 代码节点支持</h4>
+<p>对于复杂逻辑，n8n 支持 JavaScript/Python 代码节点：</p>
+<pre><code class="language-javascript">// 在 Code 节点中处理数据
+const results = [];
+for (const item of items) {
+  results.push({
+    json: {
+      processed: item.json.name.toUpperCase(),
+      timestamp: new Date().toISOString()
+    }
+  });
+}
+return results;
+</code></pre>
+<h3>3. 安装部署</h3>
+<h4>3.1 Docker部署（推荐）</h4>
+<p>创建 <code>docker-compose.yml</code>：</p>
+<pre><code class="language-yaml">version: &quot;3&quot;
+services:
+  n8n:
+    image: n8nio/n8n
+    restart: always
+    ports:
+      - &quot;5678:5678&quot;
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=your_password
+      - WEBHOOK_URL=https://your-domain.com/
+    volumes:
+      - ~/.n8n:/home/node/.n8n
+</code></pre>
+<p>启动服务：</p>
+<pre><code class="language-bash">docker-compose up -d
+</code></pre>
+<p>访问 <code>http://localhost:5678</code> 即可开始使用。</p>
+<h4>3.2 使用n8n Cloud（托管版）</h4>
+<p>如果不想自己部署，可以使用 n8n Cloud：</p>
+<ol>
+<li>访问 <a href="https://n8n.io/cloud">https://n8n.io/cloud</a></li>
+<li>注册账号（14天免费试用）</li>
+<li>立即获得托管的 n8n 实例</li>
+</ol>
+<h4>3.3 npm安装</h4>
+<pre><code class="language-bash">npm install n8n -g
+n8n start
+</code></pre>
+<h3>4. 基础概念：节点与工作流</h3>
+<h4>4.1 节点类型</h4>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>功能</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Trigger</strong></td>
+<td>触发工作流</td>
+<td>定时触发、Webhook、邮件触发</td>
+</tr>
+<tr>
+<td><strong>Action</strong></td>
+<td>执行操作</td>
+<td>发送邮件、创建数据库记录</td>
+</tr>
+<tr>
+<td><strong>Logic</strong></td>
+<td>控制流程</td>
+<td>IF条件、Switch分支、Wait等待</td>
+</tr>
+<tr>
+<td><strong>Data</strong></td>
+<td>数据处理</td>
+<td>代码节点、数据转换、聚合</td>
+</tr>
+</tbody></table>
+<h4>4.2 工作流基础结构</h4>
+<p>一个典型的工作流包含：</p>
+<ol>
+<li><strong>触发器节点</strong>：决定何时启动工作流</li>
+<li><strong>动作节点</strong>：执行具体操作</li>
+<li><strong>逻辑节点</strong>：控制流程走向</li>
+</ol>
+<h4>4.3 表达式语法</h4>
+<p>n8n 使用 <code>{{ }}</code> 语法引用数据：</p>
+<pre><code>{{$json.title}}           # 获取当前项的title字段
+{{$node[&quot;HTTP Request&quot;].json.data}}  # 获取特定节点的输出
+{{new Date().toISOString()}}  # JavaScript表达式
+</code></pre>
+<h3>5. 实操案例：RSS+AI摘要自动化</h3>
+<h4>5.1 场景描述</h4>
+<p>我们要实现一个自动化流程：</p>
+<ol>
+<li>定时获取 TechCrunch 的最新文章</li>
+<li>使用 AI 生成文章摘要</li>
+<li>将摘要发送到 Slack 频道</li>
+</ol>
+<h4>5.2 步骤详解</h4>
+<p><strong>步骤1：创建触发器</strong></p>
+<p>添加 <strong>Schedule Trigger</strong> 节点：</p>
+<ul>
+<li>设置每30分钟执行一次</li>
+<li>CRON表达式：<code>* /30 * * * *</code></li>
+</ul>
+<p><strong>步骤2：获取RSS源</strong></p>
+<p>添加 <strong>RSS Read</strong> 节点：</p>
+<ul>
+<li>URL：<code>https://techcrunch.com/feed/</code></li>
+<li>限制返回条目数：5</li>
+</ul>
+<p><strong>步骤3：生成AI摘要</strong></p>
+<p>添加 <strong>OpenAI</strong> 节点：</p>
+<ul>
+<li>选择模型：gpt-3.5-turbo</li>
+<li>系统提示词：</li>
+</ul>
+<pre><code>你是一个专业的新闻摘要助手。请将以下文章总结为3-5个要点，每个要点不超过20字。
+</code></pre>
+<ul>
+<li>用户提示词：</li>
+</ul>
+<pre><code>标题：{{$json.title}}
+内容：{{$json.content}}
+</code></pre>
+<p><strong>步骤4：发送Slack通知</strong></p>
+<p>添加 <strong>Slack</strong> 节点：</p>
+<ul>
+<li>认证方式：OAuth2（需提前配置）</li>
+<li>操作：Send Message</li>
+<li>频道：#news-feed</li>
+<li>消息内容：</li>
+</ul>
+<pre><code>📰 *{{$json.title}}*
+
+📝 摘要：
+{{$node[&quot;OpenAI&quot;].json.content}}
+
+🔗 阅读原文：{{$json.link}}
+</code></pre>
+<h4>5.3 完整工作流示意图</h4>
+<pre><code>[Schedule Trigger] 
+        ↓
+[RSS Read - TechCrunch]
+        ↓
+[OpenAI - 生成摘要]
+        ↓
+[Slack - 发送通知]
+</code></pre>
+<h4>5.4 测试运行</h4>
+<p>点击 &quot;Execute Workflow&quot; 手动触发测试：</p>
+<ul>
+<li>检查每个节点的输入输出</li>
+<li>查看 Slack 是否收到消息</li>
+<li>调整提示词优化摘要质量</li>
+</ul>
+<h3>6. 进阶技巧：条件分支与错误处理</h3>
+<h4>6.1 IF条件分支</h4>
+<p>假设我们要根据文章关键词过滤：</p>
+<p>添加 <strong>IF</strong> 节点：</p>
+<ul>
+<li>条件：<code>{{$json.title.toLowerCase().includes(&quot;ai&quot;)}}</code></li>
+<li>真分支：发送到 #ai-news 频道</li>
+<li>假分支：发送到 #general-news 频道</li>
+</ul>
+<h4>6.2 错误处理</h4>
+<p>为关键节点配置错误处理：</p>
+<pre><code>[OpenAI Node] --(on error)--&gt; [Error Handler] --&gt; [Send Alert Email]
+          ↓
+    (success)
+          ↓
+    [Slack Node]
+</code></pre>
+<p><strong>Error Handler</strong> 配置：</p>
+<ul>
+<li>捕获错误信息</li>
+<li>发送邮件通知管理员</li>
+<li>记录错误日志到 Google Sheets</li>
+</ul>
+<h4>6.3 数据转换技巧</h4>
+<p>使用 <strong>Function</strong> 节点处理复杂数据：</p>
+<pre><code class="language-javascript">// 合并多个数据源
+const merged = [];
+for (let i = 0; i &lt; items.length; i++) {
+  merged.push({
+    json: {
+      title: items[i].json.title,
+      summary: $node[&quot;OpenAI&quot;].all()[i].json.content,
+      published: items[i].json.pubDate
+    }
+  });
+}
+return merged;
+</code></pre>
+<h4>6.4 循环处理</h4>
+<p>使用 <strong>Split In Batches</strong> 节点批量处理：</p>
+<ul>
+<li>批量大小：10（避免API限流）</li>
+<li>延迟：1000ms（每批间隔1秒）</li>
+</ul>
+<h3>7. 最佳实践</h3>
+<h4>7.1 工作流组织</h4>
+<ul>
+<li><strong>命名规范</strong>：使用清晰的描述性名称</li>
+<li><strong>颜色标记</strong>：用颜色区分不同类型的工作流</li>
+<li><strong>添加注释</strong>：在复杂节点添加注释说明</li>
+<li><strong>版本控制</strong>：定期导出工作流JSON备份</li>
+</ul>
+<h4>7.2 性能优化</h4>
+<ol>
+<li><strong>减少API调用</strong>：合并可批量处理的操作</li>
+<li><strong>使用缓存</strong>：缓存不常变化的数据</li>
+<li><strong>合理设置触发频率</strong>：避免过于频繁的轮询</li>
+<li><strong>分批处理</strong>：大数据量使用分批节点</li>
+</ol>
+<h4>7.3 安全建议</h4>
+<ol>
+<li><strong>凭证管理</strong>：使用 n8n 内置的凭证存储，不要硬编码</li>
+<li><strong>访问控制</strong>：生产环境启用 Basic Auth</li>
+<li><strong>Webhook安全</strong>：使用随机token验证请求来源</li>
+<li><strong>数据脱敏</strong>：日志中隐藏敏感信息</li>
+</ol>
+<h4>7.4 调试技巧</h4>
+<ol>
+<li><strong>执行日志</strong>：查看每个节点的执行详情</li>
+<li><strong>测试数据</strong>：使用静态数据测试工作流</li>
+<li><strong>断点调试</strong>：在关键节点暂停检查数据</li>
+<li><strong>错误通知</strong>：配置错误时的邮件/Slack通知</li>
+</ol>
+<h3>8. 总结</h3>
+<p>本篇文章详细介绍了 <strong>n8n</strong> 这一强大的开源自动化工具，从基础概念到实战案例，帮助你快速上手构建自动化工作流。</p>
 <hr>
 <p><em>本文由AI自动生成，每日更新AI技术教程。如有疑问欢迎留言交流！</em></p>
 
