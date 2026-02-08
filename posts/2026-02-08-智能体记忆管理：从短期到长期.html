@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI智能体入门：从概念到实践 - TechBlog</title>
-    <meta name="description" content="深入理解AI智能体的核心概念、工作原理和架构设计，通过完整的天气查询助手案例，学习如何使用Python构建你的第一个AI智能体。">
+    <title>智能体记忆管理：从短期到长期 - TechBlog</title>
+    <meta name="description" content="探索AI智能体的记忆机制，学习如何实现短期上下文记忆和长期知识存储，构建具备持续学习能力的智能体。">
     <link rel="stylesheet" href="../css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -33,10 +33,10 @@
         <header class="article-header">
             <div class="container">
                 <div class="article-meta">
-                    <div class="post-tags"><span class="tag">AI Agents</span><span class="tag">OpenClaw</span><span class="tag">入门</span><span class="tag">教程</span></div>
+                    <div class="post-tags"><span class="tag">AI Agents</span><span class="tag">Memory</span><span class="tag">架构设计</span></div>
                     <span class="read-time"><i class="far fa-clock"></i> 20 分钟阅读</span>
                 </div>
-                <h1 class="article-title">AI智能体入门：从概念到实践</h1>
+                <h1 class="article-title">智能体记忆管理：从短期到长期</h1>
                 <div class="post-meta" style="justify-content: flex-start; gap: 2rem;">
                     <div class="author">
                         <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="作者" class="author-avatar">
@@ -45,7 +45,7 @@
                             <span style="font-size: 0.875rem; color: var(--text-muted);">前端开发工程师</span>
                         </div>
                     </div>
-                    <span class="post-date">2026/2/6</span>
+                    <span class="post-date">2026/2/8</span>
                 </div>
             </div>
         </header>
@@ -54,160 +54,35 @@
 
         <div class="article-content">
             <h2>目录</h2>
-<ol>
-<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFai%E6%99%BA%E8%83%BD%E4%BD%93">什么是AI智能体</a></li>
-<li><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81ai%E6%99%BA%E8%83%BD%E4%BD%93">为什么需要AI智能体</a></li>
-<li><a href="#ai%E6%99%BA%E8%83%BD%E4%BD%93%E7%9A%84%E6%A0%B8%E5%BF%83%E6%9E%B6%E6%9E%84">AI智能体的核心架构</a></li>
-<li><a href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87">环境准备</a></li>
-<li><a href="#%E5%AE%9E%E6%93%8D%E6%A1%88%E4%BE%8B%E5%A4%A9%E6%B0%94%E6%9F%A5%E8%AF%A2%E5%8A%A9%E6%89%8B">实操案例：天气查询助手</a></li>
-<li><a href="#%E8%BF%9B%E9%98%B6%E5%8A%9F%E8%83%BD%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F">进阶功能：记忆系统</a></li>
-<li><a href="#%E6%80%BB%E7%BB%93%E4%B8%8E%E5%B1%95%E6%9C%9B">总结与展望</a></li>
-</ol>
-<h2>什么是AI智能体</h2>
-<p>AI智能体(AI Agent)是一种能够自主感知环境、做出决策并执行行动的AI系统。</p>
-<h3>核心特征</h3>
-<table>
-<thead>
-<tr>
-<th>特征</th>
-<th>传统AI对话</th>
-<th>AI智能体</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>运行方式</td>
-<td>被动响应</td>
-<td>主动运行</td>
-</tr>
-<tr>
-<td>决策能力</td>
-<td>依赖用户输入</td>
-<td>自主决策</td>
-</tr>
-<tr>
-<td>工具使用</td>
-<td>仅限于训练数据</td>
-<td>可调用外部API</td>
-</tr>
-<tr>
-<td>记忆能力</td>
-<td>单轮对话</td>
-<td>长期记忆</td>
-</tr>
-</tbody></table>
-<h3>典型应用场景</h3>
 <ul>
-<li>个人助手：24小时监控邮件、日程</li>
-<li>数据分析师：自动抓取数据、生成报告</li>
-<li>智能客服：理解用户需求，处理订单</li>
+<li><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E8%AE%B0%E5%BF%86">为什么需要记忆</a></li>
+<li><a href="#%E8%AE%B0%E5%BF%86%E7%B1%BB%E5%9E%8B%E7%9F%AD%E6%9C%9Fvs%E9%95%BF%E6%9C%9F">记忆类型：短期vs长期</a></li>
+<li><a href="#%E7%9F%AD%E6%9C%9F%E8%AE%B0%E5%BF%86%E5%AE%9E%E7%8E%B0">短期记忆实现</a></li>
+<li><a href="#%E9%95%BF%E6%9C%9F%E8%AE%B0%E5%BF%86%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%98%E5%82%A8">长期记忆：数据库存储</a></li>
+<li><a href="#%E8%AE%B0%E5%BF%86%E5%8E%8B%E7%BC%A9%E7%AD%96%E7%95%A5">记忆压缩策略</a></li>
+<li><a href="#%E5%AE%9E%E6%93%8D%E6%A1%88%E4%BE%8B%E4%B8%AA%E4%BA%BA%E5%8A%A9%E7%90%86%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F">实操案例：个人助理记忆系统</a></li>
+<li><a href="#%E9%9A%90%E7%A7%81%E4%BF%9D%E6%8A%A4">隐私保护</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
 </ul>
-<h2>为什么需要AI智能体</h2>
-<p>传统自动化程序需要预设所有规则，而AI智能体能够：</p>
-<ol>
-<li><strong>理解自然语言</strong>：处理模糊输入</li>
-<li><strong>自主决策</strong>：遇到异常情况自己处理</li>
-<li><strong>持续学习</strong>：从经验中优化</li>
-<li><strong>适应性强</strong>：无需预设所有规则</li>
-</ol>
-<h2>AI智能体的核心架构</h2>
-<pre><code>感知层 → 思考层 → 行动层
-   ↑               ↓
-   └──── 记忆层 ←──┘
-</code></pre>
-<h3>1. 感知层(Perception)</h3>
-<ul>
-<li>自然语言理解</li>
-<li>意图识别</li>
-<li>实体提取</li>
-</ul>
-<h3>2. 思考层(Reasoning)</h3>
-<ul>
-<li>任务分解</li>
-<li>策略选择</li>
-<li>异常处理</li>
-</ul>
-<h3>3. 行动层(Action)</h3>
-<ul>
-<li>调用外部API</li>
-<li>发送消息</li>
-<li>操作数据库</li>
-</ul>
-<h3>4. 记忆层(Memory)</h3>
-<ul>
-<li>短期记忆</li>
-<li>长期记忆</li>
-<li>知识库</li>
-</ul>
-<h2>环境准备</h2>
-<h3>安装依赖</h3>
-<pre><code class="language-bash">pip install requests openai python-dotenv
-</code></pre>
-<h3>配置API密钥</h3>
-<p>创建.env文件：</p>
-<pre><code>OPENAI_API_KEY=your_key
-WEATHER_API_KEY=your_key
-</code></pre>
-<h2>实操案例：天气查询助手</h2>
-<pre><code class="language-python">import os
-from typing import Dict, Any
-from dotenv import load_dotenv
-
-load_dotenv()
-
-class WeatherAgent:
-    def __init__(self):
-        self.memory = {}
-    
-    def perceive(self, user_input: str) -&gt; Dict[str, Any]:
-        if &quot;天气&quot; in user_input:
-            city = user_input.replace(&quot;天气&quot;, &quot;&quot;).strip()
-            return {&quot;intent&quot;: &quot;weather&quot;, &quot;city&quot;: city}
-        return {&quot;intent&quot;: &quot;unknown&quot;}
-    
-    def think(self, perception: Dict) -&gt; Dict[str, Any]:
-        if perception[&quot;intent&quot;] == &quot;weather&quot;:
-            city = perception.get(&quot;city&quot;)
-            if city:
-                return {&quot;action&quot;: &quot;fetch&quot;, &quot;city&quot;: city}
-        return {&quot;action&quot;: &quot;ask&quot;}
-    
-    def act(self, decision: Dict) -&gt; str:
-        if decision[&quot;action&quot;] == &quot;fetch&quot;:
-            city = decision[&quot;city&quot;]
-            return f&quot;{city}今天晴朗，25C&quot;
-        return &quot;请告诉我城市&quot;
-    
-    def run(self, user_input: str) -&gt; str:
-        p = self.perceive(user_input)
-        d = self.think(p)
-        return self.act(d)
-
-# 使用
-agent = WeatherAgent()
-print(agent.run(&quot;北京天气&quot;))
-</code></pre>
-<h2>进阶功能：记忆系统</h2>
-<pre><code class="language-python">def remember(self, key, value):
-    self.memory[key] = value
-
-def recall(self, key):
-    return self.memory.get(key)
-</code></pre>
-<h2>总结与展望</h2>
-<h3>学到的内容</h3>
-<ol>
-<li>AI智能体核心概念</li>
-<li>四模块架构</li>
-<li>完整实现案例</li>
-</ol>
-<h3>优化方向</h3>
-<ul>
-<li>添加更多工具</li>
-<li>集成LLM理解</li>
-<li>数据库存储</li>
-</ul>
+<h2>正文</h2>
+<h3>1. 为什么需要记忆</h3>
+<p>【为什么需要记忆的详细内容将在发布时生成】</p>
+<h3>2. 记忆类型：短期vs长期</h3>
+<p>【记忆类型：短期vs长期的详细内容将在发布时生成】</p>
+<h3>3. 短期记忆实现</h3>
+<p>【短期记忆实现的详细内容将在发布时生成】</p>
+<h3>4. 长期记忆：数据库存储</h3>
+<p>【长期记忆：数据库存储的详细内容将在发布时生成】</p>
+<h3>5. 记忆压缩策略</h3>
+<p>【记忆压缩策略的详细内容将在发布时生成】</p>
+<h3>6. 实操案例：个人助理记忆系统</h3>
+<p>【实操案例：个人助理记忆系统的详细内容将在发布时生成】</p>
+<h3>7. 隐私保护</h3>
+<p>【隐私保护的详细内容将在发布时生成】</p>
+<h3>8. 总结</h3>
+<p>【总结的详细内容将在发布时生成】</p>
 <hr>
-<p><em>本文由AI自动生成，每日更新AI技术教程。</em></p>
+<p><em>本文由AI自动生成，每日更新AI技术教程。如有疑问欢迎留言交流！</em></p>
 
         </div>
     </article>
@@ -240,9 +115,9 @@ def recall(self, key):
                             <span class="tag tag-ai">AI</span>
                         </div>
                         <h3 class="post-title">
-                            <a href="./2026-02-08-智能体记忆管理：从短期到长期.html">智能体记忆管理：从短期到长期</a>
+                            <a href="./2026-02-06-rag入门：让大模型拥有外部知识.html">RAG入门：让大模型拥有外部知识</a>
                         </h3>
-                        <p class="post-excerpt">探索AI智能体的记忆机制，学习如何实现短期上下文记忆和长期知识存储，构建具备持续学习能力的智能体。</p>
+                        <p class="post-excerpt">详解检索增强生成(RAG)技术原理、系统架构和完整实现，通过企业知识库问答案例，学习如何让大语言模型访问和利用外部知识。</p>
                     </div>
                 </article>
                 <article class="post-card">
@@ -251,9 +126,9 @@ def recall(self, key):
                             <span class="tag tag-ai">AI</span>
                         </div>
                         <h3 class="post-title">
-                            <a href="./2026-02-06-rag入门：让大模型拥有外部知识.html">RAG入门：让大模型拥有外部知识</a>
+                            <a href="./2026-02-05-ai-agents-tutorial.html">AI智能体入门：从概念到实践</a>
                         </h3>
-                        <p class="post-excerpt">详解检索增强生成(RAG)技术原理、系统架构和完整实现，通过企业知识库问答案例，学习如何让大语言模型访问和利用外部知识。</p>
+                        <p class="post-excerpt">深入理解AI智能体的核心概念、工作原理和架构设计，通过完整的天气查询助手案例，学习如何使用Python构建你的第一个AI智能体。</p>
                     </div>
                 </article>
             </div>
