@@ -5,22 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>智能体记忆管理：从短期到长期 - TechBlog</title>
     <meta name="description" content="探索AI智能体的记忆机制，学习如何实现短期上下文记忆和长期知识存储，构建具备持续学习能力的智能体。">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="../index.html" class="nav-logo">
+            <a href="/index.html" class="nav-logo">
                 <span class="logo-icon">&lt;/&gt;</span>
                 <span class="logo-text">TechBlog</span>
             </a>
             <ul class="nav-menu">
-                <li><a href="../index.html" class="nav-link">首页</a></li>
-                <li><a href="../posts.html" class="nav-link">文章</a></li>
-                <li><a href="../about.html" class="nav-link">关于</a></li>
-                <li><a href="../contact.html" class="nav-link">联系</a></li>
+                <li><a href="/index.html" class="nav-link">首页</a></li>
+                <li><a href="/posts.html" class="nav-link">文章</a></li>
+                <li><a href="/about.html" class="nav-link">关于</a></li>
+                <li><a href="/contact.html" class="nav-link">联系</a></li>
             </ul>
             <div class="nav-actions">
                 <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
@@ -45,12 +46,13 @@
                             <span style="font-size: 0.875rem; color: var(--text-muted);">前端开发工程师</span>
                         </div>
                     </div>
-                    <span class="post-date">2026/2/8</span>
+                    <span class="post-date">2026/2/8 · 阅读量 1870</span>
                 </div>
             </div>
         </header>
 
-
+        <div class="container">
+        </div>
 
         <div class="article-content">
             <h2>目录</h2>
@@ -66,27 +68,434 @@
 </ul>
 <h2>正文</h2>
 <h3>1. 为什么需要记忆</h3>
-<p>【为什么需要记忆的详细内容将在发布时生成】</p>
+<p>AI智能体（AI Agent）与传统的大语言模型最大的区别之一就是<strong>记忆能力</strong>。没有记忆的智能体就像一个&quot;金鱼&quot;——每次对话都是全新的开始，无法记住用户的偏好、历史对话内容，更无法随着时间推移不断学习和改进。</p>
+<p><strong>记忆带来的核心价值：</strong></p>
+<ul>
+<li><strong>个性化体验</strong>：记住用户的名字、喜好、工作习惯</li>
+<li><strong>上下文连贯性</strong>：跨会话保持对话的连贯性</li>
+<li><strong>知识积累</strong>：从每次交互中学习，越用越聪明</li>
+<li><strong>任务状态追踪</strong>：长期任务的进度和状态管理</li>
+</ul>
+<p>举个简单例子：一个日程管理助手，如果没有记忆，每次你都要重新告诉它&quot;我是程序员，下午2点有站会&quot;；而有记忆的助手会记住你的工作节奏，自动在合适的时间提醒你。</p>
 <h3>2. 记忆类型：短期vs长期</h3>
-<p>【记忆类型：短期vs长期的详细内容将在发布时生成】</p>
+<p>智能体的记忆通常分为两大类：</p>
+<h4>短期记忆（Short-term Memory / Working Memory）</h4>
+<p>短期记忆保存的是<strong>当前会话</strong>的上下文信息，包括：</p>
+<ul>
+<li>当前对话的历史消息</li>
+<li>正在进行的任务状态</li>
+<li>临时计算结果</li>
+</ul>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>生命周期：一个会话（session）</li>
+<li>存储方式：内存（RAM）</li>
+<li>访问速度：极快（毫秒级）</li>
+<li>容量限制：受限于模型上下文窗口</li>
+</ul>
+<h4>长期记忆（Long-term Memory）</h4>
+<p>长期记忆保存的是<strong>跨会话</strong>的持久化信息，包括：</p>
+<ul>
+<li>用户画像和偏好</li>
+<li>历史对话摘要</li>
+<li>学习到的知识和规则</li>
+<li>任务执行的历史记录</li>
+</ul>
+<p><strong>特点</strong>：</p>
+<ul>
+<li>生命周期：永久（直到被删除）</li>
+<li>存储方式：数据库、文件系统</li>
+<li>访问速度：较慢（需要IO操作）</li>
+<li>容量：理论上无限</li>
+</ul>
 <h3>3. 短期记忆实现</h3>
-<p>【短期记忆实现的详细内容将在发布时生成】</p>
+<p>短期记忆通常通过**提示工程（Prompt Engineering）**来实现。最直接的方式就是将历史对话作为上下文传递给模型。</p>
+<h4>基础实现</h4>
+<pre><code class="language-python">class ShortTermMemory:
+    def __init__(self, max_messages=10):
+        self.messages = []
+        self.max_messages = max_messages
+    
+    def add_message(self, role, content):
+        &quot;&quot;&quot;添加消息到记忆&quot;&quot;&quot;
+        self.messages.append({&quot;role&quot;: role, &quot;content&quot;: content})
+        # 保持记忆在限制范围内
+        if len(self.messages) &gt; self.max_messages:
+            self.messages = self.messages[-self.max_messages:]
+    
+    def get_context(self):
+        &quot;&quot;&quot;获取用于提示的上下文&quot;&quot;&quot;
+        return self.messages
+    
+    def clear(self):
+        &quot;&quot;&quot;清空记忆&quot;&quot;&quot;
+        self.messages = []
+</code></pre>
+<h4>上下文窗口管理</h4>
+<p>大语言模型都有<strong>上下文长度限制</strong>（如GPT-4是128K tokens，Claude 3.5是200K tokens）。当对话过长时，需要智能地管理上下文：</p>
+<p><strong>策略1：滑动窗口</strong></p>
+<pre><code class="language-python">def trim_messages(messages, max_tokens=8000):
+    &quot;&quot;&quot;保留最近的消息，丢弃旧的&quot;&quot;&quot;
+    total = 0
+    trimmed = []
+    for msg in reversed(messages):
+        tokens = estimate_tokens(msg[&#39;content&#39;])
+        if total + tokens &gt; max_tokens:
+            break
+        total += tokens
+        trimmed.insert(0, msg)
+    return trimmed
+</code></pre>
+<p><strong>策略2：摘要压缩</strong>
+当历史消息太多时，可以用模型本身生成摘要：</p>
+<pre><code class="language-python">async def summarize_old_messages(messages):
+    &quot;&quot;&quot;将旧消息压缩成摘要&quot;&quot;&quot;
+    summary_prompt = f&quot;&quot;&quot;
+    请总结以下对话的关键信息，保留重要的事实和决策：
+    {format_messages(messages)}
+    &quot;&quot;&quot;
+    summary = await llm.generate(summary_prompt)
+    return {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: f&quot;历史摘要：{summary}&quot;}
+</code></pre>
 <h3>4. 长期记忆：数据库存储</h3>
-<p>【长期记忆：数据库存储的详细内容将在发布时生成】</p>
+<p>长期记忆需要持久化存储，常用的方案包括：</p>
+<h4>方案1：关系型数据库（SQLite/PostgreSQL）</h4>
+<p>适合存储结构化数据，如用户信息、配置等。</p>
+<pre><code class="language-python">import sqlite3
+
+class LongTermMemory:
+    def __init__(self, db_path=&quot;memory.db&quot;):
+        self.conn = sqlite3.connect(db_path)
+        self._init_tables()
+    
+    def _init_tables(self):
+        &quot;&quot;&quot;初始化记忆表&quot;&quot;&quot;
+        self.conn.execute(&quot;&quot;&quot;
+            CREATE TABLE IF NOT EXISTS user_preferences (
+                user_id TEXT PRIMARY KEY,
+                preferences TEXT,  -- JSON格式
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        &quot;&quot;&quot;)
+        
+        self.conn.execute(&quot;&quot;&quot;
+            CREATE TABLE IF NOT EXISTS conversation_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id TEXT,
+                session_id TEXT,
+                summary TEXT,
+                key_facts TEXT,  -- JSON格式
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        &quot;&quot;&quot;)
+        self.conn.commit()
+    
+    def save_preference(self, user_id, key, value):
+        &quot;&quot;&quot;保存用户偏好&quot;&quot;&quot;
+        import json
+        cursor = self.conn.execute(
+            &quot;SELECT preferences FROM user_preferences WHERE user_id = ?&quot;,
+            (user_id,)
+        )
+        row = cursor.fetchone()
+        
+        if row:
+            prefs = json.loads(row[0])
+            prefs[key] = value
+            self.conn.execute(
+                &quot;UPDATE user_preferences SET preferences = ?, updated_at = CURRENT_TIMESTAMP WHERE user_id = ?&quot;,
+                (json.dumps(prefs), user_id)
+            )
+        else:
+            self.conn.execute(
+                &quot;INSERT INTO user_preferences (user_id, preferences) VALUES (?, ?)&quot;,
+                (user_id, json.dumps({key: value}))
+            )
+        self.conn.commit()
+    
+    def get_preference(self, user_id, key=None):
+        &quot;&quot;&quot;获取用户偏好&quot;&quot;&quot;
+        import json
+        cursor = self.conn.execute(
+            &quot;SELECT preferences FROM user_preferences WHERE user_id = ?&quot;,
+            (user_id,)
+        )
+        row = cursor.fetchone()
+        if not row:
+            return None
+        prefs = json.loads(row[0])
+        return prefs.get(key) if key else prefs
+</code></pre>
+<h4>方案2：向量数据库（Chroma/Pinecone）</h4>
+<p>适合存储语义化记忆，支持基于相似度的检索。</p>
+<pre><code class="language-python">import chromadb
+from chromadb.utils import embedding_functions
+
+class VectorMemory:
+    def __init__(self, collection_name=&quot;memories&quot;):
+        self.client = chromadb.PersistentClient(path=&quot;./chroma_db&quot;)
+        self.embedding_fn = embedding_functions.DefaultEmbeddingFunction()
+        
+        self.collection = self.client.get_or_create_collection(
+            name=collection_name,
+            embedding_function=self.embedding_fn
+        )
+    
+    def add_memory(self, user_id, content, memory_type=&quot;fact&quot;):
+        &quot;&quot;&quot;添加记忆&quot;&quot;&quot;
+        import uuid
+        memory_id = str(uuid.uuid4())
+        
+        self.collection.add(
+            documents=[content],
+            metadatas=[{&quot;user_id&quot;: user_id, &quot;type&quot;: memory_type}],
+            ids=[memory_id]
+        )
+        return memory_id
+    
+    def search_relevant_memories(self, user_id, query, n_results=5):
+        &quot;&quot;&quot;检索相关记忆&quot;&quot;&quot;
+        results = self.collection.query(
+            query_texts=[query],
+            where={&quot;user_id&quot;: user_id},
+            n_results=n_results
+        )
+        return results[&#39;documents&#39;][0]
+</code></pre>
 <h3>5. 记忆压缩策略</h3>
-<p>【记忆压缩策略的详细内容将在发布时生成】</p>
+<p>随着时间推移，记忆数据会越来越多，需要有效的压缩和管理策略：</p>
+<h4>层次化记忆架构</h4>
+<pre><code>L1 - 工作记忆（当前会话）
+    ↓ 会话结束
+L2 - 短期摘要（最近N个会话的摘要）
+    ↓ 定期归档
+L3 - 长期知识（提取的关键事实和模式）
+    ↓ 定期总结
+L4 - 核心画像（用户的核心偏好和特征）
+</code></pre>
+<h4>记忆淘汰策略</h4>
+<p><strong>时间衰减</strong>：越老的记忆权重越低</p>
+<pre><code class="language-python">def calculate_memory_relevance(memory, days_decay=30):
+    &quot;&quot;&quot;计算记忆的相关性分数&quot;&quot;&quot;
+    import time
+    days_old = (time.time() - memory[&#39;timestamp&#39;]) / 86400
+    recency_score = math.exp(-days_old / days_decay)
+    
+    # 访问频率加成
+    access_score = min(memory[&#39;access_count&#39;] / 10, 1.0)
+    
+    return recency_score * 0.7 + access_score * 0.3
+</code></pre>
+<p><strong>重要性标记</strong>：允许用户或系统标记重要记忆</p>
+<pre><code class="language-python">def add_important_memory(self, content, importance=1.0):
+    &quot;&quot;&quot;添加高优先级记忆&quot;&quot;&quot;
+    self.collection.add(
+        documents=[content],
+        metadatas={
+            &quot;importance&quot;: importance,
+            &quot;never_expire&quot;: True
+        }
+    )
+</code></pre>
 <h3>6. 实操案例：个人助理记忆系统</h3>
-<p>【实操案例：个人助理记忆系统的详细内容将在发布时生成】</p>
+<p>让我们构建一个完整的个人助理记忆系统：</p>
+<pre><code class="language-python">import json
+from datetime import datetime
+from typing import List, Dict, Optional
+
+class PersonalAssistantMemory:
+    &quot;&quot;&quot;个人助理记忆系统&quot;&quot;&quot;
+    
+    def __init__(self, user_id: str):
+        self.user_id = user_id
+        self.short_term = []  # 当前会话消息
+        self.db = LongTermMemory()
+        self.vector_db = VectorMemory()
+    
+    async def process_interaction(self, user_input: str, assistant_response: str):
+        &quot;&quot;&quot;处理一次交互，更新记忆&quot;&quot;&quot;
+        # 1. 保存到短期记忆
+        self.short_term.append({
+            &quot;role&quot;: &quot;user&quot;,
+            &quot;content&quot;: user_input,
+            &quot;timestamp&quot;: datetime.now().isoformat()
+        })
+        self.short_term.append({
+            &quot;role&quot;: &quot;assistant&quot;, 
+            &quot;content&quot;: assistant_response,
+            &quot;timestamp&quot;: datetime.now().isoformat()
+        })
+        
+        # 2. 提取关键事实
+        await self._extract_facts(user_input, assistant_response)
+        
+        # 3. 检查是否需要生成会话摘要
+        if len(self.short_term) &gt;= 20:
+            await self._archive_session()
+    
+    async def _extract_facts(self, user_msg: str, assistant_msg: str):
+        &quot;&quot;&quot;从对话中提取关键事实&quot;&quot;&quot;
+        extraction_prompt = f&quot;&quot;&quot;
+        从以下对话中提取关键事实（用户偏好、重要信息、决策等）。
+        用JSON格式返回，如果没有则返回空数组。
+        
+        用户：{user_msg}
+        助理：{assistant_msg}
+        
+        示例输出：[&quot;用户喜欢早上9点开始工作&quot;, &quot;用户在开发一个AI项目&quot;]
+        &quot;&quot;&quot;
+        
+        response = await llm.generate(extraction_prompt)
+        try:
+            facts = json.loads(response)
+            for fact in facts:
+                self.vector_db.add_memory(self.user_id, fact, &quot;fact&quot;)
+        except:
+            pass  # 解析失败则忽略
+    
+    async def _archive_session(self):
+        &quot;&quot;&quot;归档当前会话&quot;&quot;&quot;
+        # 生成会话摘要
+        summary_prompt = f&quot;&quot;&quot;
+        总结以下对话的关键信息和用户偏好变化：
+        {json.dumps(self.short_term, ensure_ascii=False)}
+        &quot;&quot;&quot;
+        summary = await llm.generate(summary_prompt)
+        
+        # 保存到长期记忆
+        self.db.conn.execute(
+            &quot;INSERT INTO conversation_history (user_id, session_id, summary) VALUES (?, ?, ?)&quot;,
+            (self.user_id, datetime.now().isoformat(), summary)
+        )
+        self.db.conn.commit()
+        
+        # 清空短期记忆，保留摘要
+        self.short_term = [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: f&quot;历史摘要：{summary}&quot;}]
+    
+    def get_context_for_prompt(self, current_query: str) -&gt; List[Dict]:
+        &quot;&quot;&quot;构建用于提示的上下文&quot;&quot;&quot;
+        context = []
+        
+        # 1. 添加系统提示
+        context.append({
+            &quot;role&quot;: &quot;system&quot;,
+            &quot;content&quot;: f&quot;你是用户的个人助理。以下是关于用户的已知信息：&quot;
+        })
+        
+        # 2. 检索相关长期记忆
+        relevant_memories = self.vector_db.search_relevant_memories(
+            self.user_id, current_query, n_results=5
+        )
+        if relevant_memories:
+            context.append({
+                &quot;role&quot;: &quot;system&quot;,
+                &quot;content&quot;: &quot;相关背景：\n&quot; + &quot;\n&quot;.join(relevant_memories)
+            })
+        
+        # 3. 添加短期记忆
+        context.extend(self.short_term[-10:])  # 最近10条
+        
+        return context
+</code></pre>
 <h3>7. 隐私保护</h3>
-<p>【隐私保护的详细内容将在发布时生成】</p>
+<p>记忆系统涉及大量用户数据，隐私保护至关重要：</p>
+<h4>数据安全措施</h4>
+<ol>
+<li><strong>数据加密</strong>：敏感记忆加密存储</li>
+</ol>
+<pre><code class="language-python">from cryptography.fernet import Fernet
+
+class EncryptedMemory:
+    def __init__(self, key):
+        self.cipher = Fernet(key)
+    
+    def store(self, data):
+        encrypted = self.cipher.encrypt(data.encode())
+        return encrypted
+    
+    def retrieve(self, encrypted_data):
+        decrypted = self.cipher.decrypt(encrypted_data)
+        return decrypted.decode()
+</code></pre>
+<ol start="2">
+<li><strong>数据隔离</strong>：每个用户的记忆严格隔离</li>
+<li><strong>访问控制</strong>：基于角色的权限管理</li>
+<li><strong>数据保留策略</strong>：定期清理过期记忆</li>
+</ol>
+<h4>用户控制权</h4>
+<ul>
+<li><strong>查看记忆</strong>：用户应该能查看助手记住了什么</li>
+<li><strong>删除记忆</strong>：提供&quot;忘记&quot;特定信息的功能</li>
+<li><strong>导出数据</strong>：允许用户导出自己的记忆数据</li>
+</ul>
+<pre><code class="language-python">class MemoryPrivacy:
+    def forget(self, user_id, query):
+        &quot;&quot;&quot;根据查询删除相关记忆&quot;&quot;&quot;
+        memories = self.vector_db.search(query)
+        for mem_id in memories:
+            self.vector_db.delete(mem_id)
+    
+    def export_user_data(self, user_id):
+        &quot;&quot;&quot;导出用户所有记忆数据&quot;&quot;&quot;
+        return {
+            &quot;preferences&quot;: self.db.get_preference(user_id),
+            &quot;memories&quot;: self.vector_db.get_all_user_memories(user_id),
+            &quot;history&quot;: self.db.get_conversation_history(user_id)
+        }
+</code></pre>
 <h3>8. 总结</h3>
-<p>【总结的详细内容将在发布时生成】</p>
+<p>智能体记忆系统的设计要点：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>短期记忆</th>
+<th>长期记忆</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>存储位置</td>
+<td>内存</td>
+<td>数据库/向量存储</td>
+</tr>
+<tr>
+<td>生命周期</td>
+<td>会话级</td>
+<td>持久化</td>
+</tr>
+<tr>
+<td>访问速度</td>
+<td>极快</td>
+<td>较慢</td>
+</tr>
+<tr>
+<td>主要用途</td>
+<td>当前上下文</td>
+<td>知识积累</td>
+</tr>
+<tr>
+<td>实现复杂度</td>
+<td>低</td>
+<td>高</td>
+</tr>
+</tbody></table>
+<p><strong>最佳实践建议：</strong></p>
+<ol>
+<li><strong>分层设计</strong>：工作记忆 → 短期摘要 → 长期知识 → 核心画像</li>
+<li><strong>自动提取</strong>：利用LLM自动从对话中提取关键信息</li>
+<li><strong>语义检索</strong>：使用向量数据库存储和检索语义化记忆</li>
+<li><strong>定期归档</strong>：会话结束后生成摘要，释放短期记忆压力</li>
+<li><strong>隐私优先</strong>：加密敏感数据，给用户提供记忆控制权</li>
+</ol>
+<p>记忆系统是智能体从&quot;工具&quot;进化为&quot;伙伴&quot;的关键。一个好的记忆系统能让智能体越用越懂用户，真正成为个人化的AI助手。</p>
 <hr>
 <p><em>本文由AI自动生成，每日更新AI技术教程。如有疑问欢迎留言交流！</em></p>
 
         </div>
     </article>
 
+    <!-- 分享区域 -->
     <section style="background: var(--bg-secondary); padding: 3rem 0;">
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
@@ -102,81 +511,26 @@
         </div>
     </section>
 
+    <!-- 相关文章占位 -->
     <section class="featured-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">相关文章</h2>
+                <h2 class="section-title">更多文章</h2>
             </div>
-            <div class="featured-grid" style="grid-template-columns: repeat(2, 1fr);">
-
-                <article class="post-card">
-                    <div class="post-content">
-                        <div class="post-tags">
-                            <span class="tag tag-ai">AI</span>
-                        </div>
-                        <h3 class="post-title">
-                            <a href="./2026-02-06-rag入门：让大模型拥有外部知识.html">RAG入门：让大模型拥有外部知识</a>
-                        </h3>
-                        <p class="post-excerpt">详解检索增强生成(RAG)技术原理、系统架构和完整实现，通过企业知识库问答案例，学习如何让大语言模型访问和利用外部知识。</p>
-                    </div>
-                </article>
-                <article class="post-card">
-                    <div class="post-content">
-                        <div class="post-tags">
-                            <span class="tag tag-ai">AI</span>
-                        </div>
-                        <h3 class="post-title">
-                            <a href="./2026-02-05-ai-agents-tutorial.html">AI智能体入门：从概念到实践</a>
-                        </h3>
-                        <p class="post-excerpt">深入理解AI智能体的核心概念、工作原理和架构设计，通过完整的天气查询助手案例，学习如何使用Python构建你的第一个AI智能体。</p>
-                    </div>
-                </article>
+            <div class="section-footer">
+                <a href="/posts.html" class="btn btn-outline"><span>查看全部文章</span><i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </section>
 
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="../index.html" class="footer-logo">
-                        <span class="logo-icon">&lt;/&gt;</span>
-                        <span class="logo-text">TechBlog</span>
-                    </a>
-                    <p class="footer-description">记录技术成长的每一步，分享编程的乐趣与思考。</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="social-link"><i class="fas fa-rss"></i></a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h4>快速链接</h4>
-                    <ul>
-                        <li><a href="../index.html">首页</a></li>
-                        <li><a href="../posts.html">文章</a></li>
-                        <li><a href="../about.html">关于</a></li>
-                        <li><a href="../contact.html">联系</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>技术标签</h4>
-                    <ul>
-                        <li><a href="#">React</a></li>
-                        <li><a href="#">TypeScript</a></li>
-                        <li><a href="#">Node.js</a></li>
-                        <li><a href="#">云原生</a></li>
-                    </ul>
-                </div>
-            </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 TechBlog. All rights reserved.</p>
-                <p>Made with <i class="fas fa-heart"></i> and lots of <i class="fas fa-coffee"></i></p>
             </div>
         </div>
     </footer>
 
-    <script src="../js/main.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 </html>
