@@ -5,22 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>向量数据库选型与实战 - TechBlog</title>
     <meta name="description" content="对比Chroma、Pinecone、Milvus等主流向量数据库，通过实际案例学习如何选择和优化向量存储方案。">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="../index.html" class="nav-logo">
+            <a href="/index.html" class="nav-logo">
                 <span class="logo-icon">&lt;/&gt;</span>
                 <span class="logo-text">TechBlog</span>
             </a>
             <ul class="nav-menu">
-                <li><a href="../index.html" class="nav-link">首页</a></li>
-                <li><a href="../posts.html" class="nav-link">文章</a></li>
-                <li><a href="../about.html" class="nav-link">关于</a></li>
-                <li><a href="../contact.html" class="nav-link">联系</a></li>
+                <li><a href="/index.html" class="nav-link">首页</a></li>
+                <li><a href="/posts.html" class="nav-link">文章</a></li>
+                <li><a href="/about.html" class="nav-link">关于</a></li>
+                <li><a href="/contact.html" class="nav-link">联系</a></li>
             </ul>
             <div class="nav-actions">
                 <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
@@ -45,12 +46,13 @@
                             <span style="font-size: 0.875rem; color: var(--text-muted);">前端开发工程师</span>
                         </div>
                     </div>
-                    <span class="post-date">2026/2/9</span>
+                    <span class="post-date">2026/2/9 · 阅读量 2326</span>
                 </div>
             </div>
         </header>
 
-
+        <div class="container">
+        </div>
 
         <div class="article-content">
             <h2>目录</h2>
@@ -64,29 +66,386 @@
 <li><a href="#%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">性能优化</a></li>
 <li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
 </ul>
-<h2>正文</h2>
-<h3>1. 什么是向量数据库</h3>
-<p>【什么是向量数据库的详细内容将在发布时生成】</p>
-<h3>2. 主流方案对比</h3>
-<p>【主流方案对比的详细内容将在发布时生成】</p>
-<h3>3. Chroma快速入门</h3>
-<p>【Chroma快速入门的详细内容将在发布时生成】</p>
-<h3>4. Pinecone云服务</h3>
-<p>【Pinecone云服务的详细内容将在发布时生成】</p>
-<h3>5. Milvus企业级部署</h3>
-<p>【Milvus企业级部署的详细内容将在发布时生成】</p>
-<h3>6. 选型建议</h3>
-<p>【选型建议的详细内容将在发布时生成】</p>
-<h3>7. 性能优化</h3>
-<p>【性能优化的详细内容将在发布时生成】</p>
-<h3>8. 总结</h3>
-<p>【总结的详细内容将在发布时生成】</p>
+<h2>什么是向量数据库</h2>
+<p>向量数据库（Vector Database）是一种专门用于存储和检索高维向量数据的数据库系统。在AI时代，它已经成为RAG（检索增强生成）系统的核心基础设施。</p>
+<h3>为什么需要向量数据库？</h3>
+<p>传统数据库擅长处理结构化数据（如数字、字符串），但在处理语义相似性搜索时力不从心。例如：</p>
+<ul>
+<li>搜索&quot;苹果&quot;时，传统数据库只能匹配字面相同的词</li>
+<li>向量数据库可以理解语义，同时返回&quot;iPhone&quot;、&quot;水果&quot;等相关概念</li>
+</ul>
+<h3>核心原理</h3>
+<p>向量数据库通过<strong>嵌入模型（Embedding Model）<strong>将文本、图像等数据转换为高维向量（通常是768维或1536维），然后使用</strong>近似最近邻（ANN）算法</strong>快速找到相似向量。</p>
+<pre><code class="language-python"># 文本 → 向量的转换示例
+from sentence_transformers import SentenceTransformer
+
+model = SentenceTransformer(&#39;all-MiniLM-L6-v2&#39;)
+texts = [&quot;机器学习&quot;, &quot;人工智能&quot;, &quot;苹果水果&quot;]
+embeddings = model.encode(texts)
+
+print(f&quot;向量维度: {embeddings.shape}&quot;)  # (3, 384)
+print(f&quot;&#39;机器学习&#39;和&#39;人工智能&#39;的相似度: {cosine_similarity([embeddings[0]], [embeddings[1]])[0][0]:.3f}&quot;)
+</code></pre>
+<h2>主流方案对比</h2>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Chroma</th>
+<th>Pinecone</th>
+<th>Milvus</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>部署方式</strong></td>
+<td>本地/云端</td>
+<td>纯云服务</td>
+<td>本地/云端/K8s</td>
+</tr>
+<tr>
+<td><strong>开源</strong></td>
+<td>✅ Apache 2.0</td>
+<td>❌ 商业</td>
+<td>✅ Apache 2.0</td>
+</tr>
+<tr>
+<td><strong>最大维度</strong></td>
+<td>无限制</td>
+<td>20,000</td>
+<td>32,768</td>
+</tr>
+<tr>
+<td><strong>元数据过滤</strong></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>混合搜索</strong></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>扩展性</strong></td>
+<td>中等</td>
+<td>高</td>
+<td>极高</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>原型/小项目</td>
+<td>生产环境</td>
+<td>企业级大规模</td>
+</tr>
+</tbody></table>
+<h3>选型决策树</h3>
+<pre><code>项目阶段？
+├── 原型验证/学习 → Chroma
+├── 快速上线/无运维 → Pinecone
+└── 大规模企业部署 → Milvus
+</code></pre>
+<h2>Chroma快速入门</h2>
+<p>Chroma是最适合初学者的向量数据库，API简洁，支持Python原生集成。</p>
+<h3>安装</h3>
+<pre><code class="language-bash">pip install chromadb
+</code></pre>
+<h3>基础用法</h3>
+<pre><code class="language-python">import chromadb
+
+# 创建客户端
+client = chromadb.Client()
+
+# 创建集合（相当于传统数据库的表）
+collection = client.create_collection(name=&quot;documents&quot;)
+
+# 添加文档
+collection.add(
+    documents=[
+        &quot;机器学习是人工智能的一个分支&quot;,
+        &quot;深度学习是机器学习的一种方法&quot;,
+        &quot;Python是数据科学的首选语言&quot;
+    ],
+    metadatas=[
+        {&quot;source&quot;: &quot;ml-intro&quot;, &quot;category&quot;: &quot;ai&quot;},
+        {&quot;source&quot;: &quot;dl-intro&quot;, &quot;category&quot;: &quot;ai&quot;},
+        {&quot;source&quot;: &quot;python-guide&quot;, &quot;category&quot;: &quot;programming&quot;}
+    ],
+    ids=[&quot;doc1&quot;, &quot;doc2&quot;, &quot;doc3&quot;]
+)
+
+# 相似性搜索
+results = collection.query(
+    query_texts=[&quot;什么是神经网络？&quot;],
+    n_results=2,
+    where={&quot;category&quot;: &quot;ai&quot;}  # 元数据过滤
+)
+
+print(results)
+</code></pre>
+<h3>持久化存储</h3>
+<pre><code class="language-python"># 数据保存到磁盘
+client = chromadb.PersistentClient(path=&quot;./chroma_db&quot;)
+
+# 数据会自动保存，下次启动时加载
+</code></pre>
+<h2>Pinecone云服务</h2>
+<p>Pinecone是完全托管的向量数据库，无需运维，适合快速上线。</p>
+<h3>注册与获取API Key</h3>
+<ol>
+<li>访问 <a href="https://www.pinecone.io/">pinecone.io</a></li>
+<li>注册账号（免费版支持5万个向量）</li>
+<li>创建Index并获取API Key</li>
+</ol>
+<h3>基础用法</h3>
+<pre><code class="language-python">from pinecone import Pinecone, ServerlessSpec
+
+# 初始化
+pc = Pinecone(api_key=&quot;your-api-key&quot;)
+
+# 创建索引（仅需执行一次）
+index_name = &quot;quickstart&quot;
+if index_name not in pc.list_indexes().names():
+    pc.create_index(
+        name=index_name,
+        dimension=1536,  # OpenAI Embedding维度
+        metric=&quot;cosine&quot;,
+        spec=ServerlessSpec(
+            cloud=&quot;aws&quot;,
+            region=&quot;us-east-1&quot;
+        )
+    )
+
+# 连接索引
+index = pc.Index(index_name)
+
+# 插入向量
+index.upsert(
+    vectors=[
+        {
+            &quot;id&quot;: &quot;vec1&quot;,
+            &quot;values&quot;: [0.1, 0.2, 0.3, ...],  # 1536维向量
+            &quot;metadata&quot;: {&quot;genre&quot;: &quot;drama&quot;, &quot;year&quot;: 2020}
+        }
+    ]
+)
+
+# 查询
+results = index.query(
+    vector=[0.1, 0.2, 0.3, ...],
+    top_k=3,
+    filter={&quot;genre&quot;: {&quot;$eq&quot;: &quot;drama&quot;}}
+)
+</code></pre>
+<h3>与OpenAI集成</h3>
+<pre><code class="language-python">from openai import OpenAI
+
+client = OpenAI()
+
+def get_embedding(text):
+    response = client.embeddings.create(
+        input=text,
+        model=&quot;text-embedding-3-small&quot;
+    )
+    return response.data[0].embedding
+
+# 文档向量化并存储
+documents = [&quot;文档1内容&quot;, &quot;文档2内容&quot;, &quot;文档3内容&quot;]
+vectors = [get_embedding(doc) for doc in documents]
+
+index.upsert(vectors=[
+    {&quot;id&quot;: f&quot;doc{i}&quot;, &quot;values&quot;: vec, &quot;metadata&quot;: {&quot;text&quot;: doc}}
+    for i, (vec, doc) in enumerate(zip(vectors, documents))
+])
+</code></pre>
+<h2>Milvus企业级部署</h2>
+<p>Milvus是功能最全面的开源向量数据库，支持分布式部署和十亿级向量。</p>
+<h3>使用Docker快速启动</h3>
+<pre><code class="language-bash"># 下载docker-compose配置
+wget https://github.com/milvus-io/milvus/releases/download/v2.3.3/milvus-standalone-docker-compose.yml
+
+# 启动服务
+docker-compose -f milvus-standalone-docker-compose.yml up -d
+
+# 验证
+docker ps  # 应该看到milvus-standalone容器运行中
+</code></pre>
+<h3>Python SDK操作</h3>
+<pre><code class="language-python">from pymilvus import connections, FieldSchema, CollectionSchema, DataType, Collection
+
+# 连接
+connections.connect(&quot;default&quot;, host=&quot;localhost&quot;, port=&quot;19530&quot;)
+
+# 定义集合结构
+fields = [
+    FieldSchema(name=&quot;id&quot;, dtype=DataType.INT64, is_primary=True, auto_id=True),
+    FieldSchema(name=&quot;embedding&quot;, dtype=DataType.FLOAT_VECTOR, dim=128),
+    FieldSchema(name=&quot;title&quot;, dtype=DataType.VARCHAR, max_length=512),
+    FieldSchema(name=&quot;category&quot;, dtype=DataType.VARCHAR, max_length=64)
+]
+
+schema = CollectionSchema(fields, &quot;文档向量集合&quot;)
+collection = Collection(&quot;documents&quot;, schema)
+
+# 创建索引（必须步骤，否则搜索极慢）
+index_params = {
+    &quot;metric_type&quot;: &quot;L2&quot;,
+    &quot;index_type&quot;: &quot;IVF_FLAT&quot;,
+    &quot;params&quot;: {&quot;nlist&quot;: 128}
+}
+collection.create_index(field_name=&quot;embedding&quot;, index_params=index_params)
+
+# 插入数据
+import random
+entities = [
+    [[random.random() for _ in range(128)] for _ in range(1000)],  # 向量
+    [f&quot;Document {i}&quot; for i in range(1000)],  # title
+    [&quot;tech&quot; if i % 2 == 0 else &quot;business&quot; for i in range(1000)]  # category
+]
+collection.insert(entities)
+
+# 加载到内存
+ collection.load()
+
+# 搜索
+search_params = {&quot;metric_type&quot;: &quot;L2&quot;, &quot;params&quot;: {&quot;nprobe&quot;: 10}}
+results = collection.search(
+    data=[[random.random() for _ in range(128)]],
+    anns_field=&quot;embedding&quot;,
+    param=search_params,
+    limit=5,
+    expr=&#39;category == &quot;tech&quot;&#39;,
+    output_fields=[&quot;title&quot;]
+)
+
+for result in results[0]:
+    print(f&quot;ID: {result.id}, Distance: {result.distance}, Title: {result.entity.get(&#39;title&#39;)}&quot;)
+</code></pre>
+<h2>选型建议</h2>
+<h3>场景1：个人学习/原型开发</h3>
+<p><strong>推荐：Chroma</strong></p>
+<ul>
+<li>零配置，pip install即用</li>
+<li>与LangChain深度集成</li>
+<li>支持内存和持久化两种模式</li>
+</ul>
+<h3>场景2：SaaS产品/MVP</h3>
+<p><strong>推荐：Pinecone</strong></p>
+<ul>
+<li>免运维，专注业务开发</li>
+<li>自动扩缩容</li>
+<li>全球多区域部署</li>
+</ul>
+<h3>场景3：企业内部知识库</h3>
+<p><strong>推荐：Milvus / Chroma</strong></p>
+<ul>
+<li>数据安全，可私有化部署</li>
+<li>Milvus支持权限控制和审计</li>
+</ul>
+<h3>场景4：推荐系统/搜索引擎</h3>
+<p><strong>推荐：Milvus</strong></p>
+<ul>
+<li>十亿级向量支持</li>
+<li>分布式架构</li>
+<li>混合搜索（向量+标量过滤）</li>
+</ul>
+<h2>性能优化</h2>
+<h3>1. 索引算法选择</h3>
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>召回率</th>
+<th>查询速度</th>
+<th>内存占用</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FLAT</td>
+<td>100%</td>
+<td>慢</td>
+<td>低</td>
+<td>小数据集(&lt;10K)</td>
+</tr>
+<tr>
+<td>IVF_FLAT</td>
+<td>高</td>
+<td>中等</td>
+<td>中等</td>
+<td>通用场景</td>
+</tr>
+<tr>
+<td>IVF_PQ</td>
+<td>中等</td>
+<td>快</td>
+<td>低</td>
+<td>超大规模数据</td>
+</tr>
+<tr>
+<td>HNSW</td>
+<td>高</td>
+<td>快</td>
+<td>高</td>
+<td>高性能要求</td>
+</tr>
+</tbody></table>
+<h3>2. 向量降维</h3>
+<p>如果原始向量维度过高，可以使用PCA或自动编码器降维：</p>
+<pre><code class="language-python">from sklearn.decomposition import PCA
+
+# 将1536维降至384维
+pca = PCA(n_components=384)
+reduced_vectors = pca.fit_transform(original_vectors)
+</code></pre>
+<h3>3. 批量操作</h3>
+<p>避免单条插入，使用批量操作大幅提升性能：</p>
+<pre><code class="language-python"># ❌ 低效
+for doc in documents:
+    collection.insert([doc])
+
+# ✅ 高效
+collection.insert(documents)  # 一次性插入
+</code></pre>
+<h3>4. 元数据过滤策略</h3>
+<p>优先使用元数据过滤减少搜索空间：</p>
+<pre><code class="language-python"># 先过滤再搜索，效率更高
+collection.query(
+    query_texts=[&quot;AI技术&quot;],
+    where={&quot;$and&quot;: [
+        {&quot;category&quot;: {&quot;$eq&quot;: &quot;tech&quot;}},
+        {&quot;created_at&quot;: {&quot;$gte&quot;: 1704067200}}
+    ]}
+)
+</code></pre>
+<h2>总结</h2>
+<p>向量数据库是AI应用的基础设施，选择合适的方案需要考虑：</p>
+<ol>
+<li><strong>Chroma</strong>：最适合快速原型和学习，API友好</li>
+<li><strong>Pinecone</strong>：托管服务，适合不想运维的团队</li>
+<li><strong>Milvus</strong>：企业级选择，功能最全面</li>
+</ol>
+<p>关键建议：</p>
+<ul>
+<li>小团队/MVP优先考虑Pinecone，节省运维成本</li>
+<li>数据敏感场景选择Milvus或Chroma私有化部署</li>
+<li>生产环境务必配置索引和监控</li>
+<li>关注向量维度和索引算法对性能的影响</li>
+</ul>
 <hr>
+<p><strong>参考资源：</strong></p>
+<ul>
+<li><a href="https://docs.trychroma.com/">Chroma官方文档</a></li>
+<li><a href="https://docs.pinecone.io/">Pinecone官方文档</a></li>
+<li><a href="https://milvus.io/docs">Milvus官方文档</a></li>
+<li><a href="https://python.langchain.com/docs/modules/data_connection/vectorstores/">LangChain向量存储集成</a></li>
+</ul>
 <p><em>本文由AI自动生成，每日更新AI技术教程。如有疑问欢迎留言交流！</em></p>
 
         </div>
     </article>
 
+    <!-- 分享区域 -->
     <section style="background: var(--bg-secondary); padding: 3rem 0;">
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
@@ -102,81 +461,26 @@
         </div>
     </section>
 
+    <!-- 相关文章占位 -->
     <section class="featured-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">相关文章</h2>
+                <h2 class="section-title">更多文章</h2>
             </div>
-            <div class="featured-grid" style="grid-template-columns: repeat(2, 1fr);">
-
-                <article class="post-card">
-                    <div class="post-content">
-                        <div class="post-tags">
-                            <span class="tag tag-ai">AI</span>
-                        </div>
-                        <h3 class="post-title">
-                            <a href="./2026-02-08-智能体记忆管理：从短期到长期.html">智能体记忆管理：从短期到长期</a>
-                        </h3>
-                        <p class="post-excerpt">探索AI智能体的记忆机制，学习如何实现短期上下文记忆和长期知识存储，构建具备持续学习能力的智能体。</p>
-                    </div>
-                </article>
-                <article class="post-card">
-                    <div class="post-content">
-                        <div class="post-tags">
-                            <span class="tag tag-ai">AI</span>
-                        </div>
-                        <h3 class="post-title">
-                            <a href="./2026-02-06-rag入门：让大模型拥有外部知识.html">RAG入门：让大模型拥有外部知识</a>
-                        </h3>
-                        <p class="post-excerpt">详解检索增强生成(RAG)技术原理、系统架构和完整实现，通过企业知识库问答案例，学习如何让大语言模型访问和利用外部知识。</p>
-                    </div>
-                </article>
+            <div class="section-footer">
+                <a href="/posts.html" class="btn btn-outline"><span>查看全部文章</span><i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </section>
 
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="../index.html" class="footer-logo">
-                        <span class="logo-icon">&lt;/&gt;</span>
-                        <span class="logo-text">TechBlog</span>
-                    </a>
-                    <p class="footer-description">记录技术成长的每一步，分享编程的乐趣与思考。</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="social-link"><i class="fas fa-rss"></i></a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h4>快速链接</h4>
-                    <ul>
-                        <li><a href="../index.html">首页</a></li>
-                        <li><a href="../posts.html">文章</a></li>
-                        <li><a href="../about.html">关于</a></li>
-                        <li><a href="../contact.html">联系</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>技术标签</h4>
-                    <ul>
-                        <li><a href="#">React</a></li>
-                        <li><a href="#">TypeScript</a></li>
-                        <li><a href="#">Node.js</a></li>
-                        <li><a href="#">云原生</a></li>
-                    </ul>
-                </div>
-            </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 TechBlog. All rights reserved.</p>
-                <p>Made with <i class="fas fa-heart"></i> and lots of <i class="fas fa-coffee"></i></p>
             </div>
         </div>
     </footer>
 
-    <script src="../js/main.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 </html>
