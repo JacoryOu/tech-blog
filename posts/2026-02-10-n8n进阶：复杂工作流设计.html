@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>n8n入门：零代码构建AI自动化工作流 - TechBlog</title>
-    <meta name="description" content="学习使用n8n可视化工作流工具，无需编程即可连接AI API和各类服务，通过RSS+AI摘要自动化案例掌握n8n核心用法。">
+    <title>n8n进阶：复杂工作流设计 - TechBlog</title>
+    <meta name="description" content="掌握n8n高级功能，学习条件分支设计、错误处理、数据转换和监控告警，构建生产级自动化工作流。">
     <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -34,10 +34,10 @@
         <header class="article-header">
             <div class="container">
                 <div class="article-meta">
-                    <div class="post-tags"><span class="tag">n8n</span><span class="tag">自动化</span><span class="tag">工作流</span><span class="tag">NoCode</span></div>
+                    <div class="post-tags"><span class="tag">n8n</span><span class="tag">工作流</span><span class="tag">进阶</span></div>
                     <span class="read-time"><i class="far fa-clock"></i> 20 分钟阅读</span>
                 </div>
-                <h1 class="article-title">n8n入门：零代码构建AI自动化工作流</h1>
+                <h1 class="article-title">n8n进阶：复杂工作流设计</h1>
                 <div class="post-meta" style="justify-content: flex-start; gap: 2rem;">
                     <div class="author">
                         <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="作者" class="author-avatar">
@@ -46,7 +46,7 @@
                             <span style="font-size: 0.875rem; color: var(--text-muted);">前端开发工程师</span>
                         </div>
                     </div>
-                    <span class="post-date">2026/2/7 · 阅读量 953</span>
+                    <span class="post-date">2026/2/10 · 阅读量 1903</span>
                 </div>
             </div>
         </header>
@@ -57,13 +57,13 @@
         <div class="article-content">
             <h2>目录</h2>
 <ul>
-<li><a href="#%E4%BB%80%E4%B9%88%E6%98%AFn8n">什么是n8n</a></li>
-<li><a href="#n8n%E7%9A%84%E6%A0%B8%E5%BF%83%E4%BC%98%E5%8A%BF">n8n的核心优势</a></li>
-<li><a href="#%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2">安装部署</a></li>
-<li><a href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E8%8A%82%E7%82%B9%E4%B8%8E%E5%B7%A5%E4%BD%9C%E6%B5%81">基础概念：节点与工作流</a></li>
-<li><a href="#%E5%AE%9E%E6%93%8D%E6%A1%88%E4%BE%8Brss+ai%E6%91%98%E8%A6%81%E8%87%AA%E5%8A%A8%E5%8C%96">实操案例：RSS+AI摘要自动化</a></li>
-<li><a href="#%E8%BF%9B%E9%98%B6%E6%8A%80%E5%B7%A7%E6%9D%A1%E4%BB%B6%E5%88%86%E6%94%AF%E4%B8%8E%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86">进阶技巧：条件分支与错误处理</a></li>
-<li><a href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5">最佳实践</a></li>
+<li><a href="#%E6%9D%A1%E4%BB%B6%E5%88%86%E6%94%AF%E8%AE%BE%E8%AE%A1">条件分支设计</a></li>
+<li><a href="#%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6">错误处理机制</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2%E6%8A%80%E5%B7%A7">数据转换技巧</a></li>
+<li><a href="#%E5%BE%AA%E7%8E%AF%E4%B8%8E%E6%89%B9%E5%A4%84%E7%90%86">循环与批处理</a></li>
+<li><a href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%9B%91%E6%8E%A7">工作流监控</a></li>
+<li><a href="#%E5%AE%9E%E6%93%8D%E6%A1%88%E4%BE%8B%E5%86%85%E5%AE%B9%E5%AE%A1%E6%A0%B8%E7%B3%BB%E7%BB%9F">实操案例：内容审核系统</a></li>
+<li><a href="#%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96">性能优化</a></li>
 <li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
 </ul>
 <h2>正文</h2>
