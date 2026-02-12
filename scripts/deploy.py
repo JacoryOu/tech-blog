@@ -101,7 +101,10 @@ def send_feishu_notification(post_info):
 ⏱️ 阅读时间：约20分钟
 📅 发布日期：{today}
 
-🔗 在线阅读：https://serene-mochi-6ec644.netlify.app/posts.html
+🔗 在线阅读：
+   • Netlify：https://serene-mochi-6ec644.netlify.app/posts.html
+   • GitHub Pages：https://jacoryou.github.io/tech-blog/posts.html
+
 📝 后台管理：https://serene-mochi-6ec644.netlify.app/admin/
 
 📚 明天预告：{next_title}

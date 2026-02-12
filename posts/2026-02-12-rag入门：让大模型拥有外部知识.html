@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>undefined - TechBlog</title>
+    <meta name="description" content="undefined">
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-icon">&lt;/&gt;</span>
+                <span class="logo-text">TechBlog</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="../index.html" class="nav-link">首页</a></li>
+                <li><a href="../posts.html" class="nav-link">文章</a></li>
+                <li><a href="../about.html" class="nav-link">关于</a></li>
+                <li><a href="../contact.html" class="nav-link">联系</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <article>
+        <header class="article-header">
+            <div class="container">
+                <div class="article-meta">
+                    <div class="post-tags"><span class="tag tag-undefined">undefined</span></div>
+                    <span class="read-time"><i class="far fa-clock"></i> 5 分钟阅读</span>
+                </div>
+                <h1 class="article-title">undefined</h1>
+                <div class="post-meta" style="justify-content: flex-start; gap: 2rem;">
+                    <div class="author">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" alt="作者" class="author-avatar">
+                        <div>
+                            <span class="author-name">undefined</span><br>
+                            <span style="font-size: 0.875rem; color: var(--text-muted);">前端开发工程师</span>
+                        </div>
+                    </div>
+                    <span class="post-date">Invalid Date</span>
+                </div>
+            </div>
+        </header>
+
+
+
+        <div class="article-content">
+            <h1>RAG入门：让大模型拥有外部知识</h1>
+<h2>什么是RAG</h2>
+<p><strong>RAG（Retrieval-Augmented Generation，检索增强生成）</strong> 是一种将信息检索技术与大型语言模型（LLM）相结合的AI架构。简单来说，RAG让大模型在回答问题之前，先从外部知识库中检索相关信息，然后基于这些信息生成答案。</p>
+<p>想象你是一位医生，面对一个罕见病例。你不会仅凭记忆下诊断，而是会先查阅最新的医学文献、病例数据库，然后再给出专业的诊断意见。RAG就是给大模型配备了一个这样的&quot;知识库查询系统&quot;。</p>
+<h3>RAG的核心价值</h3>
+<ol>
+<li><strong>解决知识截止问题</strong>：大模型的训练数据有截止日期，RAG让它能访问最新信息</li>
+<li><strong>减少幻觉（Hallucination）</strong>：基于检索到的事实生成答案，而非凭空编造</li>
+<li><strong>可追溯性</strong>：可以查看答案引用的原始资料来源</li>
+<li><strong>成本效益</strong>：无需重新训练模型即可更新知识</li>
+</ol>
+<hr>
+<h2>为什么需要RAG</h2>
+<h3>传统LLM的局限性</h3>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>说明</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>知识陈旧</td>
+<td>训练数据截止于某一时间点</td>
+<td>无法回答时事、新产品等问题</td>
+</tr>
+<tr>
+<td>幻觉问题</td>
+<td>对不确定的问题编造答案</td>
+<td>降低可信度，可能产生误导</td>
+</tr>
+<tr>
+<td>领域局限</td>
+<td>对专业领域知识掌握不足</td>
+<td>垂直行业应用效果差</td>
+</tr>
+<tr>
+<td>无法引用</td>
+<td>无法告知答案来源</td>
+<td>难以验证和审计</td>
+</tr>
+</tbody></table>
+<h3>RAG的典型应用场景</h3>
+<ol>
+<li><p><strong>企业知识库问答</strong></p>
+<ul>
+<li>内部文档、规章制度查询</li>
+<li>产品手册和技术文档问答</li>
+<li>客服知识库自动回复</li>
+</ul>
+</li>
+<li><p><strong>智能客服</strong></p>
+<ul>
+<li>基于商品信息的推荐</li>
+<li>订单状态和政策查询</li>
+<li>售后问题诊断</li>
+</ul>
+</li>
+<li><p><strong>教育辅助</strong></p>
+<ul>
+<li>教材内容的智能答疑</li>
+<li>个性化学习资料推荐</li>
+<li>学术论文辅助阅读</li>
+</ul>
+</li>
+<li><p><strong>医疗咨询</strong></p>
+<ul>
+<li>医学文献检索问答</li>
+<li>病例相似度匹配</li>
+<li>用药指导查询</li>
+</ul>
+</li>
+<li><p><strong>法律研究</strong></p>
+<ul>
+<li>法规和判例检索</li>
+<li>合同审查辅助</li>
+<li>法律意见生成</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2>RAG工作原理</h2>
+<h3>架构概览</h3>
+<pre><code>┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   用户查询   │────▶│  检索系统    │────▶│  相关知识   │
+└─────────────┘     └─────────────┘     └──────┬──────┘
+                                                │
+                       ┌────────────────────────┘
+                       ▼
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   生成答案   │◀────│  大语言模型  │◀────│  增强提示   │
+└─────────────┘     └─────────────┘     └─────────────┘
+</code></pre>
+<h3>核心流程</h3>
+<p><strong>第一步：文档预处理（离线阶段）</strong></p>
+<pre><code>原始文档 → 文本分块 → 向量化 → 存入向量数据库
+</code></pre>
+<ol>
+<li><strong>文档加载</strong>：读取PDF、Word、网页等各种格式的文档</li>
+<li><strong>文本分割</strong>：将长文档切分成适当大小的文本块（chunk）<ul>
+<li>常见大小：200-500 tokens</li>
+<li>重叠区域：10-20%，保持上下文连贯性</li>
+</ul>
+</li>
+<li><strong>向量化</strong>：使用嵌入模型将文本转换为向量<ul>
+<li>OpenAI text-embedding-3-small/large</li>
+<li>开源模型：sentence-transformers/all-MiniLM-L6-v2</li>
+</ul>
+</li>
+<li><strong>存储</strong>：将向量+原文存入向量数据库</li>
+</ol>
+<p><strong>第二步：检索增强（在线阶段）</strong></p>
+<pre><code>用户问题 → 问题向量化 → 相似度检索 → 获取Top-K文本块
+</code></pre>
+<ol>
+<li><strong>查询编码</strong>：将用户问题转换为向量</li>
+<li><strong>相似度计算</strong>：在向量空间中找到最相似的文本块</li>
+<li><strong>结果排序</strong>：按相似度排序，取Top-K（通常5-10个）</li>
+</ol>
+<p><strong>第三步：答案生成</strong></p>
+<pre><code>检索结果 + 用户问题 → 构建增强提示 → LLM生成答案
+</code></pre>
+<p>典型提示模板：</p>
+<pre><code>基于以下参考资料回答问题：
+
+[参考资料1]
+{chunk_1}
+
+[参考资料2]
+{chunk_2}
+
+...
+
+问题：{user_question}
+
+请基于以上资料回答，如果资料不足请说明。
+</code></pre>
+<h3>关键技术组件</h3>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>功能</th>
+<th>常用选择</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>嵌入模型</td>
+<td>文本向量化</td>
+<td>OpenAI Embeddings、Hugging Face模型</td>
+</tr>
+<tr>
+<td>向量数据库</td>
+<td>存储和检索向量</td>
+<td>Chroma、Pinecone、Milvus、Qdrant</td>
+</tr>
+<tr>
+<td>重排序器</td>
+<td>精排检索结果</td>
+<td>Cohere Rerank、Cross-Encoder</td>
+</tr>
+<tr>
+<td>大语言模型</td>
+<td>生成答案</td>
+<td>GPT-4、Claude、Llama等</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>系统架构设计</h2>
+<h3>完整RAG系统架构</h3>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                        用户交互层                            │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐    │
+│  │ Web界面  │  │ API服务  │  │ 聊天机器人│  │ 搜索插件 │    │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬─────┘    │
+└───────┼─────────────┼─────────────┼─────────────┼──────────┘
+        │             │             │             │
+        └─────────────┴──────┬──────┴─────────────┘
+                             ▼
+┌─────────────────────────────────────────────────────────────┐
+│                       RAG核心引擎                            │
+│  ┌────────────────┐      ┌──────────────────────────────┐  │
+│  │   查询处理模块  │      │        检索模块               │  │
+│  │  - 查询重写    │─────▶│  - 向量检索(粗排)             │  │
+│  │  - 意图识别    │      │  - 重排序(精排)               │  │
+│  │  - 扩展生成    │      │  - 混合检索(关键词+向量)       │  │
+│  └────────────────┘      └──────────────┬─────────────────┘  │
+│                                         │                    │
+│  ┌────────────────┐      ┌──────────────▼─────────────────┐  │
+│  │   答案生成模块  │◀─────│        提示工程                │  │
+│  │  - 答案合成    │      │  - 上下文组装                   │  │
+│  │  - 引用生成    │      │  - 系统提示构建                 │  │
+│  │  - 置信度评估  │      │  -  few-shot示例              │  │
+│  └────────────────┘      └────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+                             │
+        ┌────────────────────┼────────────────────┐
+        ▼                    ▼                    ▼
+┌───────────────┐    ┌───────────────┐    ┌───────────────┐
+│  向量数据库    │    │   文档存储     │    │   元数据存储   │
+│  - Chroma     │    │  - S3/MinIO   │    │  - PostgreSQL │
+│  - Pinecone   │    │  - 本地文件    │    │  - MongoDB    │
+│  - Milvus     │    │               │    │               │
+└───────────────┘    └───────────────┘    └───────────────┘
+</code></pre>
+<h3>数据流示意图</h3>
+<pre><code>                    离线流程（文档处理）
+    ┌────────────────────────────────────────────────┐
+    │                                                │
+    ▼                                                ▼
+┌────────┐    ┌────────┐    ┌────────┐    ┌──────────────┐
+│文档上传 │───▶│文本提取 │───▶│分块处理 │───▶│ 向量化存储   │
+└────────┘    └────────┘    └────────┘    └──────────────┘
+                                               │
+                                               ▼
+                                          ┌──────────┐
+                                          │向量数据库 │
+                                          └──────────┘
+
+                    在线流程（问答交互）
+    ┌────────────────────────────────────────────────┐
+    │                                                │
+    ▼                                                ▼
+┌────────┐    ┌────────┐    ┌────────┐    ┌──────────────┐
+│用户提问│───▶│查询优化 │───▶│向量检索 │───▶│ 上下文组装   │
+└────────┘    └────────┘    └────────┘    └───────┬──────┘
+    ▲                                             │
+    │         ┌────────┐    ┌────────┐           │
+    └─────────│答案呈现 │◀───│ LLM生成 │◀──────────┘
+              └────────┘    └────────┘
+</code></pre>
+<hr>
+<h2>环境准备</h2>
+<h3>必要依赖</h3>
+<pre><code class="language-bash"># 创建项目目录
+mkdir rag-tutorial &amp;&amp; cd rag-tutorial
+
+# 创建虚拟环境
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# 安装核心依赖
+pip install langchain langchain-openai langchain-chroma
+pip install chromadb openai tiktoken
+pip install pypdf unstructured  # 文档解析
+pip install sentence-transformers  # 开源嵌入模型
+</code></pre>
+<h3>配置文件</h3>
+<p>创建 <code>.env</code> 文件：</p>
+<pre><code class="language-env"># OpenAI API配置
+OPENAI_API_KEY=your_openai_api_key
+OPENAI_API_BASE=https://api.openai.com/v1  # 或使用代理
+
+# 可选：其他模型配置
+ANTHROPIC_API_KEY=your_claude_api_key
+COHERE_API_KEY=your_cohere_api_key  # 用于重排序
+</code></pre>
+<h3>项目结构</h3>
+<pre><code>rag-tutorial/
+├── data/                  # 原始文档
+│   └── company_docs/
+├── vector_db/            # 向量数据库目录
+├── src/                  # 源代码
+│   ├── __init__.py
+│   ├── document_loader.py    # 文档加载
+│   ├── text_processor.py     # 文本处理
+│   ├── vector_store.py       # 向量存储
+│   ├── retriever.py          # 检索器
+│   └── rag_chain.py          # RAG流程
+├── app.py                # 主应用
+├── requirements.txt
+└── .env
+</code></pre>
+<hr>
+<h2>实操案例：企业知识库问答</h2>
+<h3>案例背景</h3>
+<p>假设我们为一家科技公司构建HR政策问答系统，员工可以通过自然语言查询公司的休假政策、报销流程等信息。</p>
+<h3>完整代码实现</h3>
+<p><strong>1. 文档加载与处理 (<code>src/document_loader.py</code>)</strong></p>
+<pre><code class="language-python">&quot;&quot;&quot;文档加载模块 - 支持多种文档格式&quot;&quot;&quot;
+
+from pathlib import Path
+from typing import List
+from langchain.document_loaders import (
+    PyPDFLoader,
+    TextLoader,
+    UnstructuredWordDocumentLoader
+)
+from langchain.schema import Document
+
+class DocumentLoader:
+    &quot;&quot;&quot;多格式文档加载器&quot;&quot;&quot;
+    
+    def __init__(self, data_dir: str):
+        self.data_dir = Path(data_dir)
+        self.loaders = {
+            &#39;.pdf&#39;: PyPDFLoader,
+            &#39;.txt&#39;: TextLoader,
+            &#39;.docx&#39;: UnstructuredWordDocumentLoader,
+            &#39;.md&#39;: TextLoader
+        }
+    
+    def load_file(self, file_path: Path) -&gt; List[Document]:
+        &quot;&quot;&quot;加载单个文件&quot;&quot;&quot;
+        ext = file_path.suffix.lower()
+        if ext not in self.loaders:
+            print(f&quot;不支持的文件格式: {ext}&quot;)
+            return []
+        
+        loader_class = self.loaders[ext]
+        loader = loader_class(str(file_path))
+        documents = loader.load()
+        
+        # 添加源文件信息
+        for doc in documents:
+            doc.metadata[&#39;source&#39;] = str(file_path)
+            doc.metadata[&#39;file_type&#39;] = ext
+        
+        return documents
+    
+    def load_directory(self) -&gt; List[Document]:
+        &quot;&quot;&quot;加载整个目录&quot;&quot;&quot;
+        all_documents = []
+        
+        for file_path in self.data_dir.rglob(&#39;*&#39;):
+            if file_path.is_file() and file_path.suffix in self.loaders:
+                print(f&quot;正在加载: {file_path}&quot;)
+                docs = self.load_file(file_path)
+                all_documents.extend(docs)
+        
+        print(f&quot;共加载 {len(all_documents)} 个文档片段&quot;)
+        return all_documents
+</code></pre>
+<p><strong>2. 文本分块处理 (<code>src/text_processor.py</code>)</strong></p>
+<pre><code class="language-python">&quot;&quot;&quot;文本处理模块 - 分块和清洗&quot;&quot;&quot;
+
+from typing import List
+from langchain.schema import Document
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+class TextProcessor:
+    &quot;&quot;&quot;智能文本处理器&quot;&quot;&quot;
+    
+    def __init__(
+        self,
+        chunk_size: int = 500,
+        chunk_overlap: int = 50,
+        separators: List[str] = None
+    ):
+        &quot;&quot;&quot;
+        参数:
+            chunk_size: 每个文本块的大小（字符数）
+            chunk_overlap: 块之间的重叠字符数
+            separators: 优先使用的分隔符列表
+        &quot;&quot;&quot;
+        self.separators = separators or [&quot;\n\n&quot;, &quot;\n&quot;, &quot;。&quot;, &quot;；&quot;, &quot; &quot;, &quot;&quot;]
+        self.splitter = RecursiveCharacterTextSplitter(
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+            separators=self.separators,
+            length_function=len
+        )
+    
+    def split_documents(self, documents: List[Document]) -&gt; List[Document]:
+        &quot;&quot;&quot;将文档分块&quot;&quot;&quot;
+        chunks = self.splitter.split_documents(documents)
+        
+        # 添加分块信息到metadata
+        for i, chunk in enumerate(chunks):
+            chunk.metadata[&#39;chunk_index&#39;] = i
+            chunk.metadata[&#39;chunk_size&#39;] = len(chunk.page_content)
+        
+        print(f&quot;文档分块完成: {len(documents)} → {len(chunks)} 个片段&quot;)
+        return chunks
+    
+    def clean_text(self, text: str) -&gt; str:
+        &quot;&quot;&quot;清洗文本&quot;&quot;&quot;
+        # 移除多余空白
+        text = &#39; &#39;.join(text.split())
+        # 移除特殊字符
+        text = text.replace(&#39;\x00&#39;, &#39;&#39;)
+        return text.strip()
+</code></pre>
+<p><strong>3. 向量存储 (<code>src/vector_store.py</code>)</strong></p>
+<pre><code class="language-python">&quot;&quot;&quot;向量存储模块 - 管理和查询向量数据库&quot;&quot;&quot;
+
+import os
+from typing import List, Optional
+from langchain.schema import Document
+from langchain_openai import OpenAIEmbeddings
+from langchain_chroma import Chroma
+from langchain.embeddings import HuggingFaceEmbeddings
+
+class VectorStoreManager:
+    &quot;&quot;&quot;向量存储管理器&quot;&quot;&quot;
+    
+    def __init__(
+        self,
+        persist_directory: str = &quot;./vector_db&quot;,
+        embedding_model: str = &quot;openai&quot;,  # 或 &quot;huggingface&quot;
+        collection_name: str = &quot;documents&quot;
+    ):
+        self.persist_directory = persist_directory
+        self.collection_name = collection_name
+        
+        # 初始化嵌入模型
+        if embedding_model == &quot;openai&quot;:
+            self.embeddings = OpenAIEmbeddings(
+                model=&quot;text-embedding-3-small&quot;
+            )
+        else:
+            # 使用开源模型，无需API Key
+            self.embeddings = HuggingFaceEmbeddings(
+                model_name=&quot;sentence-transformers/all-MiniLM-L6-v2&quot;
+            )
+        
+        self.db = None
+    
+    def create_from_documents(self, documents: List[Document]) -&gt; Chroma:
+        &quot;&quot;&quot;从文档创建向量数据库&quot;&quot;&quot;
+        print(&quot;正在创建向量数据库...&quot;)
+        
+        # 确保目录存在
+        os.makedirs(self.persist_directory, exist_ok=True)
+        
+        self.db = Chroma.from_documents(
+            documents=documents,
+            embedding=self.embeddings,
+            persist_directory=self.persist_directory,
+            collection_name=self.collection_name
+        )
+        
+        print(f&quot;向量数据库创建完成，存储位置: {self.persist_directory}&quot;)
+        return self.db
+    
+    def load_existing(self) -&gt; Optional[Chroma]:
+        &quot;&quot;&quot;加载已有的向量数据库&quot;&quot;&quot;
+        if not os.path.exists(self.persist_directory):
+            print(&quot;向量数据库不存在，请先创建&quot;)
+            return None
+        
+        self.db = Chroma(
+            persist_directory=self.persist_directory,
+            embedding_function=self.embeddings,
+            collection_name=self.collection_name
+        )
+        print(&quot;向量数据库加载成功&quot;)
+        return self.db
+    
+    def add_documents(self, documents: List[Document]):
+        &quot;&quot;&quot;向现有数据库添加文档&quot;&quot;&quot;
+        if self.db is None:
+            self.create_from_documents(documents)
+        else:
+            self.db.add_documents(documents)
+            print(f&quot;已添加 {len(documents)} 个文档&quot;)
+    
+    def as_retriever(self, search_k: int = 5):
+        &quot;&quot;&quot;获取检索器&quot;&quot;&quot;
+        if self.db is None:
+            self.load_existing()
+        
+        return self.db.as_retriever(
+            search_type=&quot;similarity&quot;,  # 或 &quot;mmr&quot; 用于多样性
+            search_kwargs={&quot;k&quot;: search_k}
+        )
+</code></pre>
+<p><strong>4. RAG流程整合 (<code>src/rag_chain.py</code>)</strong></p>
+<pre><code class="language-python">&quot;&quot;&quot;RAG核心流程 - 检索和生成&quot;&quot;&quot;
+
+from typing import List, Dict, Any
+from langchain.schema import Document
+from langchain_openai import ChatOpenAI
+from langchain.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
+
+class RAGChain:
+    &quot;&quot;&quot;RAG问答链&quot;&quot;&quot;
+    
+    # RAG提示模板
+    RAG_TEMPLATE = &quot;&quot;&quot;你是一个专业的企业知识库助手。请基于以下参考资料回答用户问题。
+
+## 参考资料
+{context}
+
+## 回答规则
+1. 仅基于提供的参考资料回答，不要添加外部知识
+2. 如果资料不足以回答问题，明确说明&quot;根据现有资料无法回答&quot;
+3. 保持回答简洁专业，突出重点
+4. 如涉及具体条款，请引用来源文档
+
+## 用户问题
+{question}
+
+请提供准确、有帮助的回答：&quot;&quot;&quot;
+    
+    def __init__(self, retriever, model_name: str = &quot;gpt-3.5-turbo&quot;):
+        self.retriever = retriever
+        self.llm = ChatOpenAI(
+            model=model_name,
+            temperature=0.1,  # 低温度确保回答稳定
+            max_tokens=1000
+        )
+        
+        # 构建RAG链
+        self.prompt = ChatPromptTemplate.from_template(self.RAG_TEMPLATE)
+        
+        self.chain = (
+            {
+                &quot;context&quot;: self.retriever | self._format_docs,
+                &quot;question&quot;: RunnablePassthrough()
+            }
+            | self.prompt
+            | self.llm
+            | StrOutputParser()
+        )
+    
+    def _format_docs(self, docs: List[Document]) -&gt; str:
+        &quot;&quot;&quot;格式化文档为上下文&quot;&quot;&quot;
+        formatted = []
+        for i, doc in enumerate(docs, 1):
+            source = doc.metadata.get(&#39;source&#39;, &#39;未知来源&#39;)
+            content = doc.page_content.strip()
+            formatted.append(f&quot;[资料{i}] 来源: {source}\n{content}\n&quot;)
+        
+        return &quot;\n---\n&quot;.join(formatted)
+    
+    def query(self, question: str) -&gt; Dict[str, Any]:
+        &quot;&quot;&quot;
+        执行RAG查询
+        
+        返回:
+            {
+                &#39;question&#39;: 原始问题,
+                &#39;answer&#39;: 生成的答案,
+                &#39;sources&#39;: 引用的来源文档列表
+            }
+        &quot;&quot;&quot;
+        # 获取检索结果
+        retrieved_docs = self.retriever.get_relevant_documents(question)
+        
+        # 生成答案
+        answer = self.chain.invoke(question)
+        
+        # 整理来源
+        sources = []
+        for doc in retrieved_docs:
+            sources.append({
+                &#39;content&#39;: doc.page_content[:200] + &quot;...&quot;,
+                &#39;source&#39;: doc.metadata.get(&#39;source&#39;, &#39;未知&#39;),
+                &#39;score&#39;: doc.metadata.get(&#39;score&#39;, None)
+            })
+        
+        return {
+            &#39;question&#39;: question,
+            &#39;answer&#39;: answer,
+            &#39;sources&#39;: sources,
+            &#39;retrieved_count&#39;: len(retrieved_docs)
+        }
+</code></pre>
+<p><strong>5. 主应用 (<code>app.py</code>)</strong></p>
+<pre><code class="language-python">#!/usr/bin/env python3
+&quot;&quot;&quot;RAG企业知识库问答系统主程序&quot;&quot;&quot;
+
+import os
+from dotenv import load_dotenv
+
+from src.document_loader import DocumentLoader
+from src.text_processor import TextProcessor
+from src.vector_store import VectorStoreManager
+from src.rag_chain import RAGChain
+
+# 加载环境变量
+load_dotenv()
+
+class RAGKnowledgeBase:
+    &quot;&quot;&quot;企业知识库RAG系统&quot;&quot;&quot;
+    
+    def __init__(self, data_dir: str = &quot;./data/company_docs&quot;):
+        self.data_dir = data_dir
+        self.vector_store = VectorStoreManager()
+        self.rag_chain = None
+    
+    def initialize(self):
+        &quot;&quot;&quot;初始化知识库&quot;&quot;&quot;
+        print(&quot;=&quot; * 50)
+        print(&quot;初始化企业知识库...&quot;)
+        print(&quot;=&quot; * 50)
+        
+        # 1. 加载文档
+        loader = DocumentLoader(self.data_dir)
+        documents = loader.load_directory()
+        
+        if not documents:
+            print(&quot;错误：未找到任何文档&quot;)
+            return False
+        
+        # 2. 文本处理
+        processor = TextProcessor(
+            chunk_size=500,
+            chunk_overlap=50
+        )
+        chunks = processor.split_documents(documents)
+        
+        # 3. 创建向量数据库
+        self.vector_store.create_from_documents(chunks)
+        
+        # 4. 创建RAG链
+        retriever = self.vector_store.as_retriever(search_k=5)
+        self.rag_chain = RAGChain(retriever)
+        
+        print(&quot;\n✅ 知识库初始化完成！&quot;)
+        return True
+    
+    def load_existing(self):
+        &quot;&quot;&quot;加载已有的知识库&quot;&quot;&quot;
+        db = self.vector_store.load_existing()
+        if db:
+            retriever = self.vector_store.as_retriever(search_k=5)
+            self.rag_chain = RAGChain(retriever)
+            return True
+        return False
+    
+    def ask(self, question: str) -&gt; dict:
+        &quot;&quot;&quot;提问&quot;&quot;&quot;
+        if self.rag_chain is None:
+            return {
+                &#39;error&#39;: &#39;知识库未初始化，请先运行 initialize() 或 load_existing()&#39;
+            }
+        
+        return self.rag_chain.query(question)
+    
+    def interactive_mode(self):
+        &quot;&quot;&quot;交互式问答模式&quot;&quot;&quot;
+        print(&quot;\n&quot; + &quot;=&quot; * 50)
+        print(&quot;🤖 企业知识库问答系统&quot;)
+        print(&quot;输入 &#39;quit&#39; 退出，输入 &#39;help&#39; 查看帮助&quot;)
+        print(&quot;=&quot; * 50 + &quot;\n&quot;)
+        
+        while True:
+            try:
+                question = input(&quot;\n❓ 请输入问题: &quot;).strip()
+                
+                if question.lower() in [&#39;quit&#39;, &#39;exit&#39;, &#39;q&#39;]:
+                    print(&quot;👋 再见！&quot;)
+                    break
+                
+                if question.lower() == &#39;help&#39;:
+                    print(&quot;&quot;&quot;
+可用命令:
+- help: 显示此帮助
+- quit/exit/q: 退出程序
+- 直接输入问题获取答案
+                    &quot;&quot;&quot;)
+                    continue
+                
+                if not question:
+                    continue
+                
+                print(&quot;\n🔍 正在检索相关资料...&quot;)
+                result = self.ask(question)
+                
+                if &#39;error&#39; in result:
+                    print(f&quot;❌ 错误: {result[&#39;error&#39;]}&quot;)
+                    continue
+                
+                print(&quot;\n&quot; + &quot;-&quot; * 50)
+                print(&quot;💡 答案:&quot;)
+                print(result[&#39;answer&#39;])
+                print(&quot;-&quot; * 50)
+                print(f&quot;📚 引用了 {result[&#39;retrieved_count&#39;]} 个资料片段&quot;)
+                
+            except KeyboardInterrupt:
+                print(&quot;\n\n👋 再见！&quot;)
+                break
+            except Exception as e:
+                print(f&quot;❌ 发生错误: {e}&quot;)
+
+
+def main():
+    &quot;&quot;&quot;主函数&quot;&quot;&quot;
+    kb = RAGKnowledgeBase()
+    
+    # 检查是否已有向量数据库
+    if os.path.exists(&quot;./vector_db&quot;):
+        print(&quot;📂 发现已有知识库，正在加载...&quot;)
+        kb.load_existing()
+    else:
+        print(&quot;📂 未找到知识库，需要初始化...&quot;)
+        kb.initialize()
+    
+    # 启动交互模式
+    kb.interactive_mode()
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<h3>运行示例</h3>
+<pre><code class="language-bash"># 1. 准备文档
+mkdir -p data/company_docs
+cp /path/to/your/hr_policy.pdf data/company_docs/
+cp /path/to/your/expense_guide.docx data/company_docs/
+
+# 2. 运行应用
+python app.py
+</code></pre>
+<p>交互示例：</p>
+<pre><code>==================================================
+🤖 企业知识库问答系统
+输入 &#39;quit&#39; 退出，输入 &#39;help&#39; 查看帮助
+==================================================
+
+❓ 请输入问题: 年假有多少天？
+
+🔍 正在检索相关资料...
+
+--------------------------------------------------
+💡 答案:
+根据公司《员工手册》第3章第2节规定：
+
+1. 入职满1年不满10年的员工，年假5天
+2. 入职满10年不满20年的员工，年假10天  
+3. 入职满20年以上的员工，年假15天
+
+年假需在当年度使用，可累计到下一年度的比例为50%。
+
+来源: 员工手册2024版.pdf
+--------------------------------------------------
+📚 引用了 3 个资料片段
+</code></pre>
+<hr>
+<h2>优化技巧</h2>
+<h3>1. 检索优化</h3>
+<p><strong>混合检索策略</strong></p>
+<pre><code class="language-python">from langchain.retrievers import BM25Retriever, EnsembleRetriever
+
+# 结合关键词检索和向量检索
+bm25_retriever = BM25Retriever.from_documents(docs)
+vector_retriever = vector_db.as_retriever()
+
+# 创建集成检索器
+ensemble_retriever = EnsembleRetriever(
+    retrievers=[bm25_retriever, vector_retriever],
+    weights=[0.3, 0.7]  # 调整权重
+)
+</code></pre>
+<p><strong>重排序优化</strong></p>
+<pre><code class="language-python">from langchain.retrievers import ContextualCompressionRetriever
+from langchain_cohere import CohereRerank
+
+# 使用重排序模型精排结果
+compressor = CohereRerank()
+compression_retriever = ContextualCompressionRetriever(
+    base_compressor=compressor,
+    base_retriever=vector_retriever
+)
+</code></pre>
+<h3>2. 查询优化</h3>
+<p><strong>查询重写</strong></p>
+<pre><code class="language-python"># 使用LLM扩展和优化查询
+query_expansion_prompt = &quot;&quot;&quot;基于用户问题，生成3个相关的搜索查询：
+用户问题: {question}
+
+生成相似问题:&quot;&quot;&quot;
+</code></pre>
+<p><strong>HyDE（假设文档嵌入）</strong></p>
+<pre><code class="language-python"># 让LLM先生成假设答案，再用答案去检索
+hyde_prompt = &quot;&quot;&quot;为以下问题生成一个假设的答案段落：
+问题: {question}
+
+假设答案:&quot;&quot;&quot;
+</code></pre>
+<h3>3. 提示工程优化</h3>
+<p><strong>few-shot示例</strong></p>
+<pre><code class="language-python">few_shot_examples = &quot;&quot;&quot;
+示例1:
+问题: 加班费怎么算？
+回答: 根据劳动法第44条，工作日加班按150%工资计算...
+
+示例2:
+问题: 请假流程是什么？
+回答: 请通过OA系统提交申请，直属上级审批即可...
+&quot;&quot;&quot;
+</code></pre>
+<p><strong>添加约束指令</strong></p>
+<pre><code class="language-python">constraints = &quot;&quot;&quot;
+- 回答需控制在300字以内
+- 如涉及金额，明确标注币种
+- 使用要点列表提高可读性
+- 不确定时建议咨询HR部门
+&quot;&quot;&quot;
+</code></pre>
+<h3>4. 性能优化</h3>
+<table>
+<thead>
+<tr>
+<th>优化策略</th>
+<th>方法</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文档预处理</td>
+<td>按主题分类存储</td>
+<td>减少检索范围</td>
+</tr>
+<tr>
+<td>分块策略</td>
+<td>语义分块替代固定分块</td>
+<td>提高上下文完整性</td>
+</tr>
+<tr>
+<td>缓存机制</td>
+<td>缓存常见查询结果</td>
+<td>降低API调用成本</td>
+</tr>
+<tr>
+<td>增量更新</td>
+<td>仅更新变更文档</td>
+<td>减少向量化时间</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>总结</h2>
+<h3>核心要点回顾</h3>
+<ol>
+<li><strong>RAG的本质</strong>：检索 + 生成，让大模型拥有外部知识能力</li>
+<li><strong>三大核心组件</strong>：嵌入模型、向量数据库、大语言模型</li>
+<li><strong>关键流程</strong>：文档处理 → 向量化存储 → 检索 → 增强生成</li>
+<li><strong>优化方向</strong>：检索质量、查询理解、提示工程、系统架构</li>
+</ol>
+<h3>适用场景判断</h3>
+<table>
+<thead>
+<tr>
+<th>场景特征</th>
+<th>是否适合RAG</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>知识经常更新</td>
+<td>✅ 非常适合</td>
+</tr>
+<tr>
+<td>需要精确引用</td>
+<td>✅ 非常适合</td>
+</tr>
+<tr>
+<td>领域知识专业</td>
+<td>✅ 非常适合</td>
+</tr>
+<tr>
+<td>简单FAQ问答</td>
+<td>⚠️ 可能过度设计</td>
+</tr>
+<tr>
+<td>强推理任务</td>
+<td>❌ 需要其他方案</td>
+</tr>
+</tbody></table>
+<h3>下一步学习建议</h3>
+<ol>
+<li><strong>动手实践</strong>：使用本教程代码构建自己的知识库</li>
+<li><strong>深入向量数据库</strong>：学习Chroma、Milvus、Pinecone的选型和使用</li>
+<li><strong>探索高级RAG</strong>：Multi-hop RAG、Agentic RAG、Graph RAG</li>
+<li><strong>关注评估</strong>：学习RAG系统的评估指标和方法</li>
+</ol>
+<h3>参考资源</h3>
+<ul>
+<li><a href="https://python.langchain.com/docs/use_cases/question_answering/">LangChain RAG文档</a></li>
+<li><a href="https://docs.llamaindex.ai/">LlamaIndex文档</a></li>
+<li><a href="https://arxiv.org/abs/2312.10997">RAG Survey Paper</a></li>
+<li><a href="https://thedataquarry.com/posts/vector-db-1/">向量数据库对比</a></li>
+</ul>
+<hr>
+<p><em>本文由AI自动生成，每日更新AI技术教程。如有疑问欢迎留言交流！</em></p>
+
+        </div>
+    </article>
+
+    <section style="background: var(--bg-secondary); padding: 3rem 0;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h3>喜欢这篇文章？</h3>
+                    <p style="color: var(--text-secondary);">分享给更多开发者</p>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-secondary"><i class="fab fa-twitter"></i><span>Twitter</span></button>
+                    <button class="btn btn-secondary"><i class="fab fa-weixin"></i><span>微信</span></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">相关文章</h2>
+            </div>
+            <div class="featured-grid" style="grid-template-columns: repeat(2, 1fr);">
+
+                <div style="text-align: center; padding: 2rem;">
+                    <p style="color: var(--text-secondary);">暂无相关文章</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="../index.html" class="footer-logo">
+                        <span class="logo-icon">&lt;/&gt;</span>
+                        <span class="logo-text">TechBlog</span>
+                    </a>
+                    <p class="footer-description">记录技术成长的每一步，分享编程的乐趣与思考。</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fas fa-rss"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="../index.html">首页</a></li>
+                        <li><a href="../posts.html">文章</a></li>
+                        <li><a href="../about.html">关于</a></li>
+                        <li><a href="../contact.html">联系</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>技术标签</h4>
+                    <ul>
+                        <li><a href="#">React</a></li>
+                        <li><a href="#">TypeScript</a></li>
+                        <li><a href="#">Node.js</a></li>
+                        <li><a href="#">云原生</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 TechBlog. All rights reserved.</p>
+                <p>Made with <i class="fas fa-heart"></i> and lots of <i class="fas fa-coffee"></i></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
