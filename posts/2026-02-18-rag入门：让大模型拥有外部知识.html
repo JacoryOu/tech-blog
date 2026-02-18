@@ -5,22 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RAG入门：让大模型拥有外部知识 - TechBlog</title>
     <meta name="description" content="详解检索增强生成(RAG)技术原理、系统架构和完整实现，通过企业知识库问答案例，学习如何让大语言模型访问和利用外部知识。">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="../index.html" class="nav-logo">
+            <a href="/index.html" class="nav-logo">
                 <span class="logo-icon">&lt;/&gt;</span>
                 <span class="logo-text">TechBlog</span>
             </a>
             <ul class="nav-menu">
-                <li><a href="../index.html" class="nav-link">首页</a></li>
-                <li><a href="../posts.html" class="nav-link">文章</a></li>
-                <li><a href="../about.html" class="nav-link">关于</a></li>
-                <li><a href="../contact.html" class="nav-link">联系</a></li>
+                <li><a href="/index.html" class="nav-link">首页</a></li>
+                <li><a href="/posts.html" class="nav-link">文章</a></li>
+                <li><a href="/about.html" class="nav-link">关于</a></li>
+                <li><a href="/contact.html" class="nav-link">联系</a></li>
             </ul>
             <div class="nav-actions">
                 <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
@@ -45,12 +46,13 @@
                             <span style="font-size: 0.875rem; color: var(--text-muted);">前端开发工程师</span>
                         </div>
                     </div>
-                    <span class="post-date">2026/2/18</span>
+                    <span class="post-date">2026/2/18 · 阅读量 551</span>
                 </div>
             </div>
         </header>
 
-
+        <div class="container">
+        </div>
 
         <div class="article-content">
             <h2>目录</h2>
@@ -66,29 +68,375 @@
 </ul>
 <h2>正文</h2>
 <h3>1. 什么是RAG</h3>
-<p>【什么是RAG的详细内容将在发布时生成】</p>
-<h3>2. 为什么需要RAG</h3>
-<p>【为什么需要RAG的详细内容将在发布时生成】</p>
-<h3>3. RAG工作原理</h3>
-<p>【RAG工作原理的详细内容将在发布时生成】</p>
-<h3>4. 系统架构设计</h3>
-<p>【系统架构设计的详细内容将在发布时生成】</p>
-<h3>5. 环境准备</h3>
-<p>【环境准备的详细内容将在发布时生成】</p>
-<h3>6. 实操案例：企业知识库问答</h3>
-<p>【实操案例：企业知识库问答的详细内容将在发布时生成】</p>
-<h3>7. 优化技巧</h3>
-<p>【优化技巧的详细内容将在发布时生成】</p>
-<h3>8. 总结</h3>
-<p>【总结的详细内容将在发布时生成】</p>
-<h2>总结</h2>
-<p>本篇文章详细介绍了<strong>RAG入门：让大模型拥有外部知识</strong>的核心概念和实践方法。</p>
-<h3>重点回顾</h3>
+<p><strong>RAG（Retrieval-Augmented Generation，检索增强生成）</strong> 是一种将信息检索技术与大型语言模型（LLM）结合的AI架构。它让模型在生成回答前，先从外部知识库中检索相关信息，从而提供更准确、更有时效性的答案。</p>
+<p>简单来说，RAG = <strong>检索（Retrieval）</strong> + <strong>生成（Generation）</strong></p>
+<p><strong>传统LLM的局限：</strong></p>
 <ul>
-<li>什么是RAG</li>
-<li>为什么需要RAG</li>
-<li>RAG工作原理</li>
-<li>系统架构设计</li>
+<li>知识截止于训练数据的时间点</li>
+<li>无法访问私有/企业内部数据</li>
+<li>可能产生&quot;幻觉&quot;（编造不存在的信息）</li>
+</ul>
+<p><strong>RAG的优势：</strong></p>
+<ul>
+<li>实时访问最新信息</li>
+<li>使用企业私有知识库</li>
+<li>减少幻觉，提高准确性</li>
+<li>可追溯答案来源</li>
+</ul>
+<h3>2. 为什么需要RAG</h3>
+<h4>2.1 场景一：企业客服助手</h4>
+<p>假设你是一家电商公司的技术负责人，想要搭建一个智能客服系统：</p>
+<ul>
+<li><strong>问题</strong>：公司的退货政策、物流规则经常变化</li>
+<li><strong>传统方案</strong>：每次政策更新都要重新训练模型（成本极高）</li>
+<li><strong>RAG方案</strong>：将最新政策文档存入向量数据库，问答时实时检索</li>
+</ul>
+<h4>2.2 场景二：医学知识问答</h4>
+<ul>
+<li><strong>问题</strong>：医学研究每天都在更新，模型训练数据可能过时</li>
+<li><strong>RAG方案</strong>：连接最新的医学文献数据库，确保回答基于最新研究</li>
+</ul>
+<h4>2.3 场景三：个人知识管理</h4>
+<ul>
+<li><strong>问题</strong>：个人积累了大量笔记、文章、文档，难以检索</li>
+<li><strong>RAG方案</strong>：构建个人知识库，通过自然语言问答快速找到信息</li>
+</ul>
+<h3>3. RAG工作原理</h3>
+<p>RAG系统的工作流程分为两个阶段：<strong>索引阶段</strong>和<strong>查询阶段</strong>。</p>
+<h4>3.1 索引阶段（离线）</h4>
+<pre><code>原始文档 → 文本分块 → Embedding向量化 → 存入向量数据库
+</code></pre>
+<ol>
+<li><strong>文档加载</strong>：读取PDF、Word、网页等各种格式的文档</li>
+<li><strong>文本分块（Chunking）</strong>：将长文档切分成合适大小的片段</li>
+<li><strong>向量化（Embedding）</strong>：使用Embedding模型将文本转换为向量</li>
+<li><strong>存储</strong>：将向量存入向量数据库（如Chroma、Pinecone、Milvus）</li>
+</ol>
+<h4>3.2 查询阶段（在线）</h4>
+<pre><code>用户问题 → Embedding向量化 → 向量相似度检索 → 拼接上下文 → LLM生成回答
+</code></pre>
+<ol>
+<li><strong>问题向量化</strong>：将用户问题转换为向量</li>
+<li><strong>相似度检索</strong>：在向量数据库中找出最相似的文档片段</li>
+<li><strong>上下文构建</strong>：将检索到的内容作为上下文</li>
+<li><strong>LLM生成</strong>：将上下文+问题输入LLM，生成最终答案</li>
+</ol>
+<h3>4. 系统架构设计</h3>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│                    RAG系统架构图                         │
+├─────────────────────────────────────────────────────────┤
+│  ┌─────────────┐     ┌─────────────┐     ┌───────────┐ │
+│  │   用户输入   │────▶│  Query理解  │────▶│ Embedding │ │
+│  └─────────────┘     └─────────────┘     └─────┬─────┘ │
+│                                                │       │
+│  ┌─────────────────────────────────────────────▼─────┐ │
+│  │              向量数据库 (Vector Store)              │ │
+│  │  ┌─────────────────┐    ┌─────────────────────┐   │ │
+│  │  │  文档向量集合    │    │    元数据索引        │   │ │
+│  │  │  - Chunk 1      │    │  - 来源文档          │   │ │
+│  │  │  - Chunk 2      │    │  - 页码/段落         │   │ │
+│  │  │  - Chunk N      │    │  - 创建时间          │   │ │
+│  │  └─────────────────┘    └─────────────────────┘   │ │
+│  └───────────────────────────────────────────────────┘ │
+│                          │                             │
+│                          ▼                             │
+│  ┌───────────────────────────────────────────────────┐ │
+│  │              检索结果（Top-K相似片段）              │ │
+│  └───────────────────────────────────────────────────┘ │
+│                          │                             │
+│                          ▼                             │
+│  ┌─────────────┐     ┌─────────────┐     ┌───────────┐ │
+│  │  上下文拼接  │────▶│    LLM      │────▶│  生成答案  │ │
+│  └─────────────┘     └─────────────┘     └───────────┘ │
+└─────────────────────────────────────────────────────────┘
+</code></pre>
+<h3>5. 环境准备</h3>
+<h4>5.1 安装依赖</h4>
+<pre><code class="language-bash">pip install langchain langchain-openai chromadb tiktoken
+</code></pre>
+<h4>5.2 准备OpenAI API Key</h4>
+<pre><code class="language-python">import os
+os.environ[&quot;OPENAI_API_KEY&quot;] = &quot;your-api-key&quot;
+</code></pre>
+<h3>6. 实操案例：企业知识库问答</h3>
+<p>下面我们实现一个完整的企业知识库问答系统。</p>
+<h4>6.1 完整代码实现</h4>
+<pre><code class="language-python">&quot;&quot;&quot;
+企业知识库问答系统 - 基于RAG实现
+&quot;&quot;&quot;
+import os
+from typing import List
+from langchain_community.document_loaders import TextLoader, PyPDFLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_community.vectorstores import Chroma
+from langchain.chains import RetrievalQA
+from langchain.prompts import PromptTemplate
+
+class EnterpriseKnowledgeBase:
+    &quot;&quot;&quot;企业知识库问答系统&quot;&quot;&quot;
+    
+    def __init__(self, persist_dir: str = &quot;./chroma_db&quot;):
+        self.persist_dir = persist_dir
+        self.embeddings = OpenAIEmbeddings(
+            model=&quot;text-embedding-3-small&quot;
+        )
+        self.vector_store = None
+        self.qa_chain = None
+        
+    def load_documents(self, file_paths: List[str]) -&gt; List:
+        &quot;&quot;&quot;加载文档&quot;&quot;&quot;
+        documents = []
+        
+        for file_path in file_paths:
+            if file_path.endswith(&#39;.pdf&#39;):
+                loader = PyPDFLoader(file_path)
+            else:
+                loader = TextLoader(file_path, encoding=&#39;utf-8&#39;)
+            
+            docs = loader.load()
+            documents.extend(docs)
+            print(f&quot;✅ 加载文档: {file_path} ({len(docs)} 页)&quot;)
+        
+        return documents
+    
+    def split_documents(self, documents: List, chunk_size: int = 500, 
+                        chunk_overlap: int = 50) -&gt; List:
+        &quot;&quot;&quot;文档分块&quot;&quot;&quot;
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+            separators=[&quot;\n\n&quot;, &quot;\n&quot;, &quot;。&quot;, &quot;！&quot;, &quot;？&quot;, &quot; &quot;, &quot;&quot;]
+        )
+        
+        chunks = text_splitter.split_documents(documents)
+        print(f&quot;📄 文档分块完成: {len(chunks)} 个片段&quot;)
+        return chunks
+    
+    def create_vector_store(self, chunks: List):
+        &quot;&quot;&quot;创建向量数据库&quot;&quot;&quot;
+        self.vector_store = Chroma.from_documents(
+            documents=chunks,
+            embedding=self.embeddings,
+            persist_directory=self.persist_dir
+        )
+        self.vector_store.persist()
+        print(f&quot;💾 向量数据库已保存: {self.persist_dir}&quot;)
+    
+    def load_vector_store(self):
+        &quot;&quot;&quot;加载已有向量数据库&quot;&quot;&quot;
+        if os.path.exists(self.persist_dir):
+            self.vector_store = Chroma(
+                persist_directory=self.persist_dir,
+                embedding_function=self.embeddings
+            )
+            print(f&quot;📂 向量数据库已加载&quot;)
+            return True
+        return False
+    
+    def setup_qa_chain(self):
+        &quot;&quot;&quot;设置问答链&quot;&quot;&quot;
+        # 自定义提示词模板
+        prompt_template = &quot;&quot;&quot;
+你是一位专业的企业知识库助手。请根据以下检索到的上下文信息回答问题。
+如果上下文中没有相关信息，请明确说明&quot;根据现有资料无法回答该问题&quot;。
+
+=== 检索到的相关信息 ===
+{context}
+
+=== 用户问题 ===
+{question}
+
+=== 回答要求 ===
+1. 基于提供的上下文回答
+2. 回答要简洁明了
+3. 如有多条相关信息，请整合后回答
+4. 如果不确定，请说明不确定
+
+请回答:&quot;&quot;&quot;
+        
+        PROMPT = PromptTemplate(
+            template=prompt_template,
+            input_variables=[&quot;context&quot;, &quot;question&quot;]
+        )
+        
+        # 创建检索器
+        retriever = self.vector_store.as_retriever(
+            search_type=&quot;similarity&quot;,
+            search_kwargs={&quot;k&quot;: 5}  # 返回最相似的5个片段
+        )
+        
+        # 创建LLM
+        llm = ChatOpenAI(
+            model=&quot;gpt-4o-mini&quot;,
+            temperature=0.3
+        )
+        
+        # 创建QA链
+        self.qa_chain = RetrievalQA.from_chain_type(
+            llm=llm,
+            chain_type=&quot;stuff&quot;,
+            retriever=retriever,
+            return_source_documents=True,
+            chain_type_kwargs={&quot;prompt&quot;: PROMPT}
+        )
+        
+        print(&quot;🔗 问答链设置完成&quot;)
+    
+    def ask(self, question: str) -&gt; dict:
+        &quot;&quot;&quot;提问&quot;&quot;&quot;
+        if not self.qa_chain:
+            raise ValueError(&quot;请先调用 setup_qa_chain() 设置问答链&quot;)
+        
+        result = self.qa_chain.invoke({&quot;query&quot;: question})
+        
+        return {
+            &quot;answer&quot;: result[&quot;result&quot;],
+            &quot;sources&quot;: [doc.page_content[:200] + &quot;...&quot; 
+                       for doc in result[&quot;source_documents&quot;]]
+        }
+
+
+# ============ 使用示例 ============
+
+def main():
+    &quot;&quot;&quot;主函数&quot;&quot;&quot;
+    kb = EnterpriseKnowledgeBase(persist_dir=&quot;./kb_db&quot;)
+    
+    # 步骤1：检查是否已有向量数据库
+    if not kb.load_vector_store():
+        print(&quot;🚀 首次运行，需要构建知识库...&quot;)
+        
+        # 步骤2：加载文档（支持多个文件）
+        files = [
+            &quot;company_policy.txt&quot;,  # 公司政策
+            &quot;product_manual.pdf&quot;,  # 产品手册
+            &quot;faq.txt&quot;              # 常见问题
+        ]
+        documents = kb.load_documents(files)
+        
+        # 步骤3：文档分块
+        chunks = kb.split_documents(documents)
+        
+        # 步骤4：创建向量数据库
+        kb.create_vector_store(chunks)
+    
+    # 步骤5：设置问答链
+    kb.setup_qa_chain()
+    
+    # 步骤6：开始问答
+    print(&quot;\n&quot; + &quot;=&quot;*50)
+    print(&quot;🤖 企业知识库问答系统已启动&quot;)
+    print(&quot;=&quot;*50 + &quot;\n&quot;)
+    
+    while True:
+        question = input(&quot;\n💬 请输入问题 (输入 &#39;quit&#39; 退出): &quot;)
+        
+        if question.lower() == &#39;quit&#39;:
+            break
+        
+        result = kb.ask(question)
+        
+        print(f&quot;\n📝 回答: {result[&#39;answer&#39;]}&quot;)
+        print(f&quot;\n📚 参考来源:&quot;)
+        for i, source in enumerate(result[&#39;sources&#39;], 1):
+            print(f&quot;  [{i}] {source}&quot;)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<h4>6.2 运行效果示例</h4>
+<pre><code>🚀 首次运行，需要构建知识库...
+✅ 加载文档: company_policy.txt (1 页)
+✅ 加载文档: product_manual.pdf (12 页)
+✅ 加载文档: faq.txt (1 页)
+📄 文档分块完成: 156 个片段
+💾 向量数据库已保存: ./kb_db
+🔗 问答链设置完成
+
+==================================================
+🤖 企业知识库问答系统已启动
+==================================================
+
+💬 请输入问题 (输入 &#39;quit&#39; 退出): 公司的年假政策是什么？
+
+📝 回答: 根据公司政策，员工入职满一年后可享受带薪年假。年假天数根据工作年限确定：
+- 1-5年：5天/年
+- 5-10年：10天/年  
+- 10年以上：15天/年
+年假需在当年使用，可累计至次年3月。
+
+📚 参考来源:
+  [1] 年假政策：员工入职满一年后，可享受带薪年假。根据工作年限，年假天数为...
+  [2] 福利待遇：公司为员工提供完善的福利保障，包括年假、病假、婚假等...
+</code></pre>
+<h3>7. 优化技巧</h3>
+<h4>7.1 分块策略优化</h4>
+<pre><code class="language-python"># 按语义分块（效果更好但稍慢）
+from langchain_experimental.text_splitter import SemanticChunker
+
+text_splitter = SemanticChunker(
+    OpenAIEmbeddings(),
+    breakpoint_threshold_type=&quot;percentile&quot;,
+    breakpoint_threshold_amount=95
+)
+</code></pre>
+<h4>7.2 混合检索</h4>
+<pre><code class="language-python"># 结合关键词检索和向量检索
+from langchain.retrievers import BM25Retriever, EnsembleRetriever
+
+# BM25关键词检索
+bm25_retriever = BM25Retriever.from_documents(documents)
+bm25_retriever.k = 3
+
+# 向量检索
+vector_retriever = vector_store.as_retriever(search_kwargs={&quot;k&quot;: 3})
+
+# 混合检索（权重可调整）
+ensemble_retriever = EnsembleRetriever(
+    retrievers=[bm25_retriever, vector_retriever],
+    weights=[0.5, 0.5]
+)
+</code></pre>
+<h4>7.3 重排序（Rerank）</h4>
+<pre><code class="language-python"># 使用更强大的模型对检索结果重排序
+from langchain.retrievers import ContextualCompressionRetriever
+from langchain_cohere import CohereRerank
+
+compressor = CohereRerank()
+compression_retriever = ContextualCompressionRetriever(
+    base_compressor=compressor,
+    base_retriever=vector_store.as_retriever()
+)
+</code></pre>
+<h4>7.4 查询重写</h4>
+<pre><code class="language-python"># 使用LLM优化用户查询
+def rewrite_query(original_query: str, llm) -&gt; str:
+    prompt = f&quot;&quot;&quot;请将以下用户查询改写为更适合向量检索的形式，
+    提取关键概念并保持语义完整。
+    
+    原查询: {original_query}
+    改写后:&quot;&quot;&quot;
+    
+    return llm.predict(prompt)
+</code></pre>
+<h3>8. 总结</h3>
+<p>本篇文章详细介绍了RAG（检索增强生成）技术的核心概念和实现方法。</p>
+<p><strong>重点回顾：</strong></p>
+<ol>
+<li><strong>什么是RAG</strong>：将信息检索与大模型生成结合的技术架构</li>
+<li><strong>为什么需要RAG</strong>：解决大模型知识时效性、隐私性和幻觉问题</li>
+<li><strong>工作原理</strong>：索引阶段（文档→分块→向量化→存储）+ 查询阶段（问题→检索→生成）</li>
+<li><strong>系统架构</strong>：向量数据库 + Embedding模型 + LLM + 检索器</li>
+<li><strong>完整实现</strong>：使用LangChain搭建企业知识库问答系统</li>
+<li><strong>优化技巧</strong>：语义分块、混合检索、重排序、查询重写</li>
+</ol>
+<p><strong>下一步学习建议：</strong></p>
+<ul>
+<li>了解向量数据库选型（Chroma vs Milvus vs Pinecone）</li>
+<li>学习多模态RAG（处理图片、视频）</li>
+<li>探索Agentic RAG（结合智能体能力）</li>
 </ul>
 <hr>
 <p><em>本文由AI自动生成，每日更新AI技术教程。如有疑问欢迎留言交流！</em></p>
@@ -96,6 +444,7 @@
         </div>
     </article>
 
+    <!-- 分享区域 -->
     <section style="background: var(--bg-secondary); padding: 3rem 0;">
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
@@ -111,81 +460,26 @@
         </div>
     </section>
 
+    <!-- 相关文章占位 -->
     <section class="featured-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">相关文章</h2>
+                <h2 class="section-title">更多文章</h2>
             </div>
-            <div class="featured-grid" style="grid-template-columns: repeat(2, 1fr);">
-
-                <article class="post-card">
-                    <div class="post-content">
-                        <div class="post-tags">
-                            <span class="tag tag-ai">AI</span>
-                        </div>
-                        <h3 class="post-title">
-                            <a href="./2026-02-17-ai智能体入门：从概念到实践.html">AI智能体入门：从概念到实践</a>
-                        </h3>
-                        <p class="post-excerpt">深入理解AI智能体的核心概念、工作原理和架构设计，通过完整的天气查询助手案例，学习如何使用Python构建你的第一个AI智能体。</p>
-                    </div>
-                </article>
-                <article class="post-card">
-                    <div class="post-content">
-                        <div class="post-tags">
-                            <span class="tag tag-ai">AI</span>
-                        </div>
-                        <h3 class="post-title">
-                            <a href="./2026-02-15-ai智能体工具链实战.html">AI智能体工具链实战：从MCP到n8n的完整工作流</a>
-                        </h3>
-                        <p class="post-excerpt">深入探索AI智能体的工具链生态，学习如何使用MCP协议扩展智能体能力，并通过n8n构建完整的自动化工作流。</p>
-                    </div>
-                </article>
+            <div class="section-footer">
+                <a href="/posts.html" class="btn btn-outline"><span>查看全部文章</span><i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </section>
 
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="../index.html" class="footer-logo">
-                        <span class="logo-icon">&lt;/&gt;</span>
-                        <span class="logo-text">TechBlog</span>
-                    </a>
-                    <p class="footer-description">记录技术成长的每一步，分享编程的乐趣与思考。</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="social-link"><i class="fas fa-rss"></i></a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h4>快速链接</h4>
-                    <ul>
-                        <li><a href="../index.html">首页</a></li>
-                        <li><a href="../posts.html">文章</a></li>
-                        <li><a href="../about.html">关于</a></li>
-                        <li><a href="../contact.html">联系</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>技术标签</h4>
-                    <ul>
-                        <li><a href="#">React</a></li>
-                        <li><a href="#">TypeScript</a></li>
-                        <li><a href="#">Node.js</a></li>
-                        <li><a href="#">云原生</a></li>
-                    </ul>
-                </div>
-            </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 TechBlog. All rights reserved.</p>
-                <p>Made with <i class="fas fa-heart"></i> and lots of <i class="fas fa-coffee"></i></p>
             </div>
         </div>
     </footer>
 
-    <script src="../js/main.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 </html>
