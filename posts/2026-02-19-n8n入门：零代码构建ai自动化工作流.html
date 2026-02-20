@@ -5,22 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>n8n入门：零代码构建AI自动化工作流 - TechBlog</title>
     <meta name="description" content="学习使用n8n可视化工作流工具，无需编程即可连接AI API和各类服务，通过RSS+AI摘要自动化案例掌握n8n核心用法。">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="../index.html" class="nav-logo">
+            <a href="/index.html" class="nav-logo">
                 <span class="logo-icon">&lt;/&gt;</span>
                 <span class="logo-text">TechBlog</span>
             </a>
             <ul class="nav-menu">
-                <li><a href="../index.html" class="nav-link">首页</a></li>
-                <li><a href="../posts.html" class="nav-link">文章</a></li>
-                <li><a href="../about.html" class="nav-link">关于</a></li>
-                <li><a href="../contact.html" class="nav-link">联系</a></li>
+                <li><a href="/index.html" class="nav-link">首页</a></li>
+                <li><a href="/posts.html" class="nav-link">文章</a></li>
+                <li><a href="/about.html" class="nav-link">关于</a></li>
+                <li><a href="/contact.html" class="nav-link">联系</a></li>
             </ul>
             <div class="nav-actions">
                 <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
@@ -45,12 +46,13 @@
                             <span style="font-size: 0.875rem; color: var(--text-muted);">前端开发工程师</span>
                         </div>
                     </div>
-                    <span class="post-date">2026/2/19</span>
+                    <span class="post-date">2026/2/19 · 阅读量 625</span>
                 </div>
             </div>
         </header>
 
-
+        <div class="container">
+        </div>
 
         <div class="article-content">
             <h2>目录</h2>
@@ -66,36 +68,343 @@
 </ul>
 <h2>正文</h2>
 <h3>1. 什么是n8n</h3>
-<p>【什么是n8n的详细内容将在发布时生成】</p>
+<p><strong>n8n</strong>（发音：n-eight-n）是一个开源的、可扩展的工作流自动化工具，由德国开发者Jan Oberhauser于2019年创建。它的核心理念是让用户通过可视化界面拖拽节点来构建自动化流程，无需编写代码。</p>
+<p>与Zapier、Make(原Integromat)等商业自动化工具不同，n8n提供了以下独特价值：</p>
+<ul>
+<li><strong>开源免费</strong>：社区版完全免费，可自托管</li>
+<li><strong>数据隐私</strong>：数据存储在自己的服务器上</li>
+<li><strong>无限工作流</strong>：没有Zapier那样的任务数量限制</li>
+<li><strong>AI原生支持</strong>：内置OpenAI、Claude、LangChain等AI集成</li>
+</ul>
+<p>n8n的名字来源于&quot;nodemation&quot;（节点自动化），它的工作方式就是连接各种节点来实现自动化任务。</p>
 <h3>2. n8n的核心优势</h3>
-<p>【n8n的核心优势的详细内容将在发布时生成】</p>
+<h4>2.1 可视化工作流设计</h4>
+<p>n8n采用画布式界面，你可以拖拽节点、连接它们，直观看到数据流动。每个节点代表一个操作：触发、数据处理、API调用等。</p>
+<h4>2.2 400+ 原生集成</h4>
+<p>内置大量预置节点：</p>
+<ul>
+<li><strong>通讯</strong>：Email、Slack、Discord、Telegram</li>
+<li><strong>存储</strong>：Google Sheets、Airtable、Notion</li>
+<li><strong>AI</strong>：OpenAI、Anthropic、HuggingFace、Pinecone</li>
+<li><strong>开发</strong>：GitHub、GitLab、Webhook、HTTP Request</li>
+</ul>
+<h4>2.3 JavaScript表达式</h4>
+<p>虽然不需要写代码，但n8n支持在节点中使用JavaScript表达式处理数据：</p>
+<pre><code class="language-javascript">// 提取日期
+{{ new Date().toISOString().split(&#39;T&#39;)[0] }}
+
+// 条件判断
+{{ $json.status === &#39;completed&#39; ? &#39;完成&#39; : &#39;进行中&#39; }}
+
+// 数组操作
+{{ $json.items.map(item =&gt; item.name).join(&#39;, &#39;) }}
+</code></pre>
+<h4>2.4 自托管能力</h4>
+<p>你可以将n8n部署在自己的服务器上：</p>
+<pre><code class="language-bash">docker run -it --rm \
+  --name n8n \
+  -p 5678:5678 \
+  -v ~/.n8n:/home/node/.n8n \
+  n8nio/n8n
+</code></pre>
 <h3>3. 安装部署</h3>
-<p>【安装部署的详细内容将在发布时生成】</p>
+<h4>3.1 Docker 快速启动（推荐）</h4>
+<pre><code class="language-bash"># 创建数据目录
+mkdir -p ~/.n8n
+
+# 启动n8n
+docker run -it --rm \
+  --name n8n \
+  -p 5678:5678 \
+  -v ~/.n8n:/home/node/.n8n \
+  n8nio/n8n
+</code></pre>
+<p>访问 <a href="http://localhost:5678">http://localhost:5678</a> 即可使用。</p>
+<h4>3.2 使用 Docker Compose</h4>
+<p>创建 <code>docker-compose.yml</code>：</p>
+<pre><code class="language-yaml">version: &#39;3&#39;
+services:
+  n8n:
+    image: n8nio/n8n
+    restart: always
+    ports:
+      - &quot;5678:5678&quot;
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=your-password
+    volumes:
+      - ~/.n8n:/home/node/.n8n
+</code></pre>
+<p>启动：</p>
+<pre><code class="language-bash">docker-compose up -d
+</code></pre>
+<h4>3.3 n8n Cloud（托管版）</h4>
+<p>如果不想自己部署，可以使用官方托管服务：</p>
+<ul>
+<li>免费版：每月500次执行</li>
+<li>付费版：从 $20/月起</li>
+</ul>
+<p>访问 <a href="https://n8n.io/cloud">https://n8n.io/cloud</a> 注册。</p>
 <h3>4. 基础概念：节点与工作流</h3>
-<p>【基础概念：节点与工作流的详细内容将在发布时生成】</p>
+<h4>4.1 节点类型</h4>
+<p>n8n的节点分为四类：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>图标</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Trigger</strong></td>
+<td>⚡</td>
+<td>触发工作流</td>
+<td>Schedule, Webhook, RSS</td>
+</tr>
+<tr>
+<td><strong>Action</strong></td>
+<td>⏵</td>
+<td>执行操作</td>
+<td>HTTP Request, Email</td>
+</tr>
+<tr>
+<td><strong>Data</strong></td>
+<td>🗃️</td>
+<td>数据处理</td>
+<td>Code, Set, Filter</td>
+</tr>
+<tr>
+<td><strong>Logic</strong></td>
+<td>🔀</td>
+<td>逻辑控制</td>
+<td>IF, Switch, Merge</td>
+</tr>
+</tbody></table>
+<h4>4.2 工作流结构</h4>
+<p>一个典型的工作流包含：</p>
+<ol>
+<li><strong>Trigger节点</strong>（必须有）：定义何时启动</li>
+<li><strong>数据处理节点</strong>：转换、过滤数据</li>
+<li><strong>动作节点</strong>：执行具体操作</li>
+<li><strong>逻辑节点</strong>：条件分支、循环</li>
+</ol>
+<h4>4.3 数据传递</h4>
+<p>节点之间通过JSON对象传递数据，使用 <code>$json</code> 访问：</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: 123,
+  &quot;title&quot;: &quot;文章标题&quot;,
+  &quot;content&quot;: &quot;文章内容...&quot;
+}
+</code></pre>
+<p>在表达式中引用：<code>{{ $json.title }}</code></p>
 <h3>5. 实操案例：RSS+AI摘要自动化</h3>
-<p>【实操案例：RSS+AI摘要自动化的详细内容将在发布时生成】</p>
+<p>这个案例演示如何：</p>
+<ol>
+<li>定时获取RSS源</li>
+<li>用AI生成摘要</li>
+<li>发送到指定渠道</li>
+</ol>
+<h4>5.1 创建工作流</h4>
+<ol>
+<li>点击 <strong>Add Workflow</strong></li>
+<li>添加 <strong>RSS Read</strong> 节点作为触发器</li>
+</ol>
+<h4>5.2 配置RSS触发器</h4>
+<p>选择 <strong>RSS Read</strong> 节点：</p>
+<ul>
+<li><strong>URL</strong>: <code>https://www.jiqizhixin.com/rss</code>（机器之心）</li>
+<li><strong>Options</strong> → <strong>Return All</strong>: 开启（获取多条）</li>
+</ul>
+<h4>5.3 添加AI摘要节点</h4>
+<p>添加 <strong>OpenAI</strong> 节点（或 <strong>Anthropic Chat Model</strong>）：</p>
+<ul>
+<li><strong>Operation</strong>: Create Completion</li>
+<li><strong>Model</strong>: gpt-3.5-turbo</li>
+<li><strong>Prompt</strong>:</li>
+</ul>
+<pre><code>请为以下文章生成中文摘要，限制在100字以内：
+
+标题：{{ $json.title }}
+内容：{{ $json.contentSnippet }}
+
+摘要：
+</code></pre>
+<h4>5.4 添加发送节点</h4>
+<p>添加 <strong>Telegram</strong> 节点（或其他通讯工具）：</p>
+<ul>
+<li><strong>Chat ID</strong>: 你的Telegram Chat ID</li>
+<li><strong>Text</strong>:</li>
+</ul>
+<pre><code>📰 {{ $json.title }}
+
+📝 {{ $(&#39;OpenAI&#39;).item.json.choices[0].message.content }}
+
+🔗 {{ $json.link }}
+</code></pre>
+<h4>5.5 设置定时触发</h4>
+<p>将RSS节点改为 <strong>Schedule Trigger</strong> + <strong>HTTP Request</strong>：</p>
+<ul>
+<li>先用 Schedule Trigger 设置每6小时执行</li>
+<li>添加 HTTP Request 节点获取RSS：<ul>
+<li>Method: GET</li>
+<li>URL: RSS地址</li>
+</ul>
+</li>
+</ul>
+<p>或使用 <strong>RSS Trigger</strong> 节点（直接监控RSS更新）。</p>
+<h4>5.6 完整工作流JSON</h4>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;RSS AI摘要&quot;,
+  &quot;nodes&quot;: [
+    {
+      &quot;type&quot;: &quot;n8n-nodes-base.scheduleTrigger&quot;,
+      &quot;parameters&quot;: {
+        &quot;rule&quot;: {
+          &quot;interval&quot;: [{&quot;field&quot;: &quot;hours&quot;, &quot;hours&quot;: 6}]
+        }
+      }
+    },
+    {
+      &quot;type&quot;: &quot;n8n-nodes-base.httpRequest&quot;,
+      &quot;parameters&quot;: {
+        &quot;url&quot;: &quot;https://www.jiqizhixin.com/rss&quot;,
+        &quot;options&quot;: {&quot;response&quot;: {&quot;responseFormat&quot;: &quot;text&quot;}}
+      }
+    },
+    {
+      &quot;type&quot;: &quot;n8n-nodes-base.xml&quot;,
+      &quot;parameters&quot;: {
+        &quot;mode&quot;: &quot;toJson&quot;
+      }
+    },
+    {
+      &quot;type&quot;: &quot;n8n-nodes-base.openAi&quot;,
+      &quot;parameters&quot;: {
+        &quot;resource&quot;: &quot;completion&quot;,
+        &quot;model&quot;: &quot;gpt-3.5-turbo&quot;,
+        &quot;messages&quot;: {
+          &quot;message&quot;: [{
+            &quot;role&quot;: &quot;user&quot;,
+            &quot;content&quot;: &quot;生成摘要：{{ $json.title }}&quot;
+          }]
+        }
+      }
+    }
+  ]
+}
+</code></pre>
 <h3>6. 进阶技巧：条件分支与错误处理</h3>
-<p>【进阶技巧：条件分支与错误处理的详细内容将在发布时生成】</p>
+<h4>6.1 IF节点实现条件分支</h4>
+<p>场景：根据文章类别发送到不同渠道</p>
+<p>添加 <strong>IF</strong> 节点：</p>
+<ul>
+<li><strong>Conditions</strong>:<ul>
+<li>Value 1: <code>{{ $json.category }}</code></li>
+<li>Operation: Equal</li>
+<li>Value 2: <code>AI</code></li>
+</ul>
+</li>
+</ul>
+<p>输出有两个分支：</p>
+<ul>
+<li><strong>true</strong>: 发送到AI讨论群</li>
+<li><strong>false</strong>: 发送到综合群</li>
+</ul>
+<h4>6.2 错误处理</h4>
+<p>在节点设置 <strong>On Error</strong> → <strong>Continue</strong>（出错继续执行）：</p>
+<ul>
+<li>添加 <strong>No Operation, do nothing</strong> 节点处理错误分支</li>
+<li>或使用 <strong>Set</strong> 节点记录错误信息</li>
+</ul>
+<h4>6.3 循环与拆分</h4>
+<p>使用 <strong>Split In Batches</strong> 节点批量处理：</p>
+<ul>
+<li>一次处理10条数据</li>
+<li>避免API限流</li>
+</ul>
 <h3>7. 最佳实践</h3>
-<p>【最佳实践的详细内容将在发布时生成】</p>
+<h4>7.1 工作流命名规范</h4>
+<pre><code>[类型]_[项目]_[功能]_[环境]
+例如：
+- AUTO_RSS_AI摘要_prod
+- NOTIF_服务器监控_alert
+- ETL_数据同步_daily
+</code></pre>
+<h4>7.2 使用环境变量</h4>
+<p>敏感信息不要硬编码，使用环境变量：</p>
+<pre><code class="language-bash"># .env
+N8N_AI_API_KEY=sk-xxx
+N8N_TELEGRAM_BOT_TOKEN=xxx
+</code></pre>
+<p>在n8n中引用：<code>{{ $env.N8N_AI_API_KEY }}</code></p>
+<h4>7.3 工作流版本管理</h4>
+<ul>
+<li>定期导出工作流JSON备份</li>
+<li>重大修改前创建副本</li>
+<li>使用Git管理n8n配置文件</li>
+</ul>
+<h4>7.4 性能优化</h4>
+<ul>
+<li>批量处理数据减少API调用</li>
+<li>使用Set节点缓存中间结果</li>
+<li>为长时间任务设置Timeout</li>
+</ul>
 <h3>8. 总结</h3>
-<p>【总结的详细内容将在发布时生成】</p>
-<h2>总结</h2>
 <p>本篇文章详细介绍了<strong>n8n入门：零代码构建AI自动化工作流</strong>的核心概念和实践方法。</p>
 <h3>重点回顾</h3>
-<ul>
-<li>什么是n8n</li>
-<li>n8n的核心优势</li>
-<li>安装部署</li>
-<li>基础概念：节点与工作流</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>主题</th>
+<th>要点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>什么是n8n</strong></td>
+<td>开源工作流自动化工具，可视化节点编排</td>
+</tr>
+<tr>
+<td><strong>核心优势</strong></td>
+<td>开源免费、400+集成、AI原生、可自托管</td>
+</tr>
+<tr>
+<td><strong>安装部署</strong></td>
+<td>Docker一键启动，支持Compose和Cloud</td>
+</tr>
+<tr>
+<td><strong>基础概念</strong></td>
+<td>Trigger/Action/Data/Logic四种节点类型</td>
+</tr>
+<tr>
+<td><strong>实操案例</strong></td>
+<td>RSS+AI摘要自动化完整流程</td>
+</tr>
+<tr>
+<td><strong>进阶技巧</strong></td>
+<td>条件分支、错误处理、批量处理</td>
+</tr>
+<tr>
+<td><strong>最佳实践</strong></td>
+<td>命名规范、环境变量、版本管理</td>
+</tr>
+</tbody></table>
+<h3>下一步学习</h3>
+<ol>
+<li>探索 n8n 的 <strong>LangChain</strong> 节点实现复杂AI应用</li>
+<li>学习使用 <strong>Code</strong> 节点编写自定义JavaScript</li>
+<li>尝试搭建 <strong>Webhook</strong> 接收外部系统通知</li>
+<li>研究 <strong>Error Workflow</strong> 实现全局错误处理</li>
+</ol>
 <hr>
 <p><em>本文由AI自动生成，每日更新AI技术教程。如有疑问欢迎留言交流！</em></p>
 
         </div>
     </article>
 
+    <!-- 分享区域 -->
     <section style="background: var(--bg-secondary); padding: 3rem 0;">
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
@@ -111,81 +420,26 @@
         </div>
     </section>
 
+    <!-- 相关文章占位 -->
     <section class="featured-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">相关文章</h2>
+                <h2 class="section-title">更多文章</h2>
             </div>
-            <div class="featured-grid" style="grid-template-columns: repeat(2, 1fr);">
-
-                <article class="post-card">
-                    <div class="post-content">
-                        <div class="post-tags">
-                            <span class="tag tag-工具">工具</span>
-                        </div>
-                        <h3 class="post-title">
-                            <a href="./2026-02-16-n8n进阶：复杂工作流设计.html">n8n进阶：复杂工作流设计</a>
-                        </h3>
-                        <p class="post-excerpt">掌握n8n高级功能，学习条件分支设计、错误处理、数据转换和监控告警，构建生产级自动化工作流。</p>
-                    </div>
-                </article>
-                <article class="post-card">
-                    <div class="post-content">
-                        <div class="post-tags">
-                            <span class="tag tag-工具">工具</span>
-                        </div>
-                        <h3 class="post-title">
-                            <a href="./2026-02-13-n8n入门：零代码构建ai自动化工作流.html">n8n入门：零代码构建AI自动化工作流</a>
-                        </h3>
-                        <p class="post-excerpt">学习使用n8n可视化工作流工具，无需编程即可连接AI API和各类服务，通过RSS+AI摘要自动化案例掌握n8n核心用法。</p>
-                    </div>
-                </article>
+            <div class="section-footer">
+                <a href="/posts.html" class="btn btn-outline"><span>查看全部文章</span><i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </section>
 
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="../index.html" class="footer-logo">
-                        <span class="logo-icon">&lt;/&gt;</span>
-                        <span class="logo-text">TechBlog</span>
-                    </a>
-                    <p class="footer-description">记录技术成长的每一步，分享编程的乐趣与思考。</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="social-link"><i class="fas fa-rss"></i></a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h4>快速链接</h4>
-                    <ul>
-                        <li><a href="../index.html">首页</a></li>
-                        <li><a href="../posts.html">文章</a></li>
-                        <li><a href="../about.html">关于</a></li>
-                        <li><a href="../contact.html">联系</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>技术标签</h4>
-                    <ul>
-                        <li><a href="#">React</a></li>
-                        <li><a href="#">TypeScript</a></li>
-                        <li><a href="#">Node.js</a></li>
-                        <li><a href="#">云原生</a></li>
-                    </ul>
-                </div>
-            </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 TechBlog. All rights reserved.</p>
-                <p>Made with <i class="fas fa-heart"></i> and lots of <i class="fas fa-coffee"></i></p>
             </div>
         </div>
     </footer>
 
-    <script src="../js/main.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 </html>
