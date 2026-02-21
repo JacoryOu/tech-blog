@@ -5,22 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI智能体入门：从概念到第一个智能体 - TechBlog</title>
     <meta name="description" content="深入理解AI智能体的核心概念、工作原理和架构设计，通过完整的天气查询助手案例，学习如何构建你的第一个AI智能体。">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- 导航栏 -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="../index.html" class="nav-logo">
+            <a href="/index.html" class="nav-logo">
                 <span class="logo-icon">&lt;/&gt;</span>
                 <span class="logo-text">TechBlog</span>
             </a>
             <ul class="nav-menu">
-                <li><a href="../index.html" class="nav-link">首页</a></li>
-                <li><a href="../posts.html" class="nav-link">文章</a></li>
-                <li><a href="../about.html" class="nav-link">关于</a></li>
-                <li><a href="../contact.html" class="nav-link">联系</a></li>
+                <li><a href="/index.html" class="nav-link">首页</a></li>
+                <li><a href="/posts.html" class="nav-link">文章</a></li>
+                <li><a href="/about.html" class="nav-link">关于</a></li>
+                <li><a href="/contact.html" class="nav-link">联系</a></li>
             </ul>
             <div class="nav-actions">
                 <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
@@ -45,12 +46,13 @@
                             <span style="font-size: 0.875rem; color: var(--text-muted);">前端开发工程师</span>
                         </div>
                     </div>
-                    <span class="post-date">2026/2/21</span>
+                    <span class="post-date">2026/2/21 · 阅读量 1840</span>
                 </div>
             </div>
         </header>
 
-
+        <div class="container">
+        </div>
 
         <div class="article-content">
             <blockquote>
@@ -66,41 +68,334 @@
 <li><a href="#%E8%BF%9B%E9%98%B6%E6%8A%80%E5%B7%A7%E5%88%86%E4%BA%AB">进阶技巧分享</a></li>
 <li><a href="#%E6%80%BB%E7%BB%93%E4%B8%8E%E4%B8%8B%E4%B8%80%E6%AD%A5">总结与下一步</a></li>
 </ul>
-<h2>正文</h2>
-<h3>1. 核心概念介绍</h3>
-<p>【核心概念介绍的详细内容将在发布时生成】</p>
-<h3>2. 为什么需要这个技术</h3>
-<p>【为什么需要这个技术的详细内容将在发布时生成】</p>
-<h3>3. 工作原理详解</h3>
-<p>【工作原理详解的详细内容将在发布时生成】</p>
-<h3>4. 环境准备与安装</h3>
-<p>【环境准备与安装的详细内容将在发布时生成】</p>
-<h3>5. 基础用法示例</h3>
-<p>【基础用法示例的详细内容将在发布时生成】</p>
-<h3>6. 进阶技巧分享</h3>
-<p>【进阶技巧分享的详细内容将在发布时生成】</p>
-<h3>7. 常见问题解答</h3>
-<p>【常见问题解答的详细内容将在发布时生成】</p>
-<h3>8. 总结与下一步</h3>
-<p>【总结与下一步的详细内容将在发布时生成】</p>
-<h2>总结</h2>
-<p>本篇文章详细介绍了<strong>AI智能体入门：从概念到第一个智能体</strong>的核心概念和实践方法。</p>
-<h3>重点回顾</h3>
+<h2>核心概念介绍</h2>
+<h3>什么是AI智能体？</h3>
+<p>AI智能体（AI Agent）是一种能够<strong>感知环境、自主决策、执行动作</strong>的人工智能系统。与传统的大型语言模型（LLM）不同，智能体不仅仅是回答问题，它能够：</p>
 <ul>
-<li>核心概念介绍</li>
-<li>为什么需要这个技术</li>
-<li>工作原理详解</li>
-<li>环境准备与安装</li>
+<li><strong>自主规划</strong>：将复杂任务分解为可执行的步骤</li>
+<li><strong>工具调用</strong>：使用外部API、数据库、搜索引擎等工具</li>
+<li><strong>记忆管理</strong>：保存和利用历史对话及执行记录</li>
+<li><strong>迭代优化</strong>：根据执行反馈不断调整策略</li>
 </ul>
-<h3>系列导航</h3>
-<p>📖 当前：第1篇
-➡️ 下一篇预告：智能体工具链设计：让AI拥有超能力</p>
+<h3>智能体 vs 传统LLM</h3>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>传统LLM</th>
+<th>AI智能体</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>交互方式</td>
+<td>一问一答</td>
+<td>多轮自主执行</td>
+</tr>
+<tr>
+<td>信息获取</td>
+<td>依赖训练数据</td>
+<td>实时调用工具</td>
+</tr>
+<tr>
+<td>任务处理</td>
+<td>单步骤完成</td>
+<td>多步骤规划执行</td>
+</tr>
+<tr>
+<td>记忆能力</td>
+<td>上下文窗口有限</td>
+<td>长期记忆存储</td>
+</tr>
+</tbody></table>
+<h3>智能体的核心组件</h3>
+<pre><code>┌─────────────────────────────────────────┐
+│              AI Agent                   │
+├─────────────┬─────────────┬─────────────┤
+│   规划模块   │   记忆模块   │   工具模块   │
+│  (Planning) │  (Memory)   │  (Tools)    │
+├─────────────┴─────────────┴─────────────┤
+│              执行引擎                    │
+│           (Execution Engine)             │
+└─────────────────────────────────────────┘
+</code></pre>
+<h2>为什么需要这个技术</h2>
+<h3>1. 弥补LLM的局限性</h3>
+<p>大语言模型虽然强大，但存在明显短板：</p>
+<ul>
+<li><strong>知识截止</strong>：无法获取实时信息</li>
+<li><strong>计算能力</strong>：不擅长精确数学计算</li>
+<li><strong>外部集成</strong>：无法直接操作外部系统</li>
+</ul>
+<h3>2. 自动化复杂工作流</h3>
+<p>智能体能够处理需要多步骤协作的任务：</p>
+<ul>
+<li>📧 自动读取邮件 → 提取关键信息 → 生成回复草稿</li>
+<li>🔍 搜索资料 → 整理总结 → 生成报告</li>
+<li>🗓️ 查看日程 → 协调时间 → 发送会议邀请</li>
+</ul>
+<h3>3. 持续学习和优化</h3>
+<p>通过记忆机制，智能体能从过去的交互中学习：</p>
+<ul>
+<li>记住用户偏好</li>
+<li>积累领域知识</li>
+<li>优化执行策略</li>
+</ul>
+<h2>工作原理详解</h2>
+<h3>ReAct范式（Reasoning + Acting）</h3>
+<p>ReAct是当前最流行的智能体架构，它将推理和行动紧密结合：</p>
+<pre><code>思考(Thought) → 行动(Action) → 观察(Observation) → 思考(Thought) → ...
+</code></pre>
+<p><strong>执行循环示例：</strong></p>
+<ol>
+<li><strong>用户提问</strong>：&quot;今天上海天气怎么样？&quot;</li>
+<li><strong>智能体思考</strong>：用户想知道天气，我需要调用天气API</li>
+<li><strong>选择工具</strong>：<code>get_weather(city=&quot;上海&quot;)</code></li>
+<li><strong>执行行动</strong>：调用天气API</li>
+<li><strong>观察结果</strong>：获取到天气数据</li>
+<li><strong>再次思考</strong>：已获取数据，可以回答用户</li>
+<li><strong>生成回复</strong>：&quot;今天上海晴，温度15-22°C...&quot;</li>
+</ol>
+<h3>规划与任务分解</h3>
+<p>对于复杂任务，智能体会进行多层级规划：</p>
+<pre><code>任务：规划一次日本旅行
+
+└── 子任务1: 确定目的地
+    ├── 查询热门景点
+    ├── 了解当地文化
+    └── 确定行程天数
+
+└── 子任务2: 预订交通
+    ├── 查询航班
+    ├── 比较价格
+    └── 预订机票
+
+└── 子任务3: 预订住宿
+    ├── 搜索酒店
+    ├── 查看评价
+    └── 完成预订
+</code></pre>
+<h2>环境准备与安装</h2>
+<h3>1. 安装Python环境</h3>
+<pre><code class="language-bash"># 检查Python版本（需要3.8+）
+python --version
+
+# 创建虚拟环境
+python -m venv agent_env
+source agent_env/bin/activate  # Linux/Mac
+# 或
+agent_env\Scripts\activate  # Windows
+</code></pre>
+<h3>2. 安装核心依赖</h3>
+<pre><code class="language-bash">pip install openai langchain langchain-openai python-dotenv
+</code></pre>
+<h3>3. 配置API密钥</h3>
+<p>创建 <code>.env</code> 文件：</p>
+<pre><code class="language-bash">OPENAI_API_KEY=your_api_key_here
+</code></pre>
+<h2>基础用法示例</h2>
+<h3>示例1：最简单的智能体</h3>
+<pre><code class="language-python">from langchain.agents import AgentType, initialize_agent
+from langchain_openai import ChatOpenAI
+from langchain.tools import Tool
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# 定义工具
+def get_weather(city: str) -&gt; str:
+    &quot;&quot;&quot;获取指定城市的天气信息&quot;&quot;&quot;
+    # 这里可以接入真实的天气API
+    weather_data = {
+        &quot;北京&quot;: &quot;晴，15-25°C&quot;,
+        &quot;上海&quot;: &quot;多云，18-26°C&quot;,
+        &quot;深圳&quot;: &quot;小雨，22-28°C&quot;
+    }
+    return weather_data.get(city, &quot;暂无该城市天气数据&quot;)
+
+# 创建工具列表
+tools = [
+    Tool(
+        name=&quot;get_weather&quot;,
+        func=get_weather,
+        description=&quot;获取指定城市的天气信息，输入参数为城市名称&quot;
+    )
+]
+
+# 初始化语言模型
+llm = ChatOpenAI(
+    model=&quot;gpt-3.5-turbo&quot;,
+    temperature=0
+)
+
+# 创建智能体
+agent = initialize_agent(
+    tools=tools,
+    llm=llm,
+    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+    verbose=True
+)
+
+# 运行智能体
+response = agent.run(&quot;今天上海天气怎么样？&quot;)
+print(response)
+</code></pre>
+<p><strong>运行结果：</strong></p>
+<pre><code>&gt; 进入Agent执行链...
+
+思考：用户想知道上海的天气，我需要使用get_weather工具。
+行动：get_weather
+行动输入：上海
+
+观察：多云，18-26°C
+
+思考：我已经获取到了上海的天气信息，现在可以回答用户了。
+最终答案：今天上海多云，温度在18到26摄氏度之间。
+</code></pre>
+<h3>示例2：带记忆的多轮对话</h3>
+<pre><code class="language-python">from langchain.memory import ConversationBufferMemory
+from langchain.agents import AgentExecutor
+from langchain.agents.format_scratchpad import format_to_openai_functions
+from langchain.agents.output_parsers import OpenAIFunctionsAgentOutputParser
+
+# 创建记忆模块
+memory = ConversationBufferMemory(
+    memory_key=&quot;chat_history&quot;,
+    return_messages=True
+)
+
+# 构建带记忆的智能体
+agent_executor = AgentExecutor.from_agent_and_tools(
+    agent=agent,
+    tools=tools,
+    memory=memory,
+    verbose=True
+)
+
+# 多轮对话示例
+print(agent_executor.run(&quot;你好，我叫Jacory&quot;))
+print(agent_executor.run(&quot;我叫什么名字？&quot;))
+print(agent_executor.run(&quot;帮我查一下北京的天气&quot;))
+</code></pre>
+<h2>进阶技巧分享</h2>
+<h3>1. 工具设计最佳实践</h3>
+<pre><code class="language-python">from typing import Optional
+from langchain.pydantic_v1 import BaseModel, Field
+
+class WeatherInput(BaseModel):
+    &quot;&quot;&quot;天气查询输入参数&quot;&quot;&quot;
+    city: str = Field(description=&quot;要查询天气的城市名称，如&#39;北京&#39;、&#39;上海&#39;&quot;)
+    date: Optional[str] = Field(
+        default=&quot;today&quot;,
+        description=&quot;查询日期，格式为YYYY-MM-DD，默认为今天&quot;
+    )
+
+# 使用结构化输入的工具
+@tool(args_schema=WeatherInput)
+def get_weather_advanced(city: str, date: str = &quot;today&quot;) -&gt; str:
+    &quot;&quot;&quot;
+    获取指定城市和日期的详细天气信息
+    
+    Args:
+        city: 城市名称
+        date: 查询日期
+    
+    Returns:
+        包含温度、湿度、风速等信息的天气数据
+    &quot;&quot;&quot;
+    # 实现逻辑...
+    pass
+</code></pre>
+<h3>2. 错误处理与重试</h3>
+<pre><code class="language-python">from langchain.agents import AgentExecutor
+from tenacity import retry, stop_after_attempt, wait_fixed
+
+# 配置重试策略
+agent_executor = AgentExecutor(
+    agent=agent,
+    tools=tools,
+    max_iterations=5,  # 最大迭代次数
+    early_stopping_method=&quot;generate&quot;,  # 超限时生成答案
+    handle_parsing_errors=True  # 自动处理解析错误
+)
+
+@retry(stop=stop_after_attempt(3), wait=wait_fixed(1))
+def run_with_retry(query: str) -&gt; str:
+    &quot;&quot;&quot;带重试机制的智能体执行&quot;&quot;&quot;
+    return agent_executor.run(query)
+</code></pre>
+<h3>3. 自定义提示词模板</h3>
+<pre><code class="language-python">from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
+
+# 定义自定义提示词
+system_template = &quot;&quot;&quot;你是一个专业的AI助手，擅长使用工具解决用户问题。
+
+可用工具：{tools}
+
+工具使用格式：
+</code></pre>
+<p>Thought: 我需要做什么
+Action: 工具名称
+Action Input: 工具输入</p>
+<pre><code>
+记住：
+1. 每次只能使用一个工具
+2. 观察工具返回后再决定下一步
+3. 如果没有合适的工具，直接回答
+&quot;&quot;&quot;
+
+prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, system_template),
+    MessagesPlaceholder(variable_name=&quot;chat_history&quot;),
+    (&quot;human&quot;, &quot;{input}&quot;),
+    MessagesPlaceholder(variable_name=&quot;agent_scratchpad&quot;),
+])
+</code></pre>
+<h3>4. 流式输出实现</h3>
+<pre><code class="language-python">from langchain.callbacks import StreamingStdOutCallbackHandler
+
+# 配置流式回调
+llm = ChatOpenAI(
+    model=&quot;gpt-3.5-turbo&quot;,
+    streaming=True,
+    callbacks=[StreamingStdOutCallbackHandler()]
+)
+
+# 执行时会实时输出思考过程
+agent.run(&quot;查询北京和上海今天的天气，并比较哪个更适合户外活动&quot;)
+</code></pre>
+<h2>总结与下一步</h2>
+<h3>本文要点回顾</h3>
+<ol>
+<li><strong>AI智能体</strong>是能感知环境、自主决策、执行动作的AI系统</li>
+<li><strong>核心组件</strong>：规划模块、记忆模块、工具模块、执行引擎</li>
+<li><strong>ReAct范式</strong>：推理+行动循环是智能体工作的基础</li>
+<li><strong>LangChain</strong>提供了便捷的智能体开发框架</li>
+<li><strong>工具设计</strong>要考虑参数结构化、错误处理和文档完整性</li>
+</ol>
+<h3>推荐学习路径</h3>
+<pre><code>第1周：掌握基础概念和简单工具调用
+    ↓
+第2周：学习记忆管理和多轮对话
+    ↓
+第3周：理解高级规划策略（ReAct、Plan-and-Execute）
+    ↓
+第4周：实战项目（如个人助手、数据分析Agent）
+</code></pre>
+<h3>扩展资源</h3>
+<ul>
+<li><strong>LangChain官方文档</strong>: <a href="https://python.langchain.com/">https://python.langchain.com/</a></li>
+<li><strong>OpenAI Function Calling</strong>: <a href="https://platform.openai.com/docs/guides/function-calling">https://platform.openai.com/docs/guides/function-calling</a></li>
+<li><strong>Awesome AI Agents</strong>: <a href="https://github.com/e2b-dev/awesome-ai-agents">https://github.com/e2b-dev/awesome-ai-agents</a></li>
+<li><strong>本系列下一篇</strong>：智能体工具链设计：让AI拥有超能力</li>
+</ul>
 <hr>
 <p><em>本文由AI自动生成，每日更新AI技术教程。如有疑问欢迎留言交流！</em></p>
 
         </div>
     </article>
 
+    <!-- 分享区域 -->
     <section style="background: var(--bg-secondary); padding: 3rem 0;">
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
@@ -116,62 +411,26 @@
         </div>
     </section>
 
+    <!-- 相关文章占位 -->
     <section class="featured-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">相关文章</h2>
+                <h2 class="section-title">更多文章</h2>
             </div>
-            <div class="featured-grid" style="grid-template-columns: repeat(2, 1fr);">
-
-                <div style="text-align: center; padding: 2rem;">
-                    <p style="color: var(--text-secondary);">暂无相关文章</p>
-                </div>
+            <div class="section-footer">
+                <a href="/posts.html" class="btn btn-outline"><span>查看全部文章</span><i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </section>
 
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="../index.html" class="footer-logo">
-                        <span class="logo-icon">&lt;/&gt;</span>
-                        <span class="logo-text">TechBlog</span>
-                    </a>
-                    <p class="footer-description">记录技术成长的每一步，分享编程的乐趣与思考。</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        <a href="#" class="social-link"><i class="fas fa-rss"></i></a>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <h4>快速链接</h4>
-                    <ul>
-                        <li><a href="../index.html">首页</a></li>
-                        <li><a href="../posts.html">文章</a></li>
-                        <li><a href="../about.html">关于</a></li>
-                        <li><a href="../contact.html">联系</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>技术标签</h4>
-                    <ul>
-                        <li><a href="#">React</a></li>
-                        <li><a href="#">TypeScript</a></li>
-                        <li><a href="#">Node.js</a></li>
-                        <li><a href="#">云原生</a></li>
-                    </ul>
-                </div>
-            </div>
             <div class="footer-bottom">
                 <p>&copy; 2026 TechBlog. All rights reserved.</p>
-                <p>Made with <i class="fas fa-heart"></i> and lots of <i class="fas fa-coffee"></i></p>
             </div>
         </div>
     </footer>
 
-    <script src="../js/main.js"></script>
+    <script src="/js/main.js"></script>
 </body>
 </html>
