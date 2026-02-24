@@ -33,8 +33,8 @@
         <header class="article-header">
             <div class="container">
                 <div class="article-meta">
-                    <div class="post-tags"><span class="tag">AI Agents</span><span class="tag">Memory</span><span class="tag">架构设计</span></div>
-                    <span class="read-time"><i class="far fa-clock"></i> 20 分钟阅读</span>
+                    <div class="post-tags"><span class="tag">AI Agents</span><span class="tag">Memory</span><span class="tag">架构设计</span><span class="tag">OpenClaw</span></div>
+                    <span class="read-time"><i class="far fa-clock"></i> 15 分钟阅读</span>
                 </div>
                 <h1 class="article-title">智能体记忆系统：短期记忆与长期知识</h1>
                 <div class="post-meta" style="justify-content: flex-start; gap: 2rem;">
@@ -59,45 +59,282 @@
 <h2>目录</h2>
 <ul>
 <li><a href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D">核心概念介绍</a></li>
-<li><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E8%BF%99%E4%B8%AA%E6%8A%80%E6%9C%AF">为什么需要这个技术</a></li>
-<li><a href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E8%AF%A6%E8%A7%A3">工作原理详解</a></li>
-<li><a href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E%E5%AE%89%E8%A3%85">环境准备与安装</a></li>
-<li><a href="#%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95%E7%A4%BA%E4%BE%8B">基础用法示例</a></li>
+<li><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F">为什么需要记忆系统</a></li>
+<li><a href="#%E8%AE%B0%E5%BF%86%E7%B1%BB%E5%9E%8B%E8%AF%A6%E8%A7%A3">记忆类型详解</a></li>
+<li><a href="#openclaw-%E8%AE%B0%E5%BF%86%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98">OpenClaw 记忆管理实战</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B%E4%B8%8E%E5%AE%9E%E7%8E%B0">代码示例与实现</a></li>
 <li><a href="#%E8%BF%9B%E9%98%B6%E6%8A%80%E5%B7%A7%E5%88%86%E4%BA%AB">进阶技巧分享</a></li>
 <li><a href="#%E6%80%BB%E7%BB%93%E4%B8%8E%E4%B8%8B%E4%B8%80%E6%AD%A5">总结与下一步</a></li>
 </ul>
-<h2>正文</h2>
-<h3>1. 核心概念介绍</h3>
-<p>【核心概念介绍的详细内容将在发布时生成】</p>
-<h3>2. 为什么需要这个技术</h3>
-<p>【为什么需要这个技术的详细内容将在发布时生成】</p>
-<h3>3. 工作原理详解</h3>
-<p>【工作原理详解的详细内容将在发布时生成】</p>
-<h3>4. 环境准备与安装</h3>
-<p>【环境准备与安装的详细内容将在发布时生成】</p>
-<h3>5. 基础用法示例</h3>
-<p>【基础用法示例的详细内容将在发布时生成】</p>
-<h3>6. 进阶技巧分享</h3>
-<p>【进阶技巧分享的详细内容将在发布时生成】</p>
-<h3>7. 常见问题解答</h3>
-<p>【常见问题解答的详细内容将在发布时生成】</p>
-<h3>8. 总结与下一步</h3>
-<p>【总结与下一步的详细内容将在发布时生成】</p>
-<h2>总结</h2>
-<p>本篇文章详细介绍了<strong>智能体记忆系统：短期记忆与长期知识</strong>的核心概念和实践方法。</p>
-<h3>重点回顾</h3>
-<ul>
-<li>核心概念介绍</li>
-<li>为什么需要这个技术</li>
-<li>工作原理详解</li>
-<li>环境准备与安装</li>
-</ul>
-<h3>系列导航</h3>
-<p>⬅️ 上一篇：同系列入门文章
-📖 当前：第3篇
-➡️ 下一篇预告：多智能体协作系统设计与实现</p>
 <hr>
-<p><em>本文由AI自动生成，每日更新AI技术教程。如有疑问欢迎留言交流！</em></p>
+<h2>核心概念介绍</h2>
+<p>AI智能体的<strong>记忆系统</strong>是其能够持续学习、积累经验并与用户建立长期关系的核心组件。与人类记忆类似，智能体记忆也分为不同层次：</p>
+<table>
+<thead>
+<tr>
+<th>记忆类型</th>
+<th>存储时长</th>
+<th>容量</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>工作记忆</strong></td>
+<td>单次对话</td>
+<td>有限</td>
+<td>当前上下文窗口内的信息</td>
+</tr>
+<tr>
+<td><strong>短期记忆</strong></td>
+<td>多轮对话</td>
+<td>中等</td>
+<td>会话期间保持的上下文</td>
+</tr>
+<tr>
+<td><strong>长期记忆</strong></td>
+<td>永久</td>
+<td>大</td>
+<td>跨会话的知识和经验</td>
+</tr>
+</tbody></table>
+<h3>记忆 vs 知识库</h3>
+<ul>
+<li><strong>记忆</strong>：个人化的、动态的、与特定交互相关的信息</li>
+<li><strong>知识库</strong>：静态的、通用的、预先定义的事实数据</li>
+</ul>
+<hr>
+<h2>为什么需要记忆系统</h2>
+<h3>1. 解决上下文丢失问题</h3>
+<p>当对话过长或模型上下文窗口有限时，早期的信息会被&quot;遗忘&quot;。记忆系统可以：</p>
+<ul>
+<li>保存关键信息</li>
+<li>在需要时检索相关内容</li>
+<li>维护对话的连贯性</li>
+</ul>
+<h3>2. 实现个性化体验</h3>
+<p>记住用户的：</p>
+<ul>
+<li>偏好设置</li>
+<li>历史选择</li>
+<li>常用工作流</li>
+<li>个人背景信息</li>
+</ul>
+<h3>3. 支持持续学习</h3>
+<ul>
+<li>从过去的交互中学习</li>
+<li>积累经验改进响应</li>
+<li>建立用户画像</li>
+</ul>
+<hr>
+<h2>记忆类型详解</h2>
+<h3>1. 工作记忆（Working Memory）</h3>
+<p>当前会话窗口内的信息，由大语言模型原生支持。</p>
+<pre><code>限制：受模型上下文窗口限制（如 GPT-4 的 128k tokens）
+特点：无需额外实现，但容量有限
+</code></pre>
+<h3>2. 短期记忆（Short-term Memory）</h3>
+<p>跨会话但临时的信息存储，通常保存在内存或缓存中。</p>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>当日日程安排</li>
+<li>临时任务列表</li>
+<li>会话摘要</li>
+</ul>
+<h3>3. 长期记忆（Long-term Memory）</h3>
+<p>持久化存储，通常使用向量数据库或文件系统。</p>
+<p><strong>实现方式</strong>：</p>
+<ul>
+<li><strong>文件存储</strong>：Markdown、JSON 文件</li>
+<li><strong>数据库存储</strong>：向量数据库（Pinecone、Chroma、Milvus）</li>
+<li><strong>知识图谱</strong>：结构化的关系网络</li>
+</ul>
+<hr>
+<h2>OpenClaw 记忆管理实战</h2>
+<p>OpenClaw 提供了内置的记忆管理工具，让智能体能够轻松实现记忆功能。</p>
+<h3>文件结构</h3>
+<pre><code>clawd/
+├── memory/
+│   ├── 2026-02-23.md          # 每日记忆日志
+│   └── heartbeat-state.json   # 状态记录
+├── MEMORY.md                   # 长期记忆库
+├── SOUL.md                     # 智能体人格定义
+└── USER.md                     # 用户信息
+</code></pre>
+<h3>关键文件说明</h3>
+<h4>1. MEMORY.md - 长期记忆库</h4>
+<p>存储需要长期保留的重要信息：</p>
+<ul>
+<li>用户偏好</li>
+<li>历史决策</li>
+<li>经验教训</li>
+<li>项目背景</li>
+</ul>
+<pre><code class="language-markdown"># MEMORY.md 示例
+
+## 用户偏好
+- 喜欢简洁的回答
+- 偏好使用 Python
+- 工作时间：9:00-18:00
+
+## 重要日期
+- 2026-02-20: 启动了 Moltbook 集成
+- 2026-02-22: 完成了 RSS 技能开发
+</code></pre>
+<h4>2. memory/YYYY-MM-DD.md - 每日日志</h4>
+<p>记录当天发生的事件：</p>
+<pre><code class="language-markdown"># 2026-02-23 工作日志
+
+## 上午
+- 08:00: 生成博客文章
+- 09:30: 修复了 RSS feed 解析问题
+
+## 下午
+- 14:00: 与用户讨论新项目需求
+
+## 学到的东西
+- 使用 Chroma 存储向量比 Pinecone 更便宜
+</code></pre>
+<h4>3. 自动记忆搜索</h4>
+<p>OpenClaw 在回答关于历史的问题时，会自动搜索 MEMORY.md 和 memory/*.md 文件：</p>
+<pre><code class="language-javascript">// 当你问&quot;上周我们做了什么？&quot;
+// OpenClaw 会自动执行：
+memory_search(query: &quot;上周做了什么&quot;)
+</code></pre>
+<hr>
+<h2>代码示例与实现</h2>
+<h3>示例 1：手动写入记忆</h3>
+<pre><code class="language-javascript">// 写入长期记忆
+const memoryContent = `
+## 新项目: Tech Blog
+- 类型: 静态博客
+- 技术栈: Node.js + 自动生成
+- 创建于: ${new Date().toISOString()}
+`;
+
+await write({
+  path: &#39;MEMORY.md&#39;,
+  content: memoryContent,
+  append: true  // 追加模式
+});
+</code></pre>
+<h3>示例 2：读取和更新记忆</h3>
+<pre><code class="language-javascript">// 读取现有记忆
+const memory = await read({ path: &#39;MEMORY.md&#39; });
+
+// 更新特定部分
+const updatedMemory = memory.replace(
+  /上次同步: .*/,
+  `上次同步: ${new Date().toISOString()}`
+);
+
+await write({
+  path: &#39;MEMORY.md&#39;,
+  content: updatedMemory
+});
+</code></pre>
+<h3>示例 3：使用向量数据库</h3>
+<pre><code class="language-python"># 使用 Chroma 存储记忆
+import chromadb
+
+client = chromadb.Client()
+collection = client.create_collection(&quot;agent_memory&quot;)
+
+# 添加记忆
+collection.add(
+    documents=[&quot;用户喜欢简洁的回答&quot;],
+    metadatas=[{&quot;type&quot;: &quot;preference&quot;, &quot;date&quot;: &quot;2026-02-23&quot;}],
+    ids=[&quot;pref_001&quot;]
+)
+
+# 检索相关记忆
+results = collection.query(
+    query_texts=[&quot;用户偏好什么风格？&quot;],
+    n_results=3
+)
+</code></pre>
+<h3>示例 4：记忆压缩与摘要</h3>
+<p>当上下文过长时，智能体可以自动压缩：</p>
+<pre><code class="language-javascript">// 总结长对话
+const summary = await sessions_summary({
+  sessionKey: currentSession,
+  maxLength: 500
+});
+
+// 保存摘要到记忆
+await write({
+  path: `memory/${today}.md`,
+  content: `## 会话摘要\n${summary}\n`
+});
+</code></pre>
+<hr>
+<h2>进阶技巧分享</h2>
+<h3>1. 记忆分层策略</h3>
+<pre><code>热数据（Hot）  → 内存缓存 → Redis
+温数据（Warm） → 文件系统 → memory/*.md
+冷数据（Cold）  → 向量数据库 → Chroma/Pinecone
+</code></pre>
+<h3>2. 记忆衰减机制</h3>
+<p>不是所有记忆都值得永久保存：</p>
+<pre><code class="language-python"># 基于重要性的记忆保留
+def should_keep_memory(memory_item):
+    importance_score = calculate_importance(memory_item)
+    age_days = (now - memory_item.created_at).days
+    
+    # 重要性衰减公式
+    retention_probability = importance_score * (0.9 ** age_days)
+    
+    return retention_probability &gt; 0.3
+</code></pre>
+<h3>3. 记忆冲突解决</h3>
+<p>当新记忆与旧记忆冲突时：</p>
+<pre><code class="language-javascript">// 检查是否已存在相关记忆
+const existing = await memory_search({
+  query: &quot;用户偏好编程语言&quot;
+});
+
+if (existing.length &gt; 0) {
+  // 更新而非重复添加
+  await memory_update({
+    id: existing[0].id,
+    content: &quot;用户现在偏好 TypeScript（之前是 Python）&quot;
+  });
+}
+</code></pre>
+<h3>4. 隐私与安全</h3>
+<ul>
+<li><strong>敏感信息加密</strong>：API 密钥、密码不应明文存储</li>
+<li><strong>访问控制</strong>：不同用户的数据隔离</li>
+<li><strong>数据清理</strong>：定期清理过期记忆</li>
+</ul>
+<pre><code class="language-javascript">// 安全的记忆存储
+const sensitiveData = encrypt(userApiKey, encryptionKey);
+await write({
+  path: &#39;secrets.enc&#39;,
+  content: sensitiveData
+});
+</code></pre>
+<hr>
+<h2>总结与下一步</h2>
+<h3>重点回顾</h3>
+<p>✅ <strong>记忆类型</strong>：工作记忆、短期记忆、长期记忆各有用途<br>✅ <strong>OpenClaw 内置</strong>：MEMORY.md 和 memory/*.md 提供开箱即用的记忆功能<br>✅ <strong>向量数据库</strong>：适合大规模、语义化的记忆检索<br>✅ <strong>分层策略</strong>：根据访问频率选择存储介质  </p>
+<h3>实践建议</h3>
+<ol>
+<li><strong>从简单开始</strong>：先用文件系统存储记忆</li>
+<li><strong>定期回顾</strong>：让智能体总结并更新 MEMORY.md</li>
+<li><strong>保持隐私</strong>：敏感信息加密存储</li>
+<li><strong>测试检索</strong>：确保重要记忆能被正确召回</li>
+</ol>
+<h3>下一步学习</h3>
+<p>⬅️ 上一篇：<a href="2026-02-22-%E6%99%BA%E8%83%BD%E4%BD%93%E5%B7%A5%E5%85%B7%E9%93%BE%E8%AE%BE%E8%AE%A1%EF%BC%9A%E8%AE%A9ai%E6%8B%A5%E6%9C%89%E8%B6%85%E8%83%BD%E5%8A%9B.md">智能体工具链设计：让AI拥有超能力</a><br>📖 当前：第3篇 - 智能体记忆系统<br>➡️ 下一篇预告：<strong>多智能体协作系统设计与实现</strong></p>
+<hr>
+<h3>延伸阅读</h3>
+<ul>
+<li><a href="https://docs.openclaw.ai/memory">OpenClaw 官方文档 - 记忆管理</a></li>
+<li><a href="https://python.langchain.com/docs/modules/memory/">LangChain Memory 模块</a></li>
+<li><a href="2026-02-09-%E5%90%91%E9%87%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E9%80%89%E5%9E%8B%E4%B8%8E%E5%AE%9E%E6%88%98.md">向量数据库选型指南</a></li>
+</ul>
+<hr>
+<p><em>本文由 AI 辅助生成，每日更新 AI 技术教程。如有疑问欢迎留言交流！</em></p>
 
         </div>
     </article>
@@ -130,9 +367,9 @@
                             <span class="tag tag-ai智能体">AI智能体</span>
                         </div>
                         <h3 class="post-title">
-                            <a href="./2026-02-22-智能体工具链设计：让ai拥有超能力.html">智能体工具链设计：让AI拥有超能力</a>
+                            <a href="./2026-02-24-多智能体协作系统设计与实现.html">多智能体协作系统设计与实现</a>
                         </h3>
-                        <p class="post-excerpt">学习如何为AI智能体设计工具接口，让AI能够调用搜索引擎、数据库、API等外部服务，大幅扩展能力边界。</p>
+                        <p class="post-excerpt">学习如何设计多个AI智能体协作的复杂系统，实现任务分解、角色分工和结果整合。</p>
                     </div>
                 </article>
                 <article class="post-card">
@@ -141,9 +378,9 @@
                             <span class="tag tag-ai智能体">AI智能体</span>
                         </div>
                         <h3 class="post-title">
-                            <a href="./2026-02-21-ai智能体入门：从概念到第一个智能体.html">AI智能体入门：从概念到第一个智能体</a>
+                            <a href="./2026-02-22-智能体工具链设计：让ai拥有超能力.html">智能体工具链设计：让AI拥有超能力</a>
                         </h3>
-                        <p class="post-excerpt">深入理解AI智能体的核心概念、工作原理和架构设计，通过完整的天气查询助手案例，学习如何构建你的第一个AI智能体。</p>
+                        <p class="post-excerpt">学习如何为AI智能体设计工具接口，让AI能够调用搜索引擎、数据库、API等外部服务，大幅扩展能力边界。</p>
                     </div>
                 </article>
             </div>
