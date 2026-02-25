@@ -64,38 +64,552 @@
 <li><a href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B8%8E%E5%AE%89%E8%A3%85">环境准备与安装</a></li>
 <li><a href="#%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95%E7%A4%BA%E4%BE%8B">基础用法示例</a></li>
 <li><a href="#%E8%BF%9B%E9%98%B6%E6%8A%80%E5%B7%A7%E5%88%86%E4%BA%AB">进阶技巧分享</a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E8%A7%A3%E7%AD%94">常见问题解答</a></li>
 <li><a href="#%E6%80%BB%E7%BB%93%E4%B8%8E%E4%B8%8B%E4%B8%80%E6%AD%A5">总结与下一步</a></li>
 </ul>
 <h2>正文</h2>
 <h3>1. 核心概念介绍</h3>
-<p>【核心概念介绍的详细内容将在发布时生成】</p>
+<p><strong>多智能体协作系统（Multi-Agent Collaboration）</strong> 是指多个AI智能体（Agent）协同工作，共同完成复杂任务的架构模式。与单一智能体不同，多智能体系统通过角色分工、任务分解和结果整合，能够处理更加复杂的业务场景。</p>
+<h4>关键概念</h4>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>智能体（Agent）</strong></td>
+<td>具有感知、决策和行动能力的独立AI实体</td>
+</tr>
+<tr>
+<td><strong>协作（Collaboration）</strong></td>
+<td>多个智能体之间的信息交换与任务协调</td>
+</tr>
+<tr>
+<td><strong>任务分解（Decomposition）</strong></td>
+<td>将复杂任务拆分为子任务分配给不同智能体</td>
+</tr>
+<tr>
+<td><strong>结果整合（Integration）</strong></td>
+<td>将多个智能体的输出合并为最终结果</td>
+</tr>
+<tr>
+<td><strong>协调器（Orchestrator）</strong></td>
+<td>负责任务分配和流程控制的中心组件</td>
+</tr>
+</tbody></table>
+<h4>常见协作模式</h4>
+<ol>
+<li><strong>层级模式（Hierarchical）</strong>：一个主智能体协调多个子智能体</li>
+<li><strong>对等模式（Peer-to-Peer）</strong>：智能体之间平等协作，相互通信</li>
+<li><strong>流水线模式（Pipeline）</strong>：智能体按顺序处理，前一个的输出是后一个的输入</li>
+<li><strong>市场模式（Market-based）</strong>：智能体通过竞价机制获取任务</li>
+</ol>
+<hr>
 <h3>2. 为什么需要这个技术</h3>
-<p>【为什么需要这个技术的详细内容将在发布时生成】</p>
+<h4>单一智能体的局限性</h4>
+<pre><code class="language-python"># 单一智能体处理复杂任务的问题
+class SingleAgent:
+    def process(self, task):
+        # 问题1: 上下文窗口限制
+        # 问题2: 专业化程度有限
+        # 问题3: 无法并行处理
+        # 问题4: 单点故障风险
+        return self.llm.complete(task)
+</code></pre>
+<h4>多智能体的优势</h4>
+<ol>
+<li><strong>专业化</strong>：每个智能体专注特定领域，提高质量</li>
+<li><strong>并行化</strong>：子任务可以同时执行，提高效率</li>
+<li><strong>可扩展性</strong>：新增智能体即可扩展能力</li>
+<li><strong>容错性</strong>：单个智能体失败不影响整体</li>
+<li><strong>模块化</strong>：便于维护和升级</li>
+</ol>
+<h4>典型应用场景</h4>
+<ul>
+<li><strong>软件开发</strong>：需求分析 → 架构设计 → 编码 → 测试 → 部署</li>
+<li><strong>内容创作</strong>：研究 → 写作 → 编辑 → 校对 → 发布</li>
+<li><strong>数据分析</strong>：数据清洗 → 特征工程 → 建模 → 可视化 → 报告</li>
+<li><strong>客户服务</strong>：意图识别 → 信息检索 → 答案生成 → 满意度跟踪</li>
+</ul>
+<hr>
 <h3>3. 工作原理详解</h3>
-<p>【工作原理详解的详细内容将在发布时生成】</p>
+<h4>架构概览</h4>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│                    用户请求输入                          │
+└────────────────────┬────────────────────────────────────┘
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│                  任务分解智能体                          │
+│         (分析需求，拆分为可并行子任务)                    │
+└────────────────────┬────────────────────────────────────┘
+                     ▼
+        ┌────────────┼────────────┐
+        ▼            ▼            ▼
+   ┌─────────┐  ┌─────────┐  ┌─────────┐
+   │智能体 A │  │智能体 B │  │智能体 C │
+   │(研究)   │  │(写作)   │  │(编辑)   │
+   └────┬────┘  └────┬────┘  └────┬────┘
+        └────────────┼────────────┘
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│                  结果整合智能体                          │
+│           (合并输出，生成最终结果)                        │
+└────────────────────┬────────────────────────────────────┘
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│                    最终输出                              │
+└─────────────────────────────────────────────────────────┘
+</code></pre>
+<h4>通信机制</h4>
+<pre><code class="language-python"># 消息传递系统
+class Message:
+    def __init__(self, sender, receiver, content, message_type):
+        self.sender = sender
+        self.receiver = receiver
+        self.content = content
+        self.type = message_type  # task, result, query, notify
+        self.timestamp = time.now()
+
+class MessageBus:
+    def __init__(self):
+        self.subscribers = {}
+    
+    def subscribe(self, agent_id, callback):
+        self.subscribers[agent_id] = callback
+    
+    def send(self, message):
+        if message.receiver in self.subscribers:
+            self.subscribers[message.receiver](message)
+</code></pre>
+<h4>状态管理</h4>
+<pre><code class="language-python">from enum import Enum
+
+class TaskStatus(Enum):
+    PENDING = &quot;pending&quot;
+    IN_PROGRESS = &quot;in_progress&quot;
+    COMPLETED = &quot;completed&quot;
+    FAILED = &quot;failed&quot;
+
+class SharedState:
+    &quot;&quot;&quot;共享状态存储，所有智能体可读写&quot;&quot;&quot;
+    
+    def __init__(self):
+        self.tasks = {}  # 任务状态
+        self.results = {}  # 任务结果
+        self.context = {}  # 共享上下文
+    
+    def update_task(self, task_id, status, result=None):
+        self.tasks[task_id] = {
+            &quot;status&quot;: status,
+            &quot;result&quot;: result,
+            &quot;updated_at&quot;: time.now()
+        }
+</code></pre>
+<hr>
 <h3>4. 环境准备与安装</h3>
-<p>【环境准备与安装的详细内容将在发布时生成】</p>
+<h4>基础依赖</h4>
+<pre><code class="language-bash"># 创建项目目录
+mkdir multi-agent-system
+cd multi-agent-system
+
+# 创建虚拟环境
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# 安装核心依赖
+pip install openai pydantic asyncio
+
+# 可选：安装可视化工具
+pip install rich graphviz
+</code></pre>
+<h4>项目结构</h4>
+<pre><code>multi-agent-system/
+├── agents/
+│   ├── __init__.py
+│   ├── base_agent.py      # 基础智能体类
+│   ├── coordinator.py     # 协调器
+│   ├── researcher.py      # 研究智能体
+│   ├── writer.py          # 写作智能体
+│   └── editor.py          # 编辑智能体
+├── core/
+│   ├── __init__.py
+│   ├── message_bus.py     # 消息总线
+│   ├── state_manager.py   # 状态管理
+│   └── task_queue.py      # 任务队列
+├── examples/
+│   └── content_creation.py # 示例应用
+└── main.py
+</code></pre>
+<hr>
 <h3>5. 基础用法示例</h3>
-<p>【基础用法示例的详细内容将在发布时生成】</p>
+<h4>步骤1：创建基础智能体类</h4>
+<pre><code class="language-python"># agents/base_agent.py
+from abc import ABC, abstractmethod
+from typing import Dict, Any
+import openai
+
+class BaseAgent(ABC):
+    &quot;&quot;&quot;所有智能体的基类&quot;&quot;&quot;
+    
+    def __init__(self, agent_id: str, name: str, system_prompt: str):
+        self.agent_id = agent_id
+        self.name = name
+        self.system_prompt = system_prompt
+        self.message_history = []
+        self.client = openai.OpenAI()
+    
+    def receive_message(self, message: Dict[str, Any]):
+        &quot;&quot;&quot;接收消息并处理&quot;&quot;&quot;
+        print(f&quot;[{self.name}] 收到消息: {message[&#39;content&#39;][:50]}...&quot;)
+        response = self.process(message)
+        return response
+    
+    @abstractmethod
+    def process(self, message: Dict[str, Any]) -&gt; Dict[str, Any]:
+        &quot;&quot;&quot;子类实现具体的处理逻辑&quot;&quot;&quot;
+        pass
+    
+    def call_llm(self, prompt: str) -&gt; str:
+        &quot;&quot;&quot;调用大语言模型&quot;&quot;&quot;
+        response = self.client.chat.completions.create(
+            model=&quot;gpt-4&quot;,
+            messages=[
+                {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: self.system_prompt},
+                {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}
+            ]
+        )
+        return response.choices[0].message.content
+</code></pre>
+<h4>步骤2：实现具体智能体</h4>
+<pre><code class="language-python"># agents/researcher.py
+from agents.base_agent import BaseAgent
+
+class ResearcherAgent(BaseAgent):
+    &quot;&quot;&quot;研究智能体：收集和整理信息&quot;&quot;&quot;
+    
+    def __init__(self):
+        super().__init__(
+            agent_id=&quot;researcher&quot;,
+            name=&quot;研究员&quot;,
+            system_prompt=&quot;&quot;&quot;你是一个专业的研究员。你的任务是：
+1. 深入分析给定主题
+2. 收集关键信息和数据
+3. 识别重要概念和关系
+4. 输出结构化的研究发现
+输出格式：使用清晰的标题和要点&quot;&quot;&quot;
+        )
+    
+    def process(self, message: Dict[str, Any]) -&gt; Dict[str, Any]:
+        topic = message.get(&quot;content&quot;, &quot;&quot;)
+        
+        prompt = f&quot;&quot;&quot;请对以下主题进行深入研究：
+        
+主题：{topic}
+
+请提供：
+1. 核心概念定义
+2. 关键技术/方法
+3. 实际应用场景
+4. 相关资源推荐
+&quot;&quot;&quot;
+        research_result = self.call_llm(prompt)
+        
+        return {
+            &quot;agent_id&quot;: self.agent_id,
+            &quot;agent_name&quot;: self.name,
+            &quot;result&quot;: research_result,
+            &quot;task_type&quot;: &quot;research&quot;
+        }
+</code></pre>
+<pre><code class="language-python"># agents/writer.py
+from agents.base_agent import BaseAgent
+
+class WriterAgent(BaseAgent):
+    &quot;&quot;&quot;写作智能体：基于研究结果生成内容&quot;&quot;&quot;
+    
+    def __init__(self):
+        super().__init__(
+            agent_id=&quot;writer&quot;,
+            name=&quot;撰稿人&quot;,
+            system_prompt=&quot;&quot;&quot;你是一个专业的技术撰稿人。你的任务是：
+1. 基于提供的资料撰写文章
+2. 使用清晰、易懂的语言
+3. 包含实际代码示例
+4. 结构完整，逻辑清晰&quot;&quot;&quot;
+        )
+    
+    def process(self, message: Dict[str, Any]) -&gt; Dict[str, Any]:
+        research_data = message.get(&quot;research_data&quot;, &quot;&quot;)
+        topic = message.get(&quot;topic&quot;, &quot;&quot;)
+        
+        prompt = f&quot;&quot;&quot;基于以下研究资料，撰写一篇技术文章：
+
+主题：{topic}
+
+研究资料：
+{research_data}
+
+要求：
+1. 引人入胜的开头
+2. 清晰的结构（包含小标题）
+3. 至少2个代码示例
+4. 实用的总结和建议
+&quot;&quot;&quot;
+        article = self.call_llm(prompt)
+        
+        return {
+            &quot;agent_id&quot;: self.agent_id,
+            &quot;agent_name&quot;: self.name,
+            &quot;result&quot;: article,
+            &quot;task_type&quot;: &quot;writing&quot;
+        }
+</code></pre>
+<h4>步骤3：创建协调器</h4>
+<pre><code class="language-python"># agents/coordinator.py
+import asyncio
+from typing import List, Dict, Any
+
+class Coordinator:
+    &quot;&quot;&quot;协调器：管理多智能体协作流程&quot;&quot;&quot;
+    
+    def __init__(self):
+        self.agents = {}
+        self.results = {}
+    
+    def register_agent(self, agent):
+        &quot;&quot;&quot;注册智能体&quot;&quot;&quot;
+        self.agents[agent.agent_id] = agent
+        print(f&quot;✅ 已注册智能体: {agent.name}&quot;)
+    
+    async def execute_pipeline(self, topic: str) -&gt; Dict[str, Any]:
+        &quot;&quot;&quot;执行协作流程&quot;&quot;&quot;
+        print(f&quot;\n🚀 开始处理主题: {topic}\n&quot;)
+        
+        # 阶段1：研究
+        print(&quot;📚 阶段1: 进行研究...&quot;)
+        researcher = self.agents.get(&quot;researcher&quot;)
+        research_msg = {&quot;content&quot;: topic}
+        research_result = await asyncio.to_thread(
+            researcher.receive_message, research_msg
+        )
+        self.results[&quot;research&quot;] = research_result
+        print(f&quot;✅ 研究完成\n&quot;)
+        
+        # 阶段2：写作
+        print(&quot;✍️ 阶段2: 撰写文章...&quot;)
+        writer = self.agents.get(&quot;writer&quot;)
+        write_msg = {
+            &quot;topic&quot;: topic,
+            &quot;research_data&quot;: research_result[&quot;result&quot;]
+        }
+        article_result = await asyncio.to_thread(
+            writer.receive_message, write_msg
+        )
+        self.results[&quot;article&quot;] = article_result
+        print(f&quot;✅ 写作完成\n&quot;)
+        
+        return {
+            &quot;topic&quot;: topic,
+            &quot;research&quot;: research_result[&quot;result&quot;],
+            &quot;article&quot;: article_result[&quot;result&quot;],
+            &quot;status&quot;: &quot;completed&quot;
+        }
+</code></pre>
+<h4>步骤4：运行示例</h4>
+<pre><code class="language-python"># main.py
+import asyncio
+from agents.researcher import ResearcherAgent
+from agents.writer import WriterAgent
+from agents.coordinator import Coordinator
+
+async def main():
+    # 初始化协调器
+    coordinator = Coordinator()
+    
+    # 注册智能体
+    coordinator.register_agent(ResearcherAgent())
+    coordinator.register_agent(WriterAgent())
+    
+    # 执行任务
+    topic = &quot;Python异步编程最佳实践&quot;
+    result = await coordinator.execute_pipeline(topic)
+    
+    # 输出结果
+    print(&quot;\n&quot; + &quot;=&quot;*50)
+    print(&quot;📄 最终文章:&quot;)
+    print(&quot;=&quot;*50)
+    print(result[&quot;article&quot;])
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+</code></pre>
+<hr>
 <h3>6. 进阶技巧分享</h3>
-<p>【进阶技巧分享的详细内容将在发布时生成】</p>
+<h4>技巧1：动态任务分配</h4>
+<pre><code class="language-python">class DynamicCoordinator:
+    &quot;&quot;&quot;根据任务类型动态分配智能体&quot;&quot;&quot;
+    
+    def __init__(self):
+        self.agents = {}
+        self.capabilities = {}  # 智能体能力映射
+    
+    def assign_task(self, task: Dict[str, Any]) -&gt; BaseAgent:
+        &quot;&quot;&quot;根据任务需求选择最佳智能体&quot;&quot;&quot;
+        task_type = task.get(&quot;type&quot;)
+        
+        # 查找具备该能力的智能体
+        candidates = [
+            agent_id for agent_id, caps in self.capabilities.items()
+            if task_type in caps
+        ]
+        
+        # 选择负载最低的智能体
+        best_agent = min(candidates, key=lambda a: self.get_load(a))
+        return self.agents[best_agent]
+</code></pre>
+<h4>技巧2：智能体间直接通信</h4>
+<pre><code class="language-python">class PeerToPeerAgent(BaseAgent):
+    &quot;&quot;&quot;支持对等通信的智能体&quot;&quot;&quot;
+    
+    def __init__(self, agent_id, name, system_prompt):
+        super().__init__(agent_id, name, system_prompt)
+        self.peers = {}  # 其他智能体的引用
+    
+    def register_peer(self, agent_id, agent_ref):
+        self.peers[agent_id] = agent_ref
+    
+    def collaborate(self, peer_id: str, query: str) -&gt; str:
+        &quot;&quot;&quot;向其他智能体请求协作&quot;&quot;&quot;
+        if peer_id in self.peers:
+            message = {
+                &quot;sender&quot;: self.agent_id,
+                &quot;content&quot;: query,
+                &quot;type&quot;: &quot;collaboration_request&quot;
+            }
+            return self.peers[peer_id].receive_message(message)
+        return None
+</code></pre>
+<h4>技巧3：错误处理和重试</h4>
+<pre><code class="language-python">class ResilientCoordinator:
+    &quot;&quot;&quot;具备容错能力的协调器&quot;&quot;&quot;
+    
+    async def execute_with_retry(self, agent, message, max_retries=3):
+        &quot;&quot;&quot;带重试机制的任务执行&quot;&quot;&quot;
+        for attempt in range(max_retries):
+            try:
+                result = await asyncio.wait_for(
+                    asyncio.to_thread(agent.receive_message, message),
+                    timeout=30  # 30秒超时
+                )
+                return result
+            except asyncio.TimeoutError:
+                print(f&quot;⏱️ 尝试 {attempt + 1} 超时，重试中...&quot;)
+            except Exception as e:
+                print(f&quot;❌ 尝试 {attempt + 1} 失败: {e}&quot;)
+        
+        # 所有重试失败，返回错误
+        return {
+            &quot;error&quot;: &quot;Max retries exceeded&quot;,
+            &quot;agent_id&quot;: agent.agent_id
+        }
+</code></pre>
+<h4>技巧4：结果质量评估</h4>
+<pre><code class="language-python">class QualityChecker:
+    &quot;&quot;&quot;评估智能体输出质量&quot;&quot;&quot;
+    
+    def __init__(self):
+        self.checker_agent = BaseAgent(
+            agent_id=&quot;quality_checker&quot;,
+            name=&quot;质量检查员&quot;,
+            system_prompt=&quot;&quot;&quot;你是一个严格的质量检查员。评估以下内容：
+1. 完整性：是否回答了所有问题
+2. 准确性：信息是否正确
+3. 清晰度：表达是否清晰易懂
+4. 实用性：是否提供可操作的指导
+
+评分标准：1-10分，并说明理由。&quot;&quot;&quot;
+        )
+    
+    def evaluate(self, content: str, criteria: List[str]) -&gt; Dict:
+        prompt = f&quot;&quot;&quot;请评估以下内容：
+
+{c content[:1000]}...
+
+评估维度：{&#39;, &#39;.join(criteria)}
+
+请返回JSON格式：
+{{
+    &quot;score&quot;: 8,
+    &quot;feedback&quot;: &quot;具体评价&quot;,
+    &quot;improvements&quot;: [&quot;建议1&quot;, &quot;建议2&quot;]
+}}&quot;&quot;&quot;
+        return self.checker_agent.call_llm(prompt)
+</code></pre>
+<hr>
 <h3>7. 常见问题解答</h3>
-<p>【常见问题解答的详细内容将在发布时生成】</p>
+<p><strong>Q1: 多智能体系统会增加多少延迟？</strong></p>
+<p>A: 取决于架构设计。串行流程会累加延迟，但并行流程可以显著减少总体时间。建议使用异步编程和并行执行来优化性能。</p>
+<p><strong>Q2: 如何处理智能体之间的冲突？</strong></p>
+<p>A: 可以通过以下方式：</p>
+<ol>
+<li>明确定义每个智能体的职责边界</li>
+<li>引入仲裁智能体处理冲突</li>
+<li>使用投票机制做出决策</li>
+<li>设置优先级规则</li>
+</ol>
+<p><strong>Q3: 多智能体系统的成本高吗？</strong></p>
+<p>A: 成本确实会比单一智能体高，但可以优化：</p>
+<ol>
+<li>为简单任务使用较小的模型</li>
+<li>缓存中间结果避免重复计算</li>
+<li>按需调用智能体，非全量激活</li>
+</ol>
+<p><strong>Q4: 如何调试多智能体系统？</strong></p>
+<p>A: 建议采用：</p>
+<ol>
+<li>详细的日志记录每个智能体的输入输出</li>
+<li>可视化消息流（如使用Mermaid图）</li>
+<li>单元测试每个智能体独立功能</li>
+<li>使用断点检查中间状态</li>
+</ol>
+<p><strong>Q5: 智能体数量有上限吗？</strong></p>
+<p>A: 理论上没有硬性上限，但需要考虑：</p>
+<ol>
+<li>协调复杂度随数量增加</li>
+<li>上下文管理变得更加困难</li>
+<li>系统资源消耗</li>
+</ol>
+<p>建议从一个协调器+3-5个专业智能体开始，逐步扩展。</p>
+<hr>
 <h3>8. 总结与下一步</h3>
-<p>【总结与下一步的详细内容将在发布时生成】</p>
 <h2>总结</h2>
 <p>本篇文章详细介绍了<strong>多智能体协作系统设计与实现</strong>的核心概念和实践方法。</p>
 <h3>重点回顾</h3>
 <ul>
-<li>核心概念介绍</li>
-<li>为什么需要这个技术</li>
-<li>工作原理详解</li>
-<li>环境准备与安装</li>
+<li><strong>核心概念介绍</strong> — 理解智能体、协作模式、任务分解和结果整合</li>
+<li><strong>为什么需要这个技术</strong> — 单一智能体的局限性和多智能体的优势</li>
+<li><strong>工作原理详解</strong> — 架构设计、通信机制和状态管理</li>
+<li><strong>环境准备与安装</strong> — 项目结构和依赖配置</li>
 </ul>
+<h3>关键代码总结</h3>
+<pre><code class="language-python"># 核心工作流程
+1. 定义BaseAgent基类 → 实现具体智能体 → 注册到Coordinator
+2. Coordinator负责任务分配和流程控制
+3. 智能体间通过Message进行通信
+4. 使用SharedState管理共享状态
+</code></pre>
 <h3>系列导航</h3>
 <p>⬅️ 上一篇：同系列入门文章
 📖 当前：第4篇
 ➡️ 下一篇预告：智能体规划与推理：ReAct与CoT技术</p>
+<h3>练习建议</h3>
+<ol>
+<li><strong>基础练习</strong>：实现一个研究+写作的两智能体系统</li>
+<li><strong>进阶练习</strong>：添加编辑智能体，形成完整的内容创作流程</li>
+<li><strong>挑战练习</strong>：实现并行研究（多个研究智能体同时工作），然后由写作智能体整合</li>
+</ol>
 <hr>
 <p><em>本文由AI自动生成，每日更新AI技术教程。如有疑问欢迎留言交流！</em></p>
 
@@ -130,9 +644,9 @@
                             <span class="tag tag-ai智能体">AI智能体</span>
                         </div>
                         <h3 class="post-title">
-                            <a href="./2026-02-23-智能体记忆系统：短期记忆与长期知识.html">智能体记忆系统：短期记忆与长期知识</a>
+                            <a href="./2026-02-25-智能体规划与推理：react与cot技术.html">智能体规划与推理：ReAct与CoT技术</a>
                         </h3>
-                        <p class="post-excerpt">探索AI智能体的记忆机制，实现短期上下文记忆和长期知识存储，构建具备持续学习能力的智能体。</p>
+                        <p class="post-excerpt">深入理解AI智能体的推理机制，学习ReAct、Chain-of-Thought等规划技术，让AI能够进行复杂任务分解和多步推理。</p>
                     </div>
                 </article>
                 <article class="post-card">
@@ -141,9 +655,9 @@
                             <span class="tag tag-ai智能体">AI智能体</span>
                         </div>
                         <h3 class="post-title">
-                            <a href="./2026-02-22-智能体工具链设计：让ai拥有超能力.html">智能体工具链设计：让AI拥有超能力</a>
+                            <a href="./2026-02-23-智能体记忆系统：短期记忆与长期知识.html">智能体记忆系统：短期记忆与长期知识</a>
                         </h3>
-                        <p class="post-excerpt">学习如何为AI智能体设计工具接口，让AI能够调用搜索引擎、数据库、API等外部服务，大幅扩展能力边界。</p>
+                        <p class="post-excerpt">探索AI智能体的记忆机制，实现短期上下文记忆和长期知识存储，构建具备持续学习能力的智能体。</p>
                     </div>
                 </article>
             </div>
