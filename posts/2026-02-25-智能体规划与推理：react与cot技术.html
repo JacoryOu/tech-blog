@@ -68,33 +68,484 @@
 </ul>
 <h2>正文</h2>
 <h3>1. 核心概念介绍</h3>
-<p>【核心概念介绍的详细内容将在发布时生成】</p>
+<h4>什么是 ReAct？</h4>
+<p>ReAct（Reasoning + Acting）是一种将推理（Reasoning）和行动（Acting）结合的技术范式。它让 AI 智能体能够在执行动作之前进行思考，并根据执行结果调整后续行动。</p>
+<p><strong>ReAct 的核心循环：</strong></p>
+<ol>
+<li><strong>Thought（思考）</strong>：分析当前情况，决定下一步行动</li>
+<li><strong>Action（行动）</strong>：执行具体动作（如调用工具、搜索信息）</li>
+<li><strong>Observation（观察）</strong>：获取行动结果</li>
+<li><strong>重复</strong>：基于新观察继续思考和行动</li>
+</ol>
+<h4>什么是 CoT（思维链）？</h4>
+<p>Chain-of-Thought（思维链）是一种提示工程技术，通过引导模型&quot;一步一步思考&quot;，让 AI 展示其推理过程，从而提高复杂问题的解决能力。</p>
+<p><strong>CoT 的两种形式：</strong></p>
+<ul>
+<li><strong>Zero-shot CoT</strong>：直接添加&quot;Let&#39;s think step by step&quot;提示</li>
+<li><strong>Few-shot CoT</strong>：提供带有详细推理过程的示例</li>
+</ul>
 <h3>2. 为什么需要这个技术</h3>
-<p>【为什么需要这个技术的详细内容将在发布时生成】</p>
+<h4>传统 AI 的局限</h4>
+<p>传统的大语言模型存在以下问题：</p>
+<ul>
+<li><strong>幻觉问题</strong>：可能生成看似合理但实际错误的信息</li>
+<li><strong>缺乏可解释性</strong>：无法了解模型是如何得出答案的</li>
+<li><strong>复杂任务处理弱</strong>：对于多步骤问题容易出错</li>
+<li><strong>无法与外部世界交互</strong>：只能基于训练数据回答问题</li>
+</ul>
+<h4>ReAct + CoT 的优势</h4>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>传统 LLM</th>
+<th>ReAct + CoT</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>可解释性</td>
+<td>低</td>
+<td>高（展示推理过程）</td>
+</tr>
+<tr>
+<td>准确性</td>
+<td>中等</td>
+<td>高（可验证中间步骤）</td>
+</tr>
+<tr>
+<td>外部交互</td>
+<td>无</td>
+<td>强（可调用工具）</td>
+</tr>
+<tr>
+<td>错误恢复</td>
+<td>无</td>
+<td>有（根据观察调整）</td>
+</tr>
+</tbody></table>
 <h3>3. 工作原理详解</h3>
-<p>【工作原理详解的详细内容将在发布时生成】</p>
+<h4>ReAct 的工作流程</h4>
+<pre><code>用户问题 → 思考(Thought) → 行动(Action) → 观察(Observation)
+     ↑                                           |
+     └──────────── 循环直到得出答案 ←─────────────┘
+</code></pre>
+<p><strong>示例流程：</strong></p>
+<pre><code>Question: 2024年诺贝尔文学奖得主是谁？他/她的代表作是什么？
+
+Thought 1: 我需要搜索2024年诺贝尔文学奖的信息。
+Action 1: Search[2024年诺贝尔文学奖得主]
+Observation 1: 2024年诺贝尔文学奖授予韩国作家韩江(Han Kang)。
+
+Thought 2: 现在我知道得主是韩江，接下来需要查找她的代表作。
+Action 2: Search[韩江 代表作 作品]
+Observation 2: 韩江的代表作包括《素食者》(The Vegetarian)、《少年来了》等。
+
+Thought 3: 我已经获得了所有需要的信息，可以回答用户了。
+Final Answer: 2024年诺贝尔文学奖得主是韩国作家韩江，她的代表作包括《素食者》和《少年来了》等。
+</code></pre>
+<h4>CoT 提示模式</h4>
+<p><strong>Zero-shot CoT：</strong></p>
+<pre><code>问题：一个农场有鸡和兔子，总共有35个头，94只脚。问鸡和兔子各有多少只？
+
+请一步一步思考：
+</code></pre>
+<p><strong>Few-shot CoT：</strong></p>
+<pre><code>问题：罗杰有5个球，他又买了2罐，每罐有3个球。他现在有几个球？
+解答：罗杰一开始有5个球。2罐每罐3个球，共6个球。5+6=11。答案是11。
+
+问题：一个农场有鸡和兔子，总共有35个头，94只脚。问鸡和兔子各有多少只？
+解答：
+</code></pre>
 <h3>4. 环境准备与安装</h3>
-<p>【环境准备与安装的详细内容将在发布时生成】</p>
+<h4>安装依赖</h4>
+<pre><code class="language-bash"># 创建虚拟环境
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# 安装必要库
+pip install openai langchain langchain-openai
+</code></pre>
+<h4>配置 API Key</h4>
+<pre><code class="language-bash"># Linux/Mac
+export OPENAI_API_KEY=&quot;your-api-key&quot;
+
+# Windows PowerShell
+$env:OPENAI_API_KEY=&quot;your-api-key&quot;
+</code></pre>
 <h3>5. 基础用法示例</h3>
-<p>【基础用法示例的详细内容将在发布时生成】</p>
+<h4>示例 1：简单的 CoT 实现</h4>
+<pre><code class="language-python">import openai
+
+def chain_of_thought(question):
+    &quot;&quot;&quot;使用 Zero-shot CoT 解决问题&quot;&quot;&quot;
+    prompt = f&quot;&quot;&quot;问题：{question}
+
+请一步一步思考并解答：&quot;&quot;&quot;
+    
+    response = openai.chat.completions.create(
+        model=&quot;gpt-4&quot;,
+        messages=[
+            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}
+        ],
+        temperature=0.7
+    )
+    
+    return response.choices[0].message.content
+
+# 测试
+question = &quot;如果一个苹果3元，小明买了4个，小红买了比小明多2个，他们一共花了多少钱？&quot;
+result = chain_of_thought(question)
+print(result)
+</code></pre>
+<p><strong>输出示例：</strong></p>
+<pre><code>让我一步一步分析：
+
+第一步：计算小明花的钱
+- 小明买了4个苹果
+- 每个苹果3元
+- 小明花费：4 × 3 = 12元
+
+第二步：计算小红买的苹果数量
+- 小红比小明多买2个
+- 小红买了：4 + 2 = 6个
+
+第三步：计算小红花的钱
+- 小红买了6个苹果
+- 每个苹果3元
+- 小红花费：6 × 3 = 18元
+
+第四步：计算总花费
+- 总共：12 + 18 = 30元
+
+答案：他们一共花了30元。
+</code></pre>
+<h4>示例 2：使用 LangChain 实现 ReAct</h4>
+<pre><code class="language-python">from langchain.agents import Tool, AgentExecutor, create_react_agent
+from langchain_openai import ChatOpenAI
+from langchain import hub
+import requests
+
+# 定义工具
+def search(query):
+    &quot;&quot;&quot;模拟搜索工具&quot;&quot;&quot;
+    # 实际使用时替换为真实搜索 API
+    return f&quot;搜索结果：关于 &#39;{query}&#39; 的信息...&quot;
+
+def calculator(expression):
+    &quot;&quot;&quot;计算器工具&quot;&quot;&quot;
+    try:
+        return str(eval(expression))
+    except:
+        return &quot;计算错误&quot;
+
+tools = [
+    Tool(
+        name=&quot;Search&quot;,
+        func=search,
+        description=&quot;当需要搜索最新信息时使用&quot;
+    ),
+    Tool(
+        name=&quot;Calculator&quot;,
+        func=calculator,
+        description=&quot;当需要进行数学计算时使用&quot;
+    )
+]
+
+# 创建 ReAct Agent
+llm = ChatOpenAI(model=&quot;gpt-4&quot;, temperature=0)
+prompt = hub.pull(&quot;hwchase17/react&quot;)
+agent = create_react_agent(llm, tools, prompt)
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+# 执行查询
+response = agent_executor.invoke({
+    &quot;input&quot;: &quot;如果一台电脑5000元，买3台送1台，买12台实际需要付多少钱？&quot;
+})
+print(response[&#39;output&#39;])
+</code></pre>
+<h4>示例 3：自定义 ReAct 智能体</h4>
+<pre><code class="language-python">class SimpleReActAgent:
+    def __init__(self, llm):
+        self.llm = llm
+        self.tools = {}
+        self.max_iterations = 10
+    
+    def register_tool(self, name, func, description):
+        &quot;&quot;&quot;注册工具&quot;&quot;&quot;
+        self.tools[name] = {
+            &quot;func&quot;: func,
+            &quot;description&quot;: description
+        }
+    
+    def run(self, query):
+        &quot;&quot;&quot;运行 ReAct 循环&quot;&quot;&quot;
+        context = f&quot;Question: {query}\n\n&quot;
+        
+        for i in range(self.max_iterations):
+            # 构建提示
+            prompt = self._build_prompt(context)
+            
+            # 获取 LLM 响应
+            response = self.llm.predict(prompt)
+            context += f&quot;{response}\n&quot;
+            
+            print(f&quot;\n=== 第 {i+1} 轮 ===&quot;)
+            print(response)
+            
+            # 解析思考
+            if &quot;Final Answer:&quot; in response:
+                return response.split(&quot;Final Answer:&quot;)[1].strip()
+            
+            # 解析行动
+            if &quot;Action:&quot; in response:
+                action_line = response.split(&quot;Action:&quot;)[1].split(&quot;\n&quot;)[0].strip()
+                action_name, action_input = self._parse_action(action_line)
+                
+                # 执行工具
+                if action_name in self.tools:
+                    result = self.tools[action_name][&quot;func&quot;](action_input)
+                    context += f&quot;Observation: {result}\n&quot;
+                    print(f&quot;Observation: {result}&quot;)
+                else:
+                    context += f&quot;Observation: 工具 &#39;{action_name}&#39; 不存在\n&quot;
+        
+        return &quot;达到最大迭代次数，未能完成&quot;
+    
+    def _build_prompt(self, context):
+        &quot;&quot;&quot;构建提示&quot;&quot;&quot;
+        tool_desc = &quot;\n&quot;.join([
+            f&quot;- {name}: {info[&#39;description&#39;]}&quot;
+            for name, info in self.tools.items()
+        ])
+        
+        return f&quot;&quot;&quot;{context}
+你有以下工具可用：
+{tool_desc}
+
+请按照以下格式响应：
+Thought: 你的思考过程
+Action: 工具名称[输入]
+Observation: 工具返回结果
+...
+Final Answer: 最终答案
+
+Thought:&quot;&quot;&quot;
+    
+    def _parse_action(self, action_line):
+        &quot;&quot;&quot;解析行动&quot;&quot;&quot;
+        if &quot;[&quot; in action_line and &quot;]&quot; in action_line:
+            name = action_line.split(&quot;[&quot;)[0].strip()
+            input_val = action_line.split(&quot;[&quot;)[1].split(&quot;]&quot;)[0].strip()
+            return name, input_val
+        return action_line, &quot;&quot;
+
+# 使用示例
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(temperature=0)
+agent = SimpleReActAgent(llm)
+
+# 注册工具
+agent.register_tool(
+    &quot;Calculator&quot;, 
+    lambda x: str(eval(x)), 
+    &quot;进行数学计算&quot;
+)
+
+agent.register_tool(
+    &quot;Search&quot;,
+    lambda x: f&quot;关于{x}的搜索结果...&quot;,
+    &quot;搜索信息&quot;
+)
+
+result = agent.run(&quot;计算 (15 + 23) * 2 - 10 的结果&quot;)
+print(f&quot;\n最终结果: {result}&quot;)
+</code></pre>
 <h3>6. 进阶技巧分享</h3>
-<p>【进阶技巧分享的详细内容将在发布时生成】</p>
+<h4>技巧 1：Self-Consistency（自一致性）</h4>
+<p>通过多次采样并选择最常见的答案来提高准确性：</p>
+<pre><code class="language-python">def self_consistency_cot(question, n_samples=5):
+    &quot;&quot;&quot;使用自一致性改进 CoT&quot;&quot;&quot;
+    answers = []
+    
+    for _ in range(n_samples):
+        response = chain_of_thought(question)  # 使用前面的 CoT 函数
+        # 提取最终答案（假设答案在&quot;答案：&quot;之后）
+        if &quot;答案：&quot; in response:
+            answer = response.split(&quot;答案：&quot;)[-1].strip()
+            answers.append(answer)
+    
+    # 投票选出最常见的答案
+    from collections import Counter
+    most_common = Counter(answers).most_common(1)[0]
+    return most_common[0], most_common[1] / n_samples
+
+# 使用
+question = &quot;一个水箱，第一天注入一半的水，第二天注入剩余水量的1/3，第三天注入剩余水量的1/4，最后还剩15升。水箱原来有多少水？&quot;
+answer, confidence = self_consistency_cot(question, n_samples=5)
+print(f&quot;答案：{answer} (置信度: {confidence:.2%})&quot;)
+</code></pre>
+<h4>技巧 2：树状思维（Tree of Thoughts）</h4>
+<p>对于需要探索多个可能路径的问题，可以使用 ToT：</p>
+<pre><code class="language-python">class TreeOfThoughts:
+    def __init__(self, llm, branching_factor=3):
+        self.llm = llm
+        self.branching_factor = branching_factor
+    
+    def solve(self, problem, steps=3):
+        &quot;&quot;&quot;使用树状搜索解决问题&quot;&quot;&quot;
+        states = [problem]
+        
+        for step in range(steps):
+            new_states = []
+            for state in states:
+                # 生成多个可能的下一步
+                thoughts = self._generate_thoughts(state)
+                new_states.extend(thoughts)
+            
+            # 评估并选择最佳状态
+            states = self._evaluate_and_select(new_states)
+        
+        return states[0] if states else None
+    
+    def _generate_thoughts(self, state):
+        &quot;&quot;&quot;生成多个思考路径&quot;&quot;&quot;
+        prompt = f&quot;&quot;&quot;问题：{state}
+请提供 {self.branching_factor} 个不同的解决方案或下一步：
+1.&quot;&quot;&quot;
+        
+        response = self.llm.predict(prompt)
+        # 解析多个想法
+        thoughts = [t.strip() for t in response.split(&quot;\n&quot;) if t.strip()]
+        return thoughts[:self.branching_factor]
+    
+    def _evaluate_and_select(self, states):
+        &quot;&quot;&quot;评估并选择最佳状态&quot;&quot;&quot;
+        # 简化的评分逻辑
+        scored = []
+        for state in states:
+            score_prompt = f&quot;&quot;&quot;评估以下解决方案的合理性（1-10分）：
+{state}
+分数：&quot;&quot;&quot;
+            try:
+                score = int(self.llm.predict(score_prompt).strip())
+                scored.append((state, score))
+            except:
+                scored.append((state, 5))
+        
+        # 返回得分最高的
+        scored.sort(key=lambda x: x[1], reverse=True)
+        return [s[0] for s in scored[:self.branching_factor]]
+</code></pre>
+<h4>技巧 3：ReAct 与记忆结合</h4>
+<pre><code class="language-python">class ReActWithMemory:
+    def __init__(self, llm):
+        self.llm = llm
+        self.memory = []  # 短期记忆
+        self.long_term_memory = {}  # 长期记忆
+    
+    def run(self, query):
+        &quot;&quot;&quot;执行带记忆的 ReAct&quot;&quot;&quot;
+        # 检索相关记忆
+        relevant_memories = self._retrieve_memories(query)
+        
+        # 构建带记忆的上下文
+        context = self._build_context(query, relevant_memories)
+        
+        # 执行 ReAct 循环
+        result = self._react_loop(context)
+        
+        # 保存到记忆
+        self._save_to_memory(query, result)
+        
+        return result
+    
+    def _retrieve_memories(self, query):
+        &quot;&quot;&quot;检索相关记忆&quot;&quot;&quot;
+        # 简化的相似度匹配
+        relevant = []
+        for mem in self.memory:
+            if any(word in mem for word in query.split()):
+                relevant.append(mem)
+        return relevant[-3:]  # 返回最近3条相关记忆
+    
+    def _build_context(self, query, memories):
+        &quot;&quot;&quot;构建上下文&quot;&quot;&quot;
+        context = &quot;&quot;
+        if memories:
+            context += &quot;相关历史信息：\n&quot;
+            for mem in memories:
+                context += f&quot;- {mem}\n&quot;
+            context += &quot;\n&quot;
+        context += f&quot;当前问题：{query}&quot;
+        return context
+    
+    def _react_loop(self, context):
+        &quot;&quot;&quot;ReAct 循环（简化版）&quot;&quot;&quot;
+        # 这里可以实现完整的 ReAct 逻辑
+        prompt = f&quot;&quot;&quot;{context}
+
+请分析问题并给出答案：&quot;&quot;&quot;
+        return self.llm.predict(prompt)
+    
+    def _save_to_memory(self, query, result):
+        &quot;&quot;&quot;保存到记忆&quot;&quot;&quot;
+        self.memory.append(f&quot;Q: {query} -&gt; A: {result}&quot;)
+        if len(self.memory) &gt; 20:  # 保持短期记忆有限
+            self.memory.pop(0)
+</code></pre>
 <h3>7. 常见问题解答</h3>
-<p>【常见问题解答的详细内容将在发布时生成】</p>
-<h3>8. 总结与下一步</h3>
-<p>【总结与下一步的详细内容将在发布时生成】</p>
+<p><strong>Q1: ReAct 和 CoT 有什么区别？</strong></p>
+<p>A: CoT 专注于展示推理过程，而 ReAct 结合了推理和行动，允许智能体与外部世界交互。ReAct 包含了 CoT 的能力，但增加了行动维度。</p>
+<p><strong>Q2: 什么情况下应该使用这些技术？</strong></p>
+<ul>
+<li><strong>CoT</strong>：数学问题、逻辑推理、需要逐步解释的场景</li>
+<li><strong>ReAct</strong>：需要外部信息、多步骤任务、工具调用的场景</li>
+</ul>
+<p><strong>Q3: 如何选择合适的提示模板？</strong></p>
+<p>A: 考虑以下因素：</p>
+<ul>
+<li>问题复杂度（简单问题用 Zero-shot，复杂问题用 Few-shot）</li>
+<li>领域特殊性（通用 vs 专业领域）</li>
+<li>输出格式要求（是否需要结构化输出）</li>
+</ul>
+<p><strong>Q4: 如何处理 ReAct 的无限循环问题？</strong></p>
+<pre><code class="language-python"># 设置最大迭代次数
+max_iterations = 10
+
+# 添加退出条件
+if iteration &gt; max_iterations:
+    return &quot;未能找到答案，请简化问题&quot;
+
+# 检测循环
+if observation in recent_observations:
+    return &quot;检测到循环，尝试其他方法&quot;
+</code></pre>
+<h3>8. 性能优化建议</h3>
+<ol>
+<li><strong>缓存中间结果</strong>：避免重复计算</li>
+<li><strong>批处理请求</strong>：减少 API 调用次数</li>
+<li><strong>选择合适的模型</strong>：简单任务用轻量级模型</li>
+<li><strong>并行思考</strong>：对于独立子任务可以并行处理</li>
+</ol>
 <h2>总结</h2>
-<p>本篇文章详细介绍了<strong>智能体规划与推理：ReAct与CoT技术</strong>的核心概念和实践方法。</p>
+<p>本篇文章详细介绍了<strong>智能体规划与推理</strong>的核心技术：ReAct 和 Chain-of-Thought。</p>
 <h3>重点回顾</h3>
 <ul>
-<li>核心概念介绍</li>
-<li>为什么需要这个技术</li>
-<li>工作原理详解</li>
-<li>环境准备与安装</li>
+<li><strong>ReAct</strong>：将推理与行动结合，让智能体能够思考、行动、观察、再思考</li>
+<li><strong>CoT</strong>：通过展示推理过程提高问题解决能力和可解释性</li>
+<li><strong>两者结合</strong>：ReAct 可以使用 CoT 作为其思考过程的一部分</li>
 </ul>
+<h3>实践建议</h3>
+<ol>
+<li>从简单的 CoT 提示开始，观察效果</li>
+<li>使用 LangChain 等框架快速实现 ReAct Agent</li>
+<li>根据任务复杂度选择合适的推理策略</li>
+<li>结合记忆系统提升长期任务处理能力</li>
+</ol>
 <h3>系列导航</h3>
-<p>⬅️ 上一篇：同系列入门文章
-📖 当前：第5篇
+<p>⬅️ 上一篇：<a href="./2026-02-23-%E6%99%BA%E8%83%BD%E4%BD%93%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F%EF%BC%9A%E7%9F%AD%E6%9C%9F%E8%AE%B0%E5%BF%86%E4%B8%8E%E9%95%BF%E6%9C%9F%E7%9F%A5%E8%AF%86.md">智能体记忆系统：短期记忆与长期知识</a>
+📖 当前：第5篇 - 智能体规划与推理
 ➡️ 下一篇预告：智能体安全与对齐：防止AI失控</p>
 <hr>
 <p><em>本文由AI自动生成，每日更新AI技术教程。如有疑问欢迎留言交流！</em></p>
@@ -130,9 +581,9 @@
                             <span class="tag tag-ai智能体">AI智能体</span>
                         </div>
                         <h3 class="post-title">
-                            <a href="./2026-02-24-多智能体协作系统设计与实现.html">多智能体协作系统设计与实现</a>
+                            <a href="./2026-02-26-智能体安全与对齐：防止ai失控.html">智能体安全与对齐：防止AI失控</a>
                         </h3>
-                        <p class="post-excerpt">学习如何设计多个AI智能体协作的复杂系统，实现任务分解、角色分工和结果整合。</p>
+                        <p class="post-excerpt">探讨AI智能体的安全问题，学习如何设计安全边界、防止提示注入、确保AI行为符合人类价值观。</p>
                     </div>
                 </article>
                 <article class="post-card">
@@ -141,9 +592,9 @@
                             <span class="tag tag-ai智能体">AI智能体</span>
                         </div>
                         <h3 class="post-title">
-                            <a href="./2026-02-23-智能体记忆系统：短期记忆与长期知识.html">智能体记忆系统：短期记忆与长期知识</a>
+                            <a href="./2026-02-24-多智能体协作系统设计与实现.html">多智能体协作系统设计与实现</a>
                         </h3>
-                        <p class="post-excerpt">探索AI智能体的记忆机制，实现短期上下文记忆和长期知识存储，构建具备持续学习能力的智能体。</p>
+                        <p class="post-excerpt">学习如何设计多个AI智能体协作的复杂系统，实现任务分解、角色分工和结果整合。</p>
                     </div>
                 </article>
             </div>
